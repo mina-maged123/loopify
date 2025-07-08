@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,17 +15,22 @@ export class LoginComponent {
   email = '';
   password = '';
   rememberMe = false;
+  errorMessage = '';
+
+  constructor(private router: Router) {}
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  onSubmit() {
-    console.log({
-      email: this.email,
-      password: this.password,
-      rememberMe: this.rememberMe
-    });
+  onSubmit(form: any) {
+    this.errorMessage = '';
+    if (form.invalid) {
+      this.errorMessage = 'Please fix the errors above.';
+      return;
+    }
+    localStorage.setItem('isLoggedIn', 'true');
+    this.router.navigate(['/']);
   }
 }
 

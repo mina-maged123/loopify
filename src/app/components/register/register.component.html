@@ -11,7 +11,7 @@
         </p>
       </div>
       
-      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
         <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label for="firstName" class="block mb-2 text-sm font-medium text-gray-700">
@@ -24,8 +24,12 @@
               placeholder="Enter your first name" 
               [(ngModel)]="firstName" 
               name="firstName"
-              required 
+              required
+              #firstNameInput="ngModel"
             />
+            <div *ngIf="firstNameInput.invalid && (firstNameInput.dirty || firstNameInput.touched)" class="text-red-500 text-xs mt-1">
+              <div *ngIf="firstNameInput.errors?.['required']">First name is required.</div>
+            </div>
           </div>
           <div>
             <label for="lastName" class="block mb-2 text-sm font-medium text-gray-700">
@@ -38,8 +42,12 @@
               placeholder="Enter your last name" 
               [(ngModel)]="lastName" 
               name="lastName"
-              required 
+              required
+              #lastNameInput="ngModel"
             />
+            <div *ngIf="lastNameInput.invalid && (lastNameInput.dirty || lastNameInput.touched)" class="text-red-500 text-xs mt-1">
+              <div *ngIf="lastNameInput.errors?.['required']">Last name is required.</div>
+            </div>
           </div>
         </div>
         
@@ -61,8 +69,14 @@
               placeholder="Enter your phone number" 
               [(ngModel)]="phoneNumber" 
               name="phoneNumber"
-              required 
+              required
+              pattern="^[0-9]{10,15}$"
+              #phoneInput="ngModel"
             />
+          </div>
+          <div *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="text-red-500 text-xs mt-1">
+            <div *ngIf="phoneInput.errors?.['required']">Phone number is required.</div>
+            <div *ngIf="phoneInput.errors?.['pattern']">Enter a valid phone number.</div>
           </div>
         </div>
         
@@ -77,8 +91,14 @@
             placeholder="Enter your email" 
             [(ngModel)]="email" 
             name="email"
-            required 
+            required
+            email
+            #emailInput="ngModel"
           />
+          <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="text-red-500 text-xs mt-1">
+            <div *ngIf="emailInput.errors?.['required']">Email is required.</div>
+            <div *ngIf="emailInput.errors?.['email']">Invalid email format.</div>
+          </div>
         </div>
         
         <div class="mb-4">
@@ -93,7 +113,9 @@
               placeholder="Create a password" 
               [(ngModel)]="password" 
               name="password"
-              required 
+              required
+              minlength="6"
+              #passwordInput="ngModel"
             />
             <div class="absolute inset-y-0 right-0 flex items-center pr-3">
               <button 
@@ -110,6 +132,10 @@
                 </svg>
               </button>
             </div>
+            <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="text-red-500 text-xs mt-1">
+              <div *ngIf="passwordInput.errors?.['required']">Password is required.</div>
+              <div *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters.</div>
+            </div>
           </div>
         </div>
         
@@ -125,7 +151,8 @@
               placeholder="Confirm your password" 
               [(ngModel)]="confirmPassword" 
               name="confirmPassword"
-              required 
+              required
+              #confirmPasswordInput="ngModel"
             />
             <div class="absolute inset-y-0 right-0 flex items-center pr-3">
               <button 
@@ -141,6 +168,10 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
                 </svg>
               </button>
+            </div>
+            <div *ngIf="confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)" class="text-red-500 text-xs mt-1">
+              <div *ngIf="confirmPasswordInput.errors?.['required']">Confirm password is required.</div>
+              <div *ngIf="confirmPassword !== password">Passwords do not match.</div>
             </div>
           </div>
         </div>

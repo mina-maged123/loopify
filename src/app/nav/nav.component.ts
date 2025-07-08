@@ -1,17 +1,33 @@
+import { Component, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf,RouterModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
-export class NavComponent {
-showsetting=false;
+export class NavComponent implements OnInit {
+  showsetting = false;
+  isLoggedIn = false;
 
-  togglesetting(){
-  this.showsetting=!this.showsetting;
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    }
+  }
+
+  togglesetting() {
+    this.showsetting = !this.showsetting;
+  }
+
+  signOut() {
+    localStorage.removeItem('isLoggedIn');
+    this.isLoggedIn = false;
+    this.router.navigate(['/login']);
   }
 }

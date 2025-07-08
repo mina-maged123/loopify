@@ -20,6 +20,7 @@ export class RegisterComponent {
   address = '';
   showPassword = false;
   showConfirmPassword = false;
+  errorMessage = '';
 
   constructor(private router: Router) {}
 
@@ -31,10 +32,10 @@ export class RegisterComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  onSubmit() {
-    // Basic validation
-    if (this.password !== this.confirmPassword) {
-      this.router.navigate(['/registration-failed']);
+  onSubmit(form: any) {
+    this.errorMessage = '';
+    if (form.invalid || this.password !== this.confirmPassword) {
+      this.errorMessage = 'Please fix the errors above.';
       return;
     }
 

@@ -8,7 +8,7 @@
         </p>
       </div>
       
-      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
         <div class="mb-4">
           <div class="relative">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -22,8 +22,13 @@
               placeholder="Email" 
               [(ngModel)]="email" 
               name="email"
-              required 
+              required
+              #emailInput="ngModel"
             />
+          </div>
+          <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="text-red-500 text-xs mt-1">
+            <div *ngIf="emailInput.errors?.['required']">Email is required.</div>
+            <div *ngIf="emailInput.errors?.['email']">Invalid email format.</div>
           </div>
         </div>
         
@@ -40,7 +45,9 @@
               placeholder="Password" 
               [(ngModel)]="password" 
               name="password"
-              required 
+              required
+              minlength="6"
+              #passwordInput="ngModel"
             />
             <div class="absolute inset-y-0 right-0 flex items-center pr-3">
               <button 
@@ -57,6 +64,10 @@
                 </svg>
               </button>
             </div>
+          </div>
+          <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="text-red-500 text-xs mt-1">
+            <div *ngIf="passwordInput.errors?.['required']">Password is required.</div>
+            <div *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters.</div>
           </div>
         </div>
         
