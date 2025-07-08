@@ -1,0 +1,46 @@
+<!-- Full Screen Background -->
+<div class="fixed inset-0 bg-gray-50 flex items-center justify-center z-50">
+  <!-- Error Card -->
+  <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center shadow-lg">
+    <!-- Close Button -->
+    <div class="flex justify-end mb-4">
+      <button 
+        (click)="onClose()" 
+        class="text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Error Icon -->
+    <div class="flex justify-center mb-6">
+      <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center">
+        <svg class="w-12 h-12 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">
+      Registration Failed
+    </h2>
+
+    <!-- Description -->
+    <p class="text-gray-500 mb-8 text-sm leading-relaxed">
+      Opps! there is a problem in your registration process please try again
+    </p>
+
+    <!-- Try Again Button -->
+    <button 
+      (click)="onTryAgain()"
+      class="w-full bg-green-800 hover:bg-green-900 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+    >
+      Try again
+    </button>
+  </div>
+</div>
+

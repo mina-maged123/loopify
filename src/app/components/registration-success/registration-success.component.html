@@ -1,0 +1,43 @@
+<!-- Modal Overlay -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <!-- Success Modal -->
+  <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center relative">
+    <!-- Close Button -->
+    <button 
+      (click)="onClose()" 
+      class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <!-- Success Icon -->
+    <div class="flex justify-center mb-6">
+      <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+        <svg class="w-16 h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">
+      Successful Registration
+    </h2>
+
+    <!-- Description -->
+    <p class="text-gray-500 mb-8 text-sm leading-relaxed">
+      Thank you! You have successfully registered on our website.
+    </p>
+
+    <!-- Continue Button -->
+    <button 
+      (click)="onContinue()"
+      class="w-full bg-green-800 hover:bg-green-900 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+    >
+      Continue
+    </button>
+  </div>
+</div>
+

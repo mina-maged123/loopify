@@ -1,0 +1,73 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+@import "tailwindcss";
+
+/* @media (max-width: 991px) {
+  .header {
+    font-size: 40px;
+    line-height: 52px;
+    text-align: center;
+  }
+
+  .transform {
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+  }
+
+  .button-section2 {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .img2 {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+} */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+
+
+/* =============== Mobile (max-width: 767px) =============== */
+@media (max-width: 767px) {
+  .header {
+    font-size: 28px;
+    line-height: 38px;
+    text-align: center;
+  }
+
+  .transform {
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .button-section2 {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-section2 button {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+  }
+
+  .img2 {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+}
