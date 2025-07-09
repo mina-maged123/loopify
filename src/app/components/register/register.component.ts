@@ -5,8 +5,7 @@ import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [ ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -17,41 +16,42 @@ export class RegisterComponent {
   constructor(private accountService: AccountService, private router: Router) { }
 
   userData = new FormGroup({
-    firstName: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    lastName: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    address: new FormControl('', [Validators.required]),
-    phoneNumber: new FormControl('', [Validators.required, Validators.maxLength(11)]),
-    password: new FormControl('', [Validators.required]),
-    confirmPassword: new FormControl('', [Validators.required]),
+    FirstName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    LastName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    EmailAddress: new FormControl('', [Validators.required, Validators.email]),
+    PhoneNumber: new FormControl('', [Validators.required, Validators.maxLength(11)]),
+    Address : new FormControl('', [Validators.required]),
+    Password: new FormControl('', [Validators.required]),
+    ConfirmPassword: new FormControl('', [Validators.required]),
   });
 
+
   get getFName() {
-    return this.userData.controls['firstName'];
+    return this.userData.controls['FirstName'];
   }
 
   get getLName() {
-    return this.userData.controls['lastName'];
+    return this.userData.controls['LastName'];
   }
 
   get getEmail() {
-    return this.userData.controls['email'];
+    return this.userData.controls['EmailAddress'];
   }
 
   get getAddress() {
-    return this.userData.controls['address'];
+    return this.userData.controls['Address'];
   }
 
   get getPhoneNumber() {
-    return this.userData.controls['phoneNumber'];
+    return this.userData.controls['PhoneNumber'];
   }
 
   get getPassword() {
-    return this.userData.controls['password'];
+    return this.userData.controls['Password'];
   }
 
   get getConfirmPassword() {
-    return this.userData.controls['confirmPassword'];
+    return this.userData.controls['ConfirmPassword'];
   }
 
   registerOperation() {

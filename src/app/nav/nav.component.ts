@@ -3,11 +3,10 @@ import { NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-nav',
-  standalone: true,
-  imports: [NgIf,RouterModule],
-  templateUrl: './nav.component.html',
-  styleUrl: './nav.component.css'
+    selector: 'app-nav',
+    imports: [NgIf, RouterModule],
+    templateUrl: './nav.component.html',
+    styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit {
   showsetting = false;

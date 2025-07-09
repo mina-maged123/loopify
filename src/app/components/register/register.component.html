@@ -1,4 +1,4 @@
-<form [formGroup]="userData" (submit)="registerOperation()">
+<!-- <form [formGroup]="userData" (submit)="registerOperation()">
   <div class="grid grid-cols-2 gap-4 mb-4">
     <div>
       <label for="firstName" class="block mb-2 text-sm font-medium text-gray-700">First Name</label>
@@ -113,6 +113,129 @@
 
   <button type="submit"
     class="submit w-full text-white bg-green-800 hover:bg-green-900 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-3 mb-4">
+    Create Account
+  </button>
+</form> -->
+
+
+<form [formGroup]="userData" (submit)="registerOperation()">
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <label for="firstName" class="form-label">First Name</label>
+      <input id="firstName" type="text" formControlName="FirstName" class="form-control"
+        placeholder="Enter your first name" />
+      @if (getFName.touched) {
+      @if (getFName.hasError('required')) {
+      <div class="text-danger small mt-1">
+        First Name Is Required.
+      </div>
+      } @if (getFName.hasError('minlength')) {
+      <div class="text-danger small mt-1">
+        First Name length must be greater than 3.
+      </div>
+      } }
+    </div>
+
+    <div class="col-md-6">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input id="lastName" type="text" formControlName="LastName" class="form-control"
+        placeholder="Enter your last name" />
+      @if (getLName.touched) {
+      @if (getLName.hasError('required')) {
+      <div class="text-danger small mt-1">
+        Last Name Is Required.
+      </div>
+      } @if (getLName.hasError('minlength')) {
+      <div class="text-danger small mt-1">
+        Last Name length must be greater than 3.
+      </div>
+      } }
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="phone" class="form-label">Phone Number</label>
+    <div class="input-group">
+      <span class="input-group-text">+20</span>
+      <input id="phone" type="tel" formControlName="PhoneNumber" class="form-control"
+        placeholder="Enter your phone number" />
+    </div>
+    @if (getPhoneNumber.touched) {
+    @if (getPhoneNumber.hasError('required')) {
+    <div class="text-danger small mt-1">
+      Phone Number Is Required.
+    </div>
+    } @if (getPassword.hasError('minlength')) {
+    <div class="text-danger small mt-1">
+      Phone number should be 11 digits long
+    </div>
+    } }
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input id="email" type="email" formControlName="EmailAddress" class="form-control" placeholder="Enter your email" />
+    @if (getEmail.touched) {
+    @if (getEmail.hasError('required')) {
+    <div class="text-danger small mt-1">
+      Email Is Required.
+    </div>
+    } @if (getEmail.hasError('email')) {
+    <div class="text-danger small mt-1">
+      Please enter a valid email address.
+    </div>
+    } }
+  </div>
+
+  <div class="mb-3">
+    <label for="address" class="form-label">Address</label>
+    <input id="address" type="text" formControlName="Address" class="form-control" placeholder="Enter your address" />
+    @if (getAddress.touched) {
+    @if (getAddress.hasError('required')) {
+    <div class="text-danger small mt-1">
+      Address Is Required.
+    </div>
+    }
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <div class="input-group">
+      <input type="password" id="password" formControlName="Password" class="form-control"
+        placeholder="Create a password" />
+      <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+        👁️
+      </button>
+    </div>
+    @if (getPassword.touched) {
+    @if (getPassword.hasError('required')) {
+    <div class="text-danger small mt-1">
+      Password Is Required.
+    </div>
+    }
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="confirmPassword" class="form-label">Confirm Password</label>
+    <div class="input-group">
+      <input type="password" id="confirmPassword" formControlName="ConfirmPassword" class="form-control"
+        placeholder="Confirm your password" />
+      <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+        👁️
+      </button>
+    </div>
+    @if (getConfirmPassword.touched) {
+    @if (getConfirmPassword.hasError('required')) {
+    <div class="text-danger small mt-1">
+      Confirm Password Is Required.
+    </div>
+    }
+    }
+  </div>
+
+  <button type="submit" class="btn btn-success w-100 py-2 fw-medium">
     Create Account
   </button>
 </form>

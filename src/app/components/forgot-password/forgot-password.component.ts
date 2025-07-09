@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-forgot-password',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.css']
+    selector: 'app-forgot-password',
+    imports: [CommonModule, FormsModule, RouterModule],
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent {
   emailOrPhone = '';

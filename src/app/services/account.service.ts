@@ -11,8 +11,8 @@ export class AccountService {
 
   constructor(private http : HttpClient) { }
 
-  register(user:any) : Observable<IRegisterUser> {
-    return this.http.post<IRegisterUser>(ENDPOINTS.REGISTER, user)
+  register(user:any) : Observable<any> {
+    return this.http.post<any>(ENDPOINTS.REGISTER, user)
   }
 
   login(user:any) : Observable<any> {

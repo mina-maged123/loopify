@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-registration-failed',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './registration-failed.component.html',
-  styleUrls: ['./registration-failed.component.css']
+    selector: 'app-registration-failed',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './registration-failed.component.html',
+    styleUrls: ['./registration-failed.component.css']
 })
 export class RegistrationFailedComponent {
 
