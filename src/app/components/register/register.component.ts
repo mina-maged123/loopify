@@ -10,8 +10,6 @@ import { AccountService } from '../../services/account.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  showPassword: boolean = false;
-  showConfirmPassword: boolean = false;
 
   constructor(private accountService: AccountService, private router: Router) { }
 
@@ -60,7 +58,12 @@ export class RegisterComponent {
       this.accountService.register(this.userData.value).subscribe({
         next: (response) => {
           console.log(response);
-          this.router.navigate(['/registration-success']);
+          if(response.isSuccess){
+            this.router.navigate(['/registration-success']);
+          }
+          else {
+            this.router.navigate(['/registration-failed']);
+          }  
         }
       })
     }
@@ -69,12 +72,5 @@ export class RegisterComponent {
     }
   }
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  toggleConfirmPasswordVisibility() {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
 }
 
