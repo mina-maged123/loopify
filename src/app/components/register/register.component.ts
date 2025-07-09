@@ -27,7 +27,6 @@ export class RegisterComponent {
     ConfirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
   }, { validators: this.passwordMatchValidator() });
 
-  constructor(private accountService: AccountService, private router: Router) {}
 
   // Getters for form controls
   get getFName() { return this.userData.get('FirstName'); }

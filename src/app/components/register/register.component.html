@@ -20,7 +20,7 @@
             <input type="text" id="firstName" formControlName="FirstName"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
               placeholder="Enter your first name" />
-            @if (getFName.touched) {
+            @if (getFName) {
             @if (getFName.hasError('required')) {
             <div id="passwordHelpBlock" class="form-text text-danger">
               First Name Is Required.
@@ -38,7 +38,7 @@
             <input type="text" id="lastName" formControlName="LastName"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
               placeholder="Enter your last name" />
-            @if (getLName.touched) {
+            @if (getLName) {
             @if (getLName.hasError('required')) {
             <div id="passwordHelpBlock" class="form-text text-danger">
               Last Name Is Required.
@@ -64,12 +64,12 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
               placeholder="Enter your phone number" />
           </div>
-          @if (getPhoneNumber.touched) {
-          @if (getPhoneNumber.hasError('required')) {
+          @if (getPhoneNumber) {
+          @if (getPhoneNumber) {
           <div id="passwordHelpBlock" class="form-text text-danger">
             Phone Number Is Required.
           </div>
-          } @if (getPhoneNumber.hasError('minlength')) {
+          } @if (getPhoneNumber) {
           <div id="passwordHelpBlock" class="form-text text-danger">
             Phone Number length must be 11 number.
           </div>
@@ -83,12 +83,12 @@
           <input type="email" id="email" formControlName="EmailAddress"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
             placeholder="Enter your email" />
-          @if (getEmail.touched) {
-          @if (getEmail.hasError('required')) {
+          @if (getEmail) {
+          @if (getEmail) {
           <div id="passwordHelpBlock" class="form-text text-danger">
             Email Is Required.
           </div>
-          } @if (getEmail.hasError('email')) {
+          } @if (getEmail) {
           <div id="passwordHelpBlock" class="form-text text-danger">
             Please enter a valid email address.
           </div>
@@ -104,8 +104,8 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 pr-10"
               placeholder="Create a password" />
           </div>
-          @if (getPassword.touched) {
-          @if (getPassword.hasError('required')) {
+          @if (getPassword) {
+          @if (getPassword) {
           <div id="passwordHelpBlock" class="form-text text-danger">
             Password Is Required.
           </div>
@@ -122,8 +122,8 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 pr-10"
               placeholder="Confirm your password" />
           </div>
-          @if (getConfirmPassword.touched) {
-          @if (getConfirmPassword.hasError('required')) {
+          @if (getConfirmPassword) {
+          @if (getConfirmPassword) {
           <div id="passwordHelpBlock" class="form-text text-danger">
             Password Is Required.
           </div>
@@ -137,7 +137,7 @@
           <input type="text" id="address" formControlName="Address"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
             placeholder="Enter your address" />
-          @if (getAddress.touched) {
+          @if (getAddress) {
           @if (getAddress.hasError('required')) {
           <div id="passwordHelpBlock" class="form-text text-danger">
             Address Is Required.
