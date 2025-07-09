@@ -18,7 +18,7 @@ export class RegistrationSuccessComponent {
   }
 
   onClose() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/register']);
   }
 }
 
