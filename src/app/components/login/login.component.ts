@@ -78,19 +78,20 @@ export class LoginComponent {
       this.loginService.login(formData).subscribe({
         next: (response) => {
           console.log('Login response:', response);
+  const token = response.data.token;
 
-          if (response && response.token) {
-            localStorage.setItem('token', response.token); // optional: sessionStorage if rememberMe is false
+if (response && response.data && response.data.token) {
+            localStorage.setItem('token', token); // optional: sessionStorage if rememberMe is false
 
-            const decodedToken: any = jwtDecode(response.token);
-            const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+ const decodedToken: any = jwtDecode(token);
+  const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-
-      this.router.navigate(['']);
+      this.router.navigate(['/']);
             
 
             this.loginSuccess = true;
-          } else {
+          } 
+          else {
             this.errorMessage = 'Login succeeded but token is missing.';
           }
         },
