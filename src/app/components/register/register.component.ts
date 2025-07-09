@@ -14,7 +14,8 @@ import { IRegisterUser } from '../../models/iregister-user';
 export class RegisterComponent {
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
-  errorMessage: string = '';
+
+  constructor(private accountService: AccountService, private router: Router) { }
 
   userData = new FormGroup({
     FirstName: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -67,32 +68,14 @@ export class RegisterComponent {
 
       this.accountService.register(dataToSend).subscribe({
         next: (response) => {
-          console.log('Registration successful:', response);
+          console.log(response);
           this.router.navigate(['/registration-success']);
-        },
-        error: (err) => {
-          console.error('Registration error:', err);
-          this.errorMessage = err.error?.title || 'An error occurred during registration.';
-          if (err.error?.errors) {
-            const validationErrors = Object.keys(err.error.errors)
-              .map(key => `${key}: ${err.error.errors[key].join(', ')}`)
-              .join('\n');
-            this.errorMessage = validationErrors;
-          }
-          this.router.navigate(['/registration-failed']);
         }
-      });
-    } else {
-      this.userData.markAllAsTouched();
-      this.errorMessage = 'Please fill out all required fields correctly.';
+      })
+    }
+    else {
+      this.router.navigate(['/registration-failed']);
     }
   }
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  toggleConfirmPasswordVisibility() {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
 }

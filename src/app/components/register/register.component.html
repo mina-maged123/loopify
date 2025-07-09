@@ -1,398 +1,193 @@
-<!-- <!-- <form [formGroup]="userData" (submit)="registerOperation()">
-  <div class="grid grid-cols-2 gap-4 mb-4">
-    <div>
-      <label for="firstName" class="block mb-2 text-sm font-medium text-gray-700">First Name</label>
-      <input id="firstName" type="text" formControlName="firstName" class="form-input"
-        placeholder="Enter your first name" />
-      @if (getFName.touched) {
-      @if (getFName.hasError('required')) {
-      <div id="passwordHelpBlock" class="form-text text-danger">
-        First Name Is Required.
+<div class="flex flex-col md:flex-row w-full min-h-screen bg-gray-50">
+  <div class="w-full md:w-1/2 flex items-center justify-center p-6">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">
+          Create your account
+        </h1>
+        <p class="text-gray-500 mt-2">
+          Join our recycling rewards platform and start earning points for a
+          greener future
+        </p>
       </div>
-      } @if (getFName.hasError('minlength')) {
-      <div id="passwordHelpBlock" class="form-text text-danger">
-        First Name length must be greater than 3.
+
+      <form [formGroup]="userData" (ngSubmit)="registerOperation()">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label for="firstName" class="block mb-2 text-sm font-medium text-gray-700">
+              First Name
+            </label>
+            <input type="text" id="firstName" formControlName="FirstName"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              placeholder="Enter your first name" />
+            @if (getFName.touched) {
+            @if (getFName.hasError('required')) {
+            <div id="passwordHelpBlock" class="form-text text-danger">
+              First Name Is Required.
+            </div>
+            } @if (getFName.hasError('minlength')) {
+            <div id="passwordHelpBlock" class="form-text text-danger">
+              First Name length must be greater than 3.
+            </div>
+            } }
+          </div>
+          <div>
+            <label for="lastName" class="block mb-2 text-sm font-medium text-gray-700">
+              Last Name
+            </label>
+            <input type="text" id="lastName" formControlName="LastName"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              placeholder="Enter your last name" />
+            @if (getLName.touched) {
+            @if (getLName.hasError('required')) {
+            <div id="passwordHelpBlock" class="form-text text-danger">
+              Last Name Is Required.
+            </div>
+            } @if (getLName.hasError('minlength')) {
+            <div id="passwordHelpBlock" class="form-text text-danger">
+              Last Name length must be greater than 3.
+            </div>
+            } }
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="phoneNumber" class="block mb-2 text-sm font-medium text-gray-700">
+            Phone Number
+          </label>
+          <div class="flex">
+            <button type="button"
+              class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200">
+              +20
+            </button>
+            <input type="tel" id="phoneNumber" formControlName="PhoneNumber"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+              placeholder="Enter your phone number" />
+          </div>
+          @if (getPhoneNumber.touched) {
+          @if (getPhoneNumber.hasError('required')) {
+          <div id="passwordHelpBlock" class="form-text text-danger">
+            Phone Number Is Required.
+          </div>
+          } @if (getPhoneNumber.hasError('minlength')) {
+          <div id="passwordHelpBlock" class="form-text text-danger">
+            Phone Number length must be 11 number.
+          </div>
+          } }
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <input type="email" id="email" formControlName="EmailAddress"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+            placeholder="Enter your email" />
+          @if (getEmail.touched) {
+          @if (getEmail.hasError('required')) {
+          <div id="passwordHelpBlock" class="form-text text-danger">
+            Email Is Required.
+          </div>
+          } @if (getEmail.hasError('email')) {
+          <div id="passwordHelpBlock" class="form-text text-danger">
+            Please enter a valid email address.
+          </div>
+          } }
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="block mb-2 text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <div class="relative">
+            <input type="password" id="password" formControlName="Password"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 pr-10"
+              placeholder="Create a password" />
+          </div>
+          @if (getPassword.touched) {
+          @if (getPassword.hasError('required')) {
+          <div id="passwordHelpBlock" class="form-text text-danger">
+            Password Is Required.
+          </div>
+          } }
+        </div>
+
+        <div class="mb-4">
+          <label for="confirmPassword" class="block mb-2 text-sm font-medium text-gray-700">
+            Confirm Password
+          </label>
+          <div class="relative">
+            <input type="password" id="confirmPassword"
+              formControlName="ConfirmPassword"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 pr-10"
+              placeholder="Confirm your password" />
+          </div>
+          @if (getConfirmPassword.touched) {
+          @if (getConfirmPassword.hasError('required')) {
+          <div id="passwordHelpBlock" class="form-text text-danger">
+            Password Is Required.
+          </div>
+          } }
+        </div>
+
+        <div class="mb-6">
+          <label for="address" class="block mb-2 text-sm font-medium text-gray-700">
+            Address
+          </label>
+          <input type="text" id="address" formControlName="Address"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+            placeholder="Enter your address" />
+          @if (getAddress.touched) {
+          @if (getAddress.hasError('required')) {
+          <div id="passwordHelpBlock" class="form-text text-danger">
+            Address Is Required.
+          </div>
+          } }
+        </div>
+
+        <button type="submit"
+          class="w-full text-white bg-green-800 hover:bg-green-900 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-3 mb-4 disabled:opacity-50 disabled:cursor-not-allowed">
+          Create Account
+        </button>
+      </form>
+
+      <div class="text-center mb-4">
+        <p class="text-sm text-gray-600">
+          Already have an account?
+          <a [routerLink]="['/login']" class="hover:underline ml-1" style="color: #69B31D;">
+            Sign in here
+          </a>
+        </p>
       </div>
-      } }
-    </div>
 
-    <div>
-      <label for="lastName" class="block mb-2 text-sm font-medium text-gray-700">Last Name</label>
-      <input id="lastName" type="text" formControlName="lastName" class="form-input"
-        placeholder="Enter your last name" />
-      @if (getLName.touched) {
-      @if (getLName.hasError('required')) {
-      <div id="passwordHelpBlock" class="form-text text-danger">
-        Last Name Is Required.
+      <div class="flex items-center justify-center mb-4">
+        <div class="border-t border-gray-300 flex-grow mr-3"></div>
+        <span class="text-gray-500 text-sm">or</span>
+        <div class="border-t border-gray-300 flex-grow ml-3"></div>
       </div>
-      } @if (getLName.hasError('minlength')) {
-      <div id="passwordHelpBlock" class="form-text text-danger">
-        Last Name length must be greater than 3.
-      </div>
-      } }
-    </div>
-  </div>
 
-  <div class="mb-4">
-    <label for="phone" class="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
-    <div class="flex">
-      <button type="button" class="prefix-btn">+20</button>
-      <input id="phone" type="tel" formControlName="phoneNumber" class="form-input rounded-r-lg"
-        placeholder="Enter your phone number" />
-    </div>
-    @if (getPhoneNumber.touched) {
-    @if (getPhoneNumber.hasError('required')) {
-    <div id="passwordHelpBlock" class="form-text text-danger">
-      Phone Number Is Required.
-    </div>
-    } @if (getPassword.hasError('minlength')) {
-    <div id="passwordHelpBlock" class="form-text text-danger">
-      Phone number should be 11 digits long
-    </div>
-    } }
-  </div>
-
-  <div class="mb-4">
-    <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email</label>
-    <input id="email" type="email" formControlName="email" class="form-input" placeholder="Enter your email" />
-    @if (getEmail.touched) {
-    @if (getEmail.hasError('required')) {
-    <div id="passwordHelpBlock" class="form-text text-danger">
-      Email Is Required.
-    </div>
-    } @if (getEmail.hasError('email')) {
-    <div id="passwordHelpBlock" class="form-text text-danger">
-      Please enter a valid email address.
-    </div>
-    } }
-  </div>
-
-  <div class="mb-6">
-    <label for="address" class="block mb-2 text-sm font-medium text-gray-700">Address</label>
-    <input id="address" type="text" formControlName="address" class="form-input" placeholder="Enter your address" />
-    @if (getAddress.touched) {
-    @if (getAddress.hasError('required')) {
-    <div id="passwordHelpBlock" class="form-text text-danger">
-      Address Is Required.
-    </div>
-    }
-    }
-  </div>
-
-  <div class="mb-4">
-    <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
-    <div class="relative">
-      <input type="password" id="password" formControlName="password" class="form-input pr-10"
-        placeholder="Create a password" />
-      <button type="button" class="absolute right-3 top-2" (click)="togglePasswordVisibility()">👁️</button>
-    </div>
-    @if (getPassword.touched) {
-    @if (getPassword.hasError('required')) {
-    <div id="passwordHelpBlock" class="form-text text-danger">
-      Password Is Required.
-    </div>
-    }
-    }
-  </div>
-
-  <div class="mb-4">
-    <label for="confirmPassword" class="block mb-2 text-sm font-medium text-gray-700">Confirm Password</label>
-    <div class="relative">
-      <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-input pr-10"
-        placeholder="Confirm your password" />
-      <button type="button" class="absolute right-3 top-2" (click)="togglePasswordVisibility()">👁️</button>
-    </div>
-    @if (getConfirmPassword.touched) {
-    @if (getConfirmPassword.hasError('required')) {
-    <div id="passwordHelpBlock" class="form-text text-danger">
-      Confirm Password Is Required.
-    </div>
-    }
-    }
-  </div>
-
-  <button type="submit"
-    class="submit w-full text-white bg-green-800 hover:bg-green-900 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-3 mb-4">
-    Create Account
-  </button>
-</form> -->
-<!-- 
-
-<form [formGroup]="userData" (submit)="registerOperation()">
-  <div class="row g-3 mb-3">
-    <div class="col-md-6">
-      <label for="firstName" class="form-label">First Name</label>
-      <input id="firstName" type="text" formControlName="FirstName" class="form-control"
-        placeholder="Enter your first name" />
-      @if (getFName.touched) {
-      @if (getFName.hasError('required')) {
-      <div class="text-danger small mt-1">
-        First Name Is Required.
-      </div>
-      } @if (getFName.hasError('minlength')) {
-      <div class="text-danger small mt-1">
-        First Name length must be greater than 3.
-      </div>
-      } }
-    </div>
-
-    <div class="col-md-6">
-      <label for="lastName" class="form-label">Last Name</label>
-      <input id="lastName" type="text" formControlName="LastName" class="form-control"
-        placeholder="Enter your last name" />
-      @if (getLName.touched) {
-      @if (getLName.hasError('required')) {
-      <div class="text-danger small mt-1">
-        Last Name Is Required.
-      </div>
-      } @if (getLName.hasError('minlength')) {
-      <div class="text-danger small mt-1">
-        Last Name length must be greater than 3.
-      </div>
-      } }
-    </div>
-  </div>
-
-  <div class="mb-3">
-    <label for="phone" class="form-label">Phone Number</label>
-    <div class="input-group">
-      <span class="input-group-text">+20</span>
-      <input id="phone" type="tel" formControlName="PhoneNumber" class="form-control"
-        placeholder="Enter your phone number" />
-    </div>
-    @if (getPhoneNumber.touched) {
-    @if (getPhoneNumber.hasError('required')) {
-    <div class="text-danger small mt-1">
-      Phone Number Is Required.
-    </div>
-    } @if (getPassword.hasError('minlength')) {
-    <div class="text-danger small mt-1">
-      Phone number should be 11 digits long
-    </div>
-    } }
-  </div>
-
-  <div class="mb-3">
-    <label for="email" class="form-label">Email</label>
-    <input id="email" type="email" formControlName="EmailAddress" class="form-control" placeholder="Enter your email" />
-    @if (getEmail.touched) {
-    @if (getEmail.hasError('required')) {
-    <div class="text-danger small mt-1">
-      Email Is Required.
-    </div>
-    } @if (getEmail.hasError('email')) {
-    <div class="text-danger small mt-1">
-      Please enter a valid email address.
-    </div>
-    } }
-  </div>
-
-  <div class="mb-3">
-    <label for="address" class="form-label">Address</label>
-    <input id="address" type="text" formControlName="Address" class="form-control" placeholder="Enter your address" />
-    @if (getAddress.touched) {
-    @if (getAddress.hasError('required')) {
-    <div class="text-danger small mt-1">
-      Address Is Required.
-    </div>
-    }
-    }
-  </div>
-
-  <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
-    <div class="input-group">
-      <input type="password" id="password" formControlName="Password" class="form-control"
-        placeholder="Create a password" />
-      <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
-        👁️
+      <button type="button"
+        class="w-full flex items-center justify-center border border-gray-300 rounded-lg py-2.5 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50">
+        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
+          <path
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+            fill="#4285F4" />
+          <path
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+            fill="#34A853" />
+          <path
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+            fill="#FBBC05" />
+          <path
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+            fill="#EA4335" />
+        </svg>
+        Continue with Google
       </button>
     </div>
-    @if (getPassword.touched) {
-    @if (getPassword.hasError('required')) {
-    <div class="text-danger small mt-1">
-      Password Is Required.
-    </div>
-    }
-    }
   </div>
 
-  <div class="mb-3">
-    <label for="confirmPassword" class="form-label">Confirm Password</label>
-    <div class="input-group">
-      <input type="password" id="confirmPassword" formControlName="ConfirmPassword" class="form-control"
-        placeholder="Confirm your password" />
-      <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
-        👁️
-      </button>
-    </div>
-    @if (getConfirmPassword.touched) {
-    @if (getConfirmPassword.hasError('required')) {
-    <div class="text-danger small mt-1">
-      Confirm Password Is Required.
-    </div>
-    }
-    }
+  <div class="hidden md:flex w-1/2 bg-white items-center justify-center p-6">
+    <img src="/../../assets/Recyclling_1.png" alt="People recycling illustration" class="max-w-full h-auto" />
   </div>
-
-  <button type="submit" class="btn btn-success w-100 py-2 fw-medium">
-    Create Account
-  </button>
-</form> --> 
-<form [formGroup]="userData" (ngSubmit)="registerOperation()">
-  <div class="row g-3 mb-3">
-    <div class="col-md-6">
-      <label for="firstName" class="form-label">First Name</label>
-      <input id="firstName" type="text" formControlName="FirstName" class="form-control" placeholder="Enter your first name" />
-      @if (getFName?.touched && getFName?.invalid) {
-        @if (getFName) {
-          <!-- .hasError('minlength') -->
-          <div class="text-danger small mt-1">First Name Is Required.</div>
-        }
-        @if (getFName) {
-          <!-- .hasError('minlength') -->
-          <div class="text-danger small mt-1">First Name length must be greater than 3.</div>
-        }
-      }
-    </div>
-
-    <div class="col-md-6">
-      <label for="lastName" class="form-label">Last Name</label>
-      <input id="lastName" type="text" formControlName="LastName" class="form-control" placeholder="Enter your last name" />
-      @if (getLName?.touched && getLName?.invalid) {
-        @if (getLName) {
-          <!-- .hasError('minlength') -->
-          <div class="text-danger small mt-1">Last Name Is Required.</div>
-        }
-        @if (getLName) {
-          <!-- .hasError('minlength') -->
-          <div class="text-danger small mt-1">Last Name length must be greater than 3.</div>
-        }
-      }
-    </div>
-  </div>
-
-  <div class="mb-3">
-    <label for="phone" class="form-label">Phone Number</label>
-    <div class="input-group">
-      <span class="input-group-text">+20</span>
-      <input id="phone" type="tel" formControlName="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
-    </div>
-    @if (getPhoneNumber?.touched && getPhoneNumber?.invalid) {
-      @if (getPhoneNumber) {
-        <div class="text-danger small mt-1">Phone Number Is Required.</div>
-      }
-      @if (getPhoneNumber) {
-        <div class="text-danger small mt-1">Phone number should be at most 11 digits.</div>
-      }
-    }
-  </div>
-
-  <div class="mb-3">
-    <label for="email" class="form-label">Email</label>
-    <input id="email" type="email" formControlName="EmailAddress" class="form-control" placeholder="Enter your email" />
-    @if (getEmail?.touched && getEmail?.invalid) {
-      @if (getEmail) {
-        <div class="text-danger small mt-1">Email Is Required.</div>
-      }
-      @if (getEmail) {
-        <div class="text-danger small mt-1">Please enter a valid email address.</div>
-      }
-    }
-  </div>
-
-  <div class="mb-3">
-    <label for="address" class="form-label">Address (Optional)</label>
-    <input id="address" type="text" formControlName="Address" class="form-control" placeholder="Enter your address" />
-  </div>
-
-  <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
-    <div class="input-group">
-      <input id="password" formControlName="Password" class="form-control" placeholder="Create a password" [type]="showPassword ? 'text' : 'password'" />
-      <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">{{ showPassword ? 'Hide' : 'Show' }}</button>
-    </div>
-    @if (getPassword?.touched && getPassword?.invalid) {
-      @if (getPassword) {
-        <div class="text-danger small mt-1">Password Is Required.</div>
-      }
-      @if (getPassword) {
-        <div class="text-danger small mt-1">Password must be at least 6 characters.</div>
-      }
-    }
-  </div>
-
-  <div class="mb-3">
-    <label for="confirmPassword" class="form-label">Confirm Password</label>
-    <div class="input-group">
-      <input id="confirmPassword" formControlName="ConfirmPassword" class="form-control" placeholder="Confirm your password" [type]="showConfirmPassword ? 'text' : 'password'" />
-      <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPasswordVisibility()">{{ showConfirmPassword ? 'Hide' : 'Show' }}</button>
-    </div>
-    @if (getConfirmPassword?.touched && getConfirmPassword?.invalid) {
-      @if (getConfirmPassword) {
-        <div class="text-danger small mt-1">Confirm Password Is Required.</div>
-      }
-      @if (getConfirmPassword) {
-        <div class="text-danger small mt-1">Confirm Password must be at least 6 characters.</div>
-      }
-    }
-    @if (getConfirmPassword?.touched && userData.errors && userData.errors['mismatch']) {
-      <div class="text-danger small mt-1">Passwords do not match.</div>
-    }
-  </div>
-
-  @if (errorMessage) {
-    <div class="text-danger small mt-1">{{ errorMessage }}</div>
-  }
-
-  <button type="submit" class="btn btn-success w-100 py-2 fw-medium" [disabled]="userData.invalid">Create Account</button>
-</form>
-
-<style>
-  .register-form {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.form-label {
-  font-weight: 500;
-  color: #333;
-}
-
-.form-control {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.input-group-text {
-  background-color: #f8f9fa;
-  border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
-}
-
-.text-danger {
-  color: #dc3545;
-}
-
-.btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
-}
-
-.btn-outline-secondary {
-  padding: 8px;
-}
-
-.btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-</style>
+</div>
