@@ -1,31 +1,10 @@
-// import { HttpClient } from '@angular/common/http';
-// import { Injectable } from '@angular/core';
-// import { Observable } from 'rxjs';
-// import { ENDPOINTS } from '../shared/endpoints';
-// import { IRegisterUser } from '../models/iregister-user';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AccountService {
-
-//   constructor(private http : HttpClient) { }
-
-//   register(user:any) : Observable<any> {
-//     return this.http.post<any>(ENDPOINTS.REGISTER, user)
-//   }
-
-//   login(user:any) : Observable<any> {
-//     return this.http.post<any>(ENDPOINTS.LOGIN, user)
-//   }
-
-// }
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
  import { ENDPOINTS } from '../shared/endpoints';
 import { Observable } from 'rxjs';
 import { Responce } from '../models/response.model';
 import {IRegisterUser}  from '../models/iregister-user'
+import { ILoginUser } from '../models/i-login-user.model';
 
 
 @Injectable({
@@ -41,7 +20,7 @@ register(userData: IRegisterUser): Observable<Responce<IRegisterUser>> {
 }
 
 
-   login(user:any) : Observable<any> {
+   login(user:ILoginUser) : Observable<any> {
     return this.http.post<any>(ENDPOINTS.LOGIN, user)
   }
 }
