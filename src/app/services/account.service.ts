@@ -9,7 +9,7 @@ import { IRegisterUser } from '../models/iregister-user';
 })
 export class AccountService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http : HttpClient) { }
 
   register(user:any) : Observable<IRegisterUser> {
     return this.http.post<IRegisterUser>(ENDPOINTS.REGISTER, user)
