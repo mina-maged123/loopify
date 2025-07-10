@@ -88,6 +88,7 @@ color:#F9FAFB
   max-width: 1440px;
   width: 100%;
   overflow: hidden;
+  margin: auto;
 }
 
 .inside-section {
@@ -202,12 +203,18 @@ height: 576px;
 top:772px;
 color:#FFFFFF;
 margin-top: 90px;
+    display: flex
+;
+    justify-content: center;
 
 }
 .box-section3, .box-section4{
  margin-left: 80px;
 }
-
+.section3 .gap-4
+ {
+    gap: 3.5rem !important;
+}
 .inside-section3, .inside-section4{
   width: 1280px;
   height: 416px;
@@ -287,6 +294,9 @@ top:5px;
 background-color:#F9FAFB;
 margin-top: -80px;
 border: 1px solid #F9FAFB;
+    display: flex
+;margin: auto;
+    justify-content: center;
 }
 
 .circle-number{
