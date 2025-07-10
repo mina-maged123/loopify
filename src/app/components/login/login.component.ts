@@ -33,65 +33,75 @@
 //   }
 // }
 
+
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { jwtDecode } from 'jwt-decode';
-import { ILoginUser } from '@/app/models/i-login-user.model';
+import { Router, RouterModule } from '@angular/router';
 import { AccountService } from '@/app/services/account.service';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';@Component({
+import { ILoginUser } from '@/app/models/i-login-user.model';
+
+@Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  loginForm: FormGroup;
   loginSuccess = false;
   errorMessage = '';
-   showPassword = false;
+  showPassword = false;
 
   constructor(
-    private fb: FormBuilder,
-    private loginService: AccountService,
+    private accountService: AccountService,
     private router: Router
-  ) {
-    this.loginForm = this.fb.group({
-      emailAddress: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      rememberMe: [false]
+  ) {}
+
+  loginForm = new FormGroup({
+      emailAddress: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      rememberMe: new FormControl(false)
     });
+
+  get getEmail() {
+    return this.loginForm.get('emailAddress');
   }
+
+  get getPassword() {
+    return this.loginForm.get('password');
+  }
+
+  get getRememberMe() {
+    return this.loginForm.get('emailAddress');
+  }
+
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.errorMessage = '';
       this.loginSuccess = false;
 
-      const formData: ILoginUser = this.loginForm.value;
+      const formData : ILoginUser = this.loginForm.value as ILoginUser;
 
-      this.loginService.login(formData).subscribe({
+      this.accountService.login(formData).subscribe({
         next: (response) => {
           console.log('Login response:', response);
-  const token = response.data.token;
+          const token = response.data.token;
+          const id = response.data.id;
+          const role = response.data.role;
 
-if (response && response.data && response.data.token) {
-            localStorage.setItem('token', token); // optional: sessionStorage if rememberMe is false
+          if (response && response.data) {
+            localStorage.setItem('token', token);
+            localStorage.setItem('id', id);
+            localStorage.setItem('role', role);
 
- const decodedToken: any = jwtDecode(token);
-  const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-
-      this.router.navigate(['/']);
-            
-
+            this.router.navigate(['/']);
             this.loginSuccess = true;
-          } 
-          else {
+          } else {
             this.errorMessage = 'Login succeeded but token is missing.';
           }
         },
@@ -100,14 +110,18 @@ if (response && response.data && response.data.token) {
 
           if (error.error && error.error[""] && Array.isArray(error.error[""])) {
             this.errorMessage = error.error[""][0];
+            alert(this.errorMessage);
           } else if (typeof error.error === 'string') {
             this.errorMessage = error.error;
+            alert(this.errorMessage);
           } else if (error.status === 401) {
-            this.errorMessage = 'Invalid account. Please check your credentials.';
+            this.errorMessage = 'Invalid account. Please check your password.';
+            alert(this.errorMessage);
           } else {
             this.errorMessage = 'Login failed. Please try again.';
+            alert(this.errorMessage);
           }
-
+          
           this.loginSuccess = false;
         }
       });

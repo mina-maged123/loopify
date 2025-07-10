@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
@@ -9,24 +9,42 @@ import { RouterModule, Router } from '@angular/router';
     styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit {
-  showsetting = false;
-  isLoggedIn = false;
+  Id : any;
+  isDropdownOpen = false;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    }
+    this.Id = localStorage.getItem('id');
   }
 
-  togglesetting() {
-    this.showsetting = !this.showsetting;
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token') && !!localStorage.getItem('id');
   }
 
-  signOut() {
-    localStorage.removeItem('isLoggedIn');
-    this.isLoggedIn = false;
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown(): void {
+    this.isDropdownOpen = false;
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+    localStorage.removeItem('role');
     this.router.navigate(['/login']);
+    this.closeDropdown();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const userSection = target.closest('.user-section');
+
+    if (!userSection && this.isDropdownOpen) {
+      this.closeDropdown();
+    }
   }
 }

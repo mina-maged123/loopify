@@ -12,8 +12,6 @@ import { IRegisterUser } from '../../models/iregister-user';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  showPassword: boolean = false;
-  showConfirmPassword: boolean = false;
 
   constructor(private accountService: AccountService, private router: Router) { }
 
@@ -68,7 +66,17 @@ export class RegisterComponent {
       this.accountService.register(dataToSend).subscribe({
         next: (response) => {
           console.log(response);
-          this.router.navigate(['/registration-success']);
+          if (response.isSuccess) {
+            this.router.navigate(['/registration-success']);
+          }
+          else {
+            this.router.navigate(['/registration-failed']);
+          }
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || error.message ||
+            'An unknown error occurred during registration';
+          alert(errorMessage);
         }
       })
     }
