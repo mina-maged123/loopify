@@ -2,15 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ENDPOINTS } from '../shared/endpoints';
+import { IUserInfo } from '../models/iuser-info';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileService {
 
-  // constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) { }
 
-  // GetUser(userId:int) : Observable<any> {
-  //   this.http.get(ENDPOINTS.GET_USER(userId))
-  // }
+  GetUser(userId:number) : Observable<IUserInfo> {
+    return this.http.get<IUserInfo>(ENDPOINTS.GET_USER(userId));
+  }
 }
