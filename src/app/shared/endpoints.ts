@@ -6,4 +6,6 @@ export const ENDPOINTS = {
 
     GET_ALL_MATERIAL: `${baseUrl}Material/all`,
     GET_MATERIAL: (materialId:number) => `${baseUrl}Material/${materialId}`,
+
+    POST_PICKUP_REQUEST: `${baseUrl}PickupRequest`,
 }

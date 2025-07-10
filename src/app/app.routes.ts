@@ -8,6 +8,8 @@ import { ResetSuccessComponent } from './components/reset-success/reset-success.
 import { RegistrationFailedComponent } from './components/registration-failed/registration-failed.component';
 import { RegistrationSuccessComponent } from './components/registration-success/registration-success.component';
 import { HomeComponent } from './home/home.component';
+import { RequestComponent } from './request/request.component';
+import { SubmitPickupRequestSuccessComponent } from './components/submit-pickup-request-success/submit-pickup-request-success.component';
 
 export const routes: Routes = [
     {
@@ -45,6 +47,14 @@ export const routes: Routes = [
     { 
         path: 'registration-success', 
         component: RegistrationSuccessComponent 
+    },
+    {
+        path: 'request',
+        component: RequestComponent
+    },
+    {
+        path: 'submit-pickup-request-success',
+        component: SubmitPickupRequestSuccessComponent
     },
     { 
         path: '**', 
