@@ -1,4 +1,4 @@
-const baseUrl = "https://recyclingsystem.runasp.net/api/";
+export const baseUrl = "https://recyclingsystem.runasp.net/api/";
 export const ENDPOINTS = {
     LOGIN: `${baseUrl}Account/login`,
     REGISTER: `${baseUrl}Account/register`,
