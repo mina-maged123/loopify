@@ -10,6 +10,7 @@ import { RegistrationFailedComponent } from './components/registration-failed/re
 import { RegistrationSuccessComponent } from './components/registration-success/registration-success.component';
 import { HomeComponent } from './home/home.component';
 import { EmployeeDashboardComponent } from './components/Employee/employee-dashboard/employee-dashboard.component';
+import { EmployeeLayoutComponent } from './Layouts/employee-layout/employee-layout.component';
 
 export const routes: Routes = [
     {
@@ -51,11 +52,20 @@ export const routes: Routes = [
     {
         path: 'gift',
         component: GiftComponent
-    },
+    }
+,
+
 {
-    path:'employee',
-    component: EmployeeDashboardComponent
+  path: 'employee',
+  component: EmployeeLayoutComponent,
+  children: [
+    { path: '', component: EmployeeDashboardComponent }, // /employee
+     { path: 'pickup', component: EmployeeDashboardComponent }, // /employee/profile
+     { path: 'map-view', component: EmployeeDashboardComponent }, // /employee/settings,
+   
+  ]
 }
+
     ,
     { 
         path: '**', 

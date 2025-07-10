@@ -1,21 +1,38 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'; 
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router'; 
+import { ChartData } from 'chart.js';
+import { NgChartsModule } from 'ng2-charts';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-employee-dashboard',
-  standalone: true, 
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgChartsModule],
   templateUrl: './employee-dashboard.component.html',
-  styleUrls: ['./employee-dashboard.component.css'] 
+  styleUrls: ['./employee-dashboard.component.css']
 })
 export class EmployeeDashboardComponent {
-  adminName = localStorage.getItem('fName');
-  adminLocation = 'Admin Panel';
+  barChartLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  barChartData: ChartData<'bar'> = {
+    labels: this.barChartLabels,
+    datasets: [
+      {
+        label: 'Number of Pickups',
+        data: [12, 16, 18, 14, 20, 10, 8],
+        backgroundColor: '#3CB371',
+        borderRadius: 5
+      }
+    ]
+  };
 
-  constructor(private router: Router) {
-    if (this.adminName == null) {
-      this.adminName = "Admin Name";
-    }
-  }
+    pieChartLabels = ['Plastic', 'Glass', 'Metal', 'Cardboard'];
+
+  pieChartData: ChartData<'pie'> = {
+    labels: this.pieChartLabels,
+    datasets: [
+      {
+        data: [30, 20, 20.1, 16],
+        backgroundColor: ['#3CB371', '#2E8B57', '#006400', '#8FBC8F']
+      }
+    ]
+  };
 }
