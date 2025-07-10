@@ -21,55 +21,55 @@ export const routes: Routes = [
         path: '',
         component: HomeComponent
     },
-    { 
-        path: 'login', 
-        component: LoginComponent 
+    {
+        path: 'login',
+        component: LoginComponent
     },
     {
         path: 'register',
         component: RegisterComponent
     },
-    { 
-        path: 'forgot-password', 
-        component: ForgotPasswordComponent 
+    {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent
     },
-    { 
-        path: 'verification-code', 
-        component: VerificationCodeComponent 
+    {
+        path: 'verification-code',
+        component: VerificationCodeComponent
     },
-    { 
-        path: 'reset-password', 
-        component: ResetPasswordComponent 
+    {
+        path: 'reset-password',
+        component: ResetPasswordComponent
     },
-    { 
-        path: 'reset-success', 
-        component: ResetSuccessComponent 
+    {
+        path: 'reset-success',
+        component: ResetSuccessComponent
     },
-    { 
-        path: 'registration-failed', 
-        component: RegistrationFailedComponent 
+    {
+        path: 'registration-failed',
+        component: RegistrationFailedComponent
     },
-    { 
-        path: 'registration-success', 
-        component: RegistrationSuccessComponent 
+    {
+        path: 'registration-success',
+        component: RegistrationSuccessComponent
     },
     {
         path: 'gift',
         component: GiftComponent
 
     }
-,
+    ,
 
-{
-  path: 'employee',
-  component: EmployeeLayoutComponent,
-  children: [
-    { path: '', component: EmployeeDashboardComponent }, // /employee
-     { path: 'pickup', component: EmployeeDashboardComponent }, // /employee/profile
-     { path: 'map-view', component: EmployeeDashboardComponent }, // /employee/settings,
-   
-  ]
-}
+    {
+        path: 'employee',
+        component: EmployeeLayoutComponent,
+        children: [
+            { path: '', component: EmployeeDashboardComponent }, // /employee
+            { path: 'pickup', component: EmployeeDashboardComponent }, // /employee/profile
+            { path: 'map-view', component: EmployeeDashboardComponent }, // /employee/settings,
+
+        ]
+    }
 
     ,
     {
@@ -81,9 +81,9 @@ export const routes: Routes = [
         component: SubmitPickupRequestSuccessComponent
     },
 
-    { 
-        path: '**', 
-        redirectTo: '' 
+    {
+        path: '**',
+        redirectTo: ''
     }
 
 ];

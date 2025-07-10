@@ -6,6 +6,7 @@ import { ResponseGetAll } from '../models/response-get-all.model';
 import { Response } from '../models/response.model'
 import { baseUrl } from '../shared/endpoints';
 import { IquentityUserName } from '../models/iquentity-user-name';
+import { BrowserStorageService } from './browser-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class RewardsService {
   private readonly rewardsUrl = `${baseUrl}Rewards`;
   private readonly userTotalUrl = `${baseUrl}User/TotalQuantitywith-userName`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private browserStorage: BrowserStorageService) {}
 
   getAllRewards(): Observable<Irewards[]> {
     return this.http.get<ResponseGetAll<Irewards>>(this.rewardsUrl).pipe(
@@ -22,12 +23,12 @@ export class RewardsService {
     );
   }
 getTotalPoint(): Observable<IquentityUserName> {
-  if (typeof window === 'undefined') {
+  if (!this.browserStorage.isBrowser()) {
     return new Observable(observer => {
-      observer.complete(); 
+      observer.complete();
     });
   }
-  const token = localStorage.getItem('token');
+  const token = this.browserStorage.getItem('token');
 
   const headers = token
     ? { headers: new HttpHeaders().set('Authorization', `Bearer ${token}`) }

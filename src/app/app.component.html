@@ -1,1 +1,15 @@
+<!-- @if(role == 'Customer'){
+    <app-customer-layout></app-customer-layout>
+}
+@else if (role == 'Employee') {
+    <app-employee-layout></app-employee-layout>
+}
+@else if(role == 'Admin') {
+    <app-admin-layout></app-admin-layout>   
+}
+@else {
+    <app-register></app-register>
+}  -->
+<app-nav></app-nav>
 <router-outlet></router-outlet>
+<app-footer></app-footer>

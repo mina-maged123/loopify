@@ -40,6 +40,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AccountService } from '@/app/services/account.service';
 import { ILoginUser } from '@/app/models/i-login-user.model';
+import { BrowserStorageService } from '@/app/services/browser-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -55,7 +56,8 @@ export class LoginComponent {
 
   constructor(
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private browserStorage: BrowserStorageService
   ) {}
 
   loginForm = new FormGroup({
@@ -95,9 +97,9 @@ export class LoginComponent {
           const role = response.data.role;
 
           if (response && response.data) {
-            localStorage.setItem('token', token);
-            localStorage.setItem('id', id);
-            localStorage.setItem('role', role);
+            this.browserStorage.setItem('token', token);
+            this.browserStorage.setItem('id', id);
+            this.browserStorage.setItem('role', role);
 
             this.router.navigate(['/']);
             this.loginSuccess = true;

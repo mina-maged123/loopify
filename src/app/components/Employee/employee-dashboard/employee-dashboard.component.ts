@@ -1,12 +1,11 @@
+import { NgChartsModule } from 'ng2-charts';
 import { Component } from '@angular/core';
 import { ChartData } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgChartsModule],
+  imports: [NgChartsModule],
   templateUrl: './employee-dashboard.component.html',
   styleUrls: ['./employee-dashboard.component.css']
 })
