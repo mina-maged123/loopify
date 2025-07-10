@@ -1,4 +1,4 @@
-export interface Responce<T>{
+export interface Response<T>{
       isSuccess:boolean,
     data:T,
     errorcode:number,
