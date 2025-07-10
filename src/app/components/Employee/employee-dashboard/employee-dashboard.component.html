@@ -1,1 +1,65 @@
-<p>employee-dashboard works!</p>
+<main>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <section class="col-md-4 col-lg-3 p-3">
+                <div class="block">
+                    <div class="profile-info">
+                        <img src="https://png.pngtree.com/png-vector/20191125/ourmid/pngtree-beautiful-admin-roles-line-vector-icon-png-image_2035379.jpg" alt="admin profile" class="profile-image">
+                        <h4 class="name">{{adminName}}</h4>
+                        <p class="location">{{adminLocation}}</p>
+                    </div>
+                    <ul>
+                        <!-- <li class="profile-item">
+                            <a routerLink="/admin-dashboard" routerLinkActive="active">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                Dashboard
+                            </a>
+                        </li> -->
+                        <li class="profile-item">
+                            <a routerLink="/admin-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <i class="fa-solid fa-plus"></i>
+                                Add Space
+                            </a>
+                        </li>
+                        <li class="profile-item">
+                            <a routerLink="/admin-dashboard/add-amenity" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <i class="fa-solid fa-list-check"></i>
+                                Add Amenity
+                            </a>
+                        </li>
+                        <li class="profile-item">
+                            <a routerLink="/admin-dashboard/add-gallery" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <i class="fa-solid fa-images"></i>
+                                Add Gallery
+                            </a>
+                        </li>
+                        <li class="profile-item">
+                            <a routerLink="/admin-dashboard/users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <i class="fa-solid fa-users"></i>
+                                All Users
+                            </a>
+                        </li>
+                        <li class="profile-item">
+                            <a routerLink="/admin-dashboard/booking" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                Booking
+                            </a>
+                        </li>
+                        <!-- <li class="profile-item log-out">
+                            <a (click)="logout()">
+                                <i class="fa-solid fa-power-off"></i>
+                                Log Out
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Main Content -->
+            <section class="col-md-8 col-lg-9 p-3">
+                <router-outlet></router-outlet>
+            </section>
+        </div>
+    </div>
+</main>

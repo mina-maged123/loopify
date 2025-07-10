@@ -1,0 +1,106 @@
+.block {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.profile-info {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.name {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #333;
+}
+
+.location {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 5px 0 0;
+}
+
+.profile-item {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.profile-item a {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.profile-item a:hover, .profile-item a.active {
+    background: #f0f0f0;
+    color: #007bff;
+}
+
+.profile-item i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.log-out a {
+    color: #dc3545;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-card i {
+    font-size: 2.5rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.dashboard-card h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+.dashboard-card p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    color: white;
+}

@@ -9,6 +9,7 @@ import { ResetSuccessComponent } from './components/reset-success/reset-success.
 import { RegistrationFailedComponent } from './components/registration-failed/registration-failed.component';
 import { RegistrationSuccessComponent } from './components/registration-success/registration-success.component';
 import { HomeComponent } from './home/home.component';
+import { EmployeeDashboardComponent } from './components/Employee/employee-dashboard/employee-dashboard.component';
 
 export const routes: Routes = [
     {
@@ -51,6 +52,11 @@ export const routes: Routes = [
         path: 'gift',
         component: GiftComponent
     },
+{
+    path:'employee',
+    component: EmployeeDashboardComponent
+}
+    ,
     { 
         path: '**', 
         redirectTo: '' 
