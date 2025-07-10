@@ -1,0 +1,14 @@
+export interface IUserInfo {
+    isSuccess: boolean,
+    data: {
+        id: number,
+        fullName: string,
+        email: string,
+        phoneNumber: string,
+        address: string,
+        profilePictureUrl: string,
+        createdAt: Date,
+    },
+    errorcode: number,
+    message: string
+}

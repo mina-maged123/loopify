@@ -9,8 +9,12 @@ import { ResetSuccessComponent } from './components/reset-success/reset-success.
 import { RegistrationFailedComponent } from './components/registration-failed/registration-failed.component';
 import { RegistrationSuccessComponent } from './components/registration-success/registration-success.component';
 import { HomeComponent } from './home/home.component';
+
 import { EmployeeDashboardComponent } from './components/Employee/employee-dashboard/employee-dashboard.component';
 import { EmployeeLayoutComponent } from './Layouts/employee-layout/employee-layout.component';
+
+import { RequestComponent } from './request/request.component';
+import { SubmitPickupRequestSuccessComponent } from './components/submit-pickup-request-success/submit-pickup-request-success.component';
 
 export const routes: Routes = [
     {
@@ -52,6 +56,7 @@ export const routes: Routes = [
     {
         path: 'gift',
         component: GiftComponent
+
     }
 ,
 
@@ -67,6 +72,15 @@ export const routes: Routes = [
 }
 
     ,
+    {
+        path: 'request',
+        component: RequestComponent
+    },
+    {
+        path: 'submit-pickup-request-success',
+        component: SubmitPickupRequestSuccessComponent
+    },
+
     { 
         path: '**', 
         redirectTo: '' 

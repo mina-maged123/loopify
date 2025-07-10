@@ -66,3 +66,32 @@ p{
 .brand-icon{
   color: #D1D5DB;
 }
+
+/* Minimal Responsive Adjustments - Design Preserved */
+@media (max-width: 768px) {
+  .footer {
+    height: auto;
+    padding: 20px 0;
+  }
+
+  .row.container {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0 !important;
+  }
+
+  .card {
+    margin-bottom: 20px;
+  }
+
+  .footer-divider {
+    margin-left: 0 !important;
+    margin-top: 30px !important;
+    width: 90%;
+  }
+
+  .container:last-child {
+    margin-right: 0 !important;
+    text-align: center;
+  }
+}

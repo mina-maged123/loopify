@@ -1,109 +1,55 @@
-<nav *ngIf="!isLoggedIn" class="navbar navbar-expand-lg container justify-content-between align-items-center">
-  <a href="" class="navbar-brand ms-5">
-      <div class="logo">
-          <img src="./assets/1e40e569dbec080aeb443a93cf256016804f2344.png" class="logo-img me-2">
-          <span class="logo-text">Loopify</span>
-      </div>
+<!-- Main Navigation Container -->
+<nav class="navbar navbar-expand-lg w-100 d-flex justify-content-between align-items-center">
+  <!-- Logo (shown for both logged in and logged out states) -->
+  <a href="#" class="navbar-brand ms-5">
+    <div class="logo">
+      <img src="./assets/1e40e569dbec080aeb443a93cf256016804f2344.png" class="logo-img me-2">
+      <span class="logo-text">Loopify</span>
+    </div>
   </a>
-  <div class="button d-flex justify-content-end" role="search">
-      <button class="sign" [routerLink]="['/login']">
-          <span class="sign-text">Sign In</span>
-      </button>
+
+  <!-- Before Login Content -->
+  <div class="button d-flex justify-content-end me-5" role="search" *ngIf="!isLoggedIn()">
+    <button class="sign" [routerLink]="['/login']">
+      <span class="sign-text">Sign In</span>
+    </button>
+  </div>
+
+  <!-- After Login Content -->
+  <div class="user-section d-flex position-relative me-5" *ngIf="isLoggedIn()">
+    <i class="bell-icon fa-regular fa-bell mt-2"></i>
+    <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" class="user-img ms-4 mb-2"
+      (click)="toggleDropdown()">
+
+    <!-- Settings Dropdown -->
+    <div class="settings-box me-2" *ngIf="isDropdownOpen">
+      <span class="close-btn" (click)="closeDropdown()">
+        <i class="fa-regular fa-circle-xmark"></i>
+      </span>
+      <div class="user-email d-flex">
+        <span>
+          <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" class="user-setting-img mt-3">
+        </span>
+        <span class="ms-3 mt-1" style="line-height: 8px;">
+          <p class="mt-3 setting-text">{{userName}}</p>
+          <p class="mb-3 user-email-text">{{userEmail}}</p>
+        </span>
+      </div>
+      <div class="d-flex ms-3 mt-3">
+        <span><i class="fa-solid fa-sliders fa-rotate-90 setting-icon mb-4"></i></span>
+        <span class="setting-text ms-3">Profile Settings</span>
+      </div>
+      <div class="d-flex ms-3 mt-2" [routerLink]="['/gift']" (click)="closeDropdown()">
+        <span><i class="fa-solid fa-gifts setting-icon mb-4"></i></span>
+        <span class="setting-text ms-3 mb-3"> Rewards</span>
+      </div>
+      <div class="container" style="margin-left: 85px;">
+        <div class="footer-divider"></div>
+      </div>
+      <div class="d-flex ms-3 mt-2" (click)="logout()">
+        <span><i class="fa-solid fa-arrow-right-from-bracket fa-rotate-180 mt-2 setting-icon"></i></span>
+        <span class="setting-text ms-3 mt-1">Sign Out</span>
+      </div>
+    </div>
   </div>
 </nav>
-
-<div *ngIf="isLoggedIn">
-  <div class="container nav d-flex mt-2">
-    <div class="logo d-flex  ms-4">
-        <img src="./assets/1e40e569dbec080aeb443a93cf256016804f2344.png" class="logo-img">
-        <p class="logo-title ms-2">Loopify</p>
-    </div>
-    <div class="user-section d-flex">
-        <i class="bell-icon fa-regular fa-bell mt-2"></i>
-        <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" class="user-img ms-4 mb-2" (click)="togglesetting()">
-    </div>
-  </div>
-  <div class="settings-box me-2" *ngIf="showsetting">
-    <span class="close-btn" (click)="togglesetting()">
-      <i class="fa-regular fa-circle-xmark"></i>
-    </span>
-    <div class="user-email d-flex">
-      <span>
-      <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" class="user-setting-img mt-3"> 
-      </span>
-      <span class="ms-3 mt-1" style="line-height: 8px;">
-     <p class="mt-3 setting-text">User</p>
-     <p class="mb-3 user-email-text ">User&#64;mail.com</p>
-     </span>
-    </div>
-    <div class="d-flex ms-3 mt-3">
-      <span><i class="fa-solid fa-sliders fa-rotate-90 setting-icon mb-4"></i></span>
-      <span class="setting-text ms-3">Profile Settings</span>
-    </div>
-    <div class="d-flex ms-3 mt-2">
-      <span><i class="fa-solid fa-question setting-icon mb-4"></i></span>
-      <span class="setting-text ms-3 mb-3">Achievements</span>
-    </div>
-    <div class="container" style="margin-left: 85px;">
-      <div class="footer-divider"></div>
-    </div>
-    <div class="d-flex ms-3 mt-2" (click)="signOut()">
-      <span><i class="fa-solid fa-arrow-right-from-bracket fa-rotate-180 mt-2 setting-icon"></i></span>
-      <span class="setting-text ms-3 mt-1">Sign Out</span>
-    </div>
-  </div>
-</div>
-
-<!-- <div class="container nav d-flex mt-2">
-<div class="logo d-flex  ms-4">
-    <img src="./assets/1e40e569dbec080aeb443a93cf256016804f2344.png" class="logo-img">
-    <p class="logo-title ms-2">Loopify</p>
-</div>
-
-<div class="user-section ">
-    <i class="bell-icon fa-regular fa-bell mt-2"></i>
-    <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" class="user-img ms-4 mb-2" (click)="togglesetting()">
-</div>
-
-</div>
-
-<div class="settings-box me-2" *ngIf="showsetting">
-  <span class="close-btn" (click)="togglesetting()">
-    <i class="fa-regular fa-circle-xmark"></i>
-  </span>
-
-  <div class="user-email d-flex">
-    <span>
-    <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" class="user-setting-img mt-3"> 
-    </span>
-    <span class="ms-3 mt-1" style="line-height: 8px;">
-   <p class="mt-3 setting-text">User</p>
-   <p class="mb-3 user-email-text ">User&#64;mail.com</p>
-   </span>
-  </div>
- 
-  <div class="d-flex ms-3 mt-3">
-    <span><i class="fa-solid fa-sliders fa-rotate-90 setting-icon mb-4"></i></span>
-    
-    <span class="setting-text ms-3">Profile Settings</span>
-  </div>
-
-   <div class="d-flex ms-3 mt-2">
-    <span><i class="fa-solid fa-question setting-icon mb-4"></i></span>
-    
-    <span class="setting-text ms-3 mb-3">Achievements</span>
-  </div>
-
- <div class="container" style="margin-left: 85px;">
-<div class="footer-divider"></div>
-</div>
-
-<div class="d-flex ms-3 mt-2">
-    <span><i class="fa-solid fa-arrow-right-from-bracket fa-rotate-180 mt-2 setting-icon"></i></span>
-    
-    <span class="setting-text ms-3 mt-1">Sign Out</span>
-  </div>
-
-</div>
-
-  -->
