@@ -1,9 +1,13 @@
 .footer{
-    width: 1440px;
+    width: 100vw;
+    min-width: 100%;
     height: 417px;
-    top:2527px;
     background-color: #1C4B41;
     border: 1px solid #1C4B41;
+    margin: 0;
+    left: 0;
+    right: 0;
+    position: relative;
 }
 
 .logo-img {

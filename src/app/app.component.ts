@@ -5,10 +5,11 @@ import { FooterComponent } from "./footer/footer.component";
 import { RequestComponent } from "./request/request.component";
 import { NavComponent } from "./nav/nav.component";
 import { LoginComponent } from "./components/login/login.component";
+import { GiftComponent } from './components/gift/gift.component';
 
 @Component({
     selector: 'app-root',
-    imports: [NavComponent, RequestComponent, HomeComponent, FooterComponent, RouterOutlet, LoginComponent],
+    imports: [NavComponent, RequestComponent, HomeComponent, FooterComponent, RouterOutlet, LoginComponent,GiftComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })

@@ -1,3 +1,4 @@
+import { GiftComponent } from './components/gift/gift.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -45,6 +46,10 @@ export const routes: Routes = [
     { 
         path: 'registration-success', 
         component: RegistrationSuccessComponent 
+    },
+    {
+        path: 'gift',
+        component: GiftComponent
     },
     { 
         path: '**', 
