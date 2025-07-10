@@ -6,4 +6,6 @@ export const ENDPOINTS = {
 
     GET_ALL_MATERIAL: `${baseUrl}Material/all`,
     GET_MATERIAL: (materialId:number) => `${baseUrl}Material/${materialId}`,
+
+    GET_USER: (userId:number) => `${baseUrl}User/${userId}`,
 }
