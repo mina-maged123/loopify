@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-registration-success',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './registration-success.component.html',
-  styleUrls: ['./registration-success.component.css']
+    selector: 'app-registration-success',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './registration-success.component.html',
+    styleUrls: ['./registration-success.component.css']
 })
 export class RegistrationSuccessComponent {
 
@@ -18,7 +17,7 @@ export class RegistrationSuccessComponent {
   }
 
   onClose() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/register']);
   }
 }
 

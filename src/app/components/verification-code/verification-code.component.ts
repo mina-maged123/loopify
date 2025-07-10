@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-verification-code',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './verification-code.component.html',
-  styleUrls: ['./verification-code.component.css']
+    selector: 'app-verification-code',
+    imports: [CommonModule, FormsModule, RouterModule],
+    templateUrl: './verification-code.component.html',
+    styleUrls: ['./verification-code.component.css']
 })
 export class VerificationCodeComponent implements OnInit, OnDestroy {
   verificationCode = ['', '', '', '', '', ''];

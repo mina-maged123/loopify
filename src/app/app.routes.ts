@@ -1,3 +1,4 @@
+import { GiftComponent } from './components/gift/gift.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -10,15 +11,49 @@ import { RegistrationSuccessComponent } from './components/registration-success/
 import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'verification-code', component: VerificationCodeComponent },
-    { path: 'reset-password', component: ResetPasswordComponent },
-    { path: 'reset-success', component: ResetSuccessComponent },
-    { path: 'registration-failed', component: RegistrationFailedComponent },
-    { path: 'registration-success', component: RegistrationSuccessComponent },
-    { path: '**', redirectTo: '' }
-  
+    {
+        path: '',
+        component: HomeComponent
+    },
+    { 
+        path: 'login', 
+        component: LoginComponent 
+    },
+    {
+        path: 'register',
+        component: RegisterComponent
+    },
+    { 
+        path: 'forgot-password', 
+        component: ForgotPasswordComponent 
+    },
+    { 
+        path: 'verification-code', 
+        component: VerificationCodeComponent 
+    },
+    { 
+        path: 'reset-password', 
+        component: ResetPasswordComponent 
+    },
+    { 
+        path: 'reset-success', 
+        component: ResetSuccessComponent 
+    },
+    { 
+        path: 'registration-failed', 
+        component: RegistrationFailedComponent 
+    },
+    { 
+        path: 'registration-success', 
+        component: RegistrationSuccessComponent 
+    },
+    {
+        path: 'gift',
+        component: GiftComponent
+    },
+    { 
+        path: '**', 
+        redirectTo: '' 
+    }
+
 ];
