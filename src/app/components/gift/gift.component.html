@@ -21,7 +21,7 @@
             <span>Back to Dashboard</span>
           </button>
           <button class="bg-green-500 border-green-500 text-white px-4 py-2 btn-primary hover:bg-green-600" style="border-radius: 20px;">
-            You have 2,450 Points
+            You have {{totalQuantity}} Points
           </button>
         </div>
       </div>
@@ -33,7 +33,11 @@
           <!-- Sidebar Filters -->
           <div class="w-full lg:w-64 flex-shrink-0">
             <div class="relative mb-6">
-              <input type="text" placeholder="Search..." class="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
+              <input type="text" placeholder="Search..."  
+              #searchInput    
+  (input)="onSearchChange(searchInput.value)"
+                
+               class="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
               <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
@@ -44,17 +48,22 @@
               </h3>
               <div class="flex flex-col space-y-3">
                 <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
-                  <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
-                  <span>0-500</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
-                  <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
-                  <span>500-1000</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
-                  <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
-                  <span>1000+</span>
-                </label>
+  <input type="checkbox" (change)="onCheckboxChange('0-500', $event)"
+         class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+  <span>0-500</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+  <input type="checkbox" (change)="onCheckboxChange('500-1000', $event)"
+         class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+  <span>500-1000</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+  <input type="checkbox" (change)="onCheckboxChange('1000+', $event)"
+         class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+  <span>1000+</span>
+</label>
+
+            
               </div>
             </div>
           </div>
@@ -78,20 +87,23 @@
             <!-- Products Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <!-- Product Cards -->
-              <div *ngFor="let item of products; let i = index" class="border rounded-lg overflow-hidden product-card bg-white">
+              
+
+              <!-- //<div *ngFor="let item of rewards$ | async"  -->
+               <div *ngFor="let item of filteredRewards$ | async" class="border rounded-lg overflow-hidden product-card bg-white">
                 <div class="p-6 flex justify-center bg-gray-50">
-                  <img [src]="item.image" [alt]="item.name" class="h-40 object-contain" />
+                  <img [src]="item.imageUrl" [alt]="item.title" class="h-40 object-contain" />
                 </div>
                 <div class="p-4">
                   <h3 class="font-medium text-green-800 mb-2">
-                    {{ item.name }}
+                    {{ item.title }}
                   </h3>
                   <p class="text-sm text-gray-500 mt-1 mb-4">
                     {{ item.description }}
                   </p>
                   <div class="flex items-center justify-between">
                     <span class="text-lg font-bold text-green-600">
-                      {{ item.points }} Points
+                      {{ item.pointsRequired }} Points
                     </span>
                     <button class="bg-green-500 text-white rounded-md px-4 py-1.5 text-sm btn-primary hover:bg-green-600">
                       Redeem
