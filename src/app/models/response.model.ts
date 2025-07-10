@@ -1,6 +1,6 @@
-export interface Response<T>{
-      isSuccess:boolean,
-    data:T,
-    errorcode:number,
-    message:string
+export interface Response<T> {
+  isSuccess: boolean,
+  data: T,
+  errorcode: number,
+  message: string
 }

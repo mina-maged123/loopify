@@ -1,6 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { UserProfileService } from '../services/user-profile.service';
+import { response } from 'express';
+import { error } from 'console';
 
 @Component({
     selector: 'app-nav',
@@ -10,12 +13,23 @@ import { RouterModule, Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
   Id : any;
+  userName : string = '';
+  userEmail : string = '';
   isDropdownOpen = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userProfileService: UserProfileService ) {}
 
   ngOnInit() {
     this.Id = localStorage.getItem('id');
+    this.userProfileService.GetUser(this.Id).subscribe({
+      next: (response) => {
+        this.userName = response.data.fullName;
+        this.userEmail = response.data.email;
+      },
+      error : (error) => {
+        console.log(error);
+      }
+    })
   }
 
   isLoggedIn(): boolean {
