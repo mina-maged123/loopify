@@ -1,0 +1,91 @@
+
+
+<main>
+  <div class="user-profile">
+    <div class="profile-info">
+      <div class="profile-pic-large">
+        <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" alt="User">
+      </div>
+      <div class="user-details">
+        <h2>User</h2>
+        <p><i class="fa-solid fa-fire"></i> Level 3 Eco Warrior</p>
+      </div>
+    </div>
+    <div class="points">
+      <h2>2,450</h2>
+      <p>Total Points</p>
+    </div>
+  </div>
+
+  
+
+  <div class="streak">
+    <div class="streak-info">
+      <i class="fas fa-fire"></i>
+      <p>Current Streak: {{ userProfile.streak }} days in a row</p>
+    </div>
+    <a href="#" class="track-level">Track My Level <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress" [style.width.%]="userProfile.progressPercentage"></div>
+  </div>
+  <p class="level-info">{{ userProfile.daysToNextLevel }} more days to reach Level {{ userProfile.currentLevel + 1 }}</p>
+
+  <div class="action-buttons">
+    <button class="btn primary" (click)="requestPickup()"><i class="fas fa-truck"></i> Request Pickup</button>
+    <button class="btn secondary" (click)="viewGifts()"><i class="fas fa-gift"></i> View Gifts</button>
+    <button class="btn third" (click)="trackRequests()"><i class="fas fa-clipboard-list"></i> Track Requests</button>
+  </div>
+
+  <div class="recent-requests">
+    <h2>Recent Pickup Requests</h2>
+    <div class="request-list">
+      <div class="request-item" *ngFor="let request of recentRequests">
+        <div class="request-icon" [ngClass]="request.iconColor">
+          <i class="fas" [ngClass]="request.icon"></i>
+        </div>
+        <div class="request-details">
+          <h3>{{ request.type }}</h3>
+          <p>{{ request.date | date:'MMMM d, yyyy' }}</p>
+        </div>
+        <div class="request-status" [ngClass]="request.status.toLowerCase()">
+          <p>{{ request.status }}</p>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="view-all" (click)="viewAllRequests()">View All Requests <i class="fas fa-arrow-right"></i></a>
+  </div>
+
+<div class="stats-cards mt-4">
+    <div class="stat-card">
+      <div class="stat-content">
+        <h3>Total Requests</h3>
+        <p class="stat-number">{{ stats.totalRequests }}</p>
+      </div>
+      <div class="stat-icon blue">
+        <i class="fa-solid fa-list"></i>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-content">
+        <h3>Successful Pickups</h3>
+        <p class="stat-number">{{ stats.successfulPickups }}</p>
+      </div>
+      <div class="stat-icon green">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-content">
+        <h3>Total Points</h3>
+        <p class="stat-number">{{ stats.totalPoints }}</p>
+      </div>
+      <div class="stat-icon yellow">
+        <i class="fa-solid fa-star"></i>
+      </div>
+    </div>
+  </div>
+
+</main>
+

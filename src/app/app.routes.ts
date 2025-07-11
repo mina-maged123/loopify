@@ -11,6 +11,7 @@ import { RegistrationSuccessComponent } from './components/registration-success/
 import { HomeComponent } from './home/home.component';
 import { RequestComponent } from './request/request.component';
 import { SubmitPickupRequestSuccessComponent } from './components/submit-pickup-request-success/submit-pickup-request-success.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
@@ -60,6 +61,10 @@ export const routes: Routes = [
     {
         path: 'submit-pickup-request-success',
         component: SubmitPickupRequestSuccessComponent
+    },
+    {
+        path: 'dashboard',
+        component: DashboardComponent,
     },
     { 
         path: '**', 
