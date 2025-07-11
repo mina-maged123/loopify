@@ -64,8 +64,6 @@ export class NavComponent implements OnInit {
     localStorage.removeItem('token');
     localStorage.removeItem('id');
     localStorage.removeItem('role');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
 
     this.userName = '';
     this.userEmail = '';

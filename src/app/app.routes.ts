@@ -70,8 +70,8 @@ export const routes: Routes = [
       { path: '', component: EmployeeDashboardComponent },
       { path: 'pickup', component: PickUpRequestComponent },
       { path: 'map-view', component: ViewMapComponent },
-      { path: 'report-issue',component: ReportIssueComponent,},
-      {path:'profile',component:ProfileComponent}
+      { path: 'report-issue', component: ReportIssueComponent, },
+      { path: 'profile', component: ProfileComponent }
     ],
   },
 
@@ -83,60 +83,14 @@ export const routes: Routes = [
     path: 'submit-pickup-request-success',
     component: SubmitPickupRequestSuccessComponent,
   },
-
+  {
+    path: 'setting',
+    component: SettingComponent,
+  },
   {
     path: '**',
     redirectTo: '',
-  },
-    {
-        path: '',
-        component: HomeComponent
-    },
-    { 
-        path: 'login', 
-        component: LoginComponent 
-    },
-    {
-        path: 'register',
-        component: RegisterComponent
-    },
-    { 
-        path: 'forgot-password', 
-        component: ForgotPasswordComponent 
-    },
-    { 
-        path: 'verification-code', 
-        component: VerificationCodeComponent 
-    },
-    { 
-        path: 'reset-password', 
-        component: ResetPasswordComponent 
-    },
-    { 
-        path: 'reset-success', 
-        component: ResetSuccessComponent 
-    },
-    { 
-        path: 'registration-failed', 
-        component: RegistrationFailedComponent 
-    },
-    { 
-        path: 'registration-success', 
-        component: RegistrationSuccessComponent 
-    },
-    {
-        path: 'gift',
-        component: GiftComponent
-    },
-    {
-        path: 'setting',
-        component: SettingComponent
-
-    },
-    { 
-        path: '**', 
-        redirectTo: '' 
-    }
+  }
 
 
 ];
