@@ -13,7 +13,7 @@ import { filter } from 'rxjs/operators';
      styleUrl: './app.component.css',
   
   standalone: true,
-  imports: [NavComponent, RouterOutlet, FooterComponent, CommonModule],
+  imports: [NavComponent, RouterOutlet, CommonModule],
  
 })
 export class AppComponent implements OnInit {
