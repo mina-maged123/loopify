@@ -1,27 +1,30 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ENDPOINTS } from '../shared/endpoints';
 import { IUserInfo } from '../models/iuser-info';
-import { BrowserStorageService } from './browser-storage.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserProfileService {
+export class UserProfileService implements OnInit {
+  private userToken: any;
 
-  constructor(private http: HttpClient, private browserStorage: BrowserStorageService) { }
+  constructor(private http: HttpClient) { }
 
-  private getToken(): string | null {
-    return this.browserStorage.getItem('token');
+  ngOnInit(): void {
+    this.userToken = localStorage.getItem('token');
+  }
+
+  private getToken(): string {
+    return this.userToken || '';
   }
 
   GetUser(userId: number): Observable<IUserInfo> {
-    const token = this.getToken();
-    console.log(token);
+    console.log(this.getToken())
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     return this.http.get<IUserInfo>(ENDPOINTS.GET_USER(userId), { headers });

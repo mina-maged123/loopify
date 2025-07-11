@@ -2,7 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserProfileService } from '../services/user-profile.service';
-import { BrowserStorageService } from '../services/browser-storage.service';
+import { response } from 'express';
+import { error } from 'console';
 
 @Component({
     selector: 'app-nav',
@@ -16,25 +17,23 @@ export class NavComponent implements OnInit {
   userEmail : string = '';
   isDropdownOpen = false;
 
-  constructor(private router: Router, private userProfileService: UserProfileService, private browserStorage: BrowserStorageService ) {}
+  constructor(private router: Router, private userProfileService: UserProfileService ) {}
 
   ngOnInit() {
-    this.Id = this.browserStorage.getItem('id');
-    if (this.Id) {
-      this.userProfileService.GetUser(this.Id).subscribe({
-        next: (response) => {
-          this.userName = response.data.fullName;
-          this.userEmail = response.data.email;
-        },
-        error : (error) => {
-          console.log(error);
-        }
-      })
-    }
+    this.Id = localStorage.getItem('id');
+    this.userProfileService.GetUser(this.Id).subscribe({
+      next: (response) => {
+        this.userName = response.data.fullName;
+        this.userEmail = response.data.email;
+      },
+      error : (error) => {
+        console.log(error);
+      }
+    })
   }
 
   isLoggedIn(): boolean {
-    return !!this.browserStorage.getItem('token') && !!this.browserStorage.getItem('id');
+    return !!localStorage.getItem('token') && !!localStorage.getItem('id');
   }
 
   toggleDropdown(): void {
@@ -46,9 +45,9 @@ export class NavComponent implements OnInit {
   }
 
   logout(): void {
-    this.browserStorage.removeItem('token');
-    this.browserStorage.removeItem('id');
-    this.browserStorage.removeItem('role');
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+    localStorage.removeItem('role');
     this.router.navigate(['/login']);
     this.closeDropdown();
   }
