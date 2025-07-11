@@ -1,3 +1,4 @@
+import { SettingComponent } from './components/setting/setting.component';
 import { GiftComponent } from './components/gift/gift.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
@@ -71,8 +72,7 @@ export const routes: Routes = [
       { path: 'pickup', component: PickUpRequestComponent },
       { path: 'map-view', component: ViewMapComponent },
       { path: 'report-issue',component: ReportIssueComponent,},
-      {path:'profile',component:ProfileComponent},
-         {path:'details/:id',component:PickupDetailsComponent}
+      {path:'profile',component:ProfileComponent}
     ],
   },
 
@@ -84,9 +84,14 @@ export const routes: Routes = [
     path: 'submit-pickup-request-success',
     component: SubmitPickupRequestSuccessComponent,
   },
-
+  {
+    path: 'setting',
+    component: SettingComponent,
+  },
   {
     path: '**',
     redirectTo: '',
-  },
+  }
+
+
 ];

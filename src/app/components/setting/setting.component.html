@@ -1,0 +1,120 @@
+<div class="min-h-screen bg-gray-50">
+
+  <main class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 main-content">
+    <!-- User Profile Section -->
+    <div class="flex flex-col sm:flex-row items-center sm:items-start mb-6 sm:mb-8 profile-section">
+      <div class="relative mb-4 sm:mb-0">
+        <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full overflow-hidden profile-image">
+          <img [src]="userData.value.profilePictureUrl || '/../../assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg'"
+            alt="User profile" class="w-full h-full object-cover" />
+        </div>
+        <div class="absolute bottom-0 right-0 bg-green-500 rounded-full p-1.5 sm:p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="sm:ml-6 text-center sm:text-left pt-4">
+        <h3 class="text-xl sm:text-2xl font-semibold text-gray-800 text-left" [textContent]="userData.value.fullName"></h3>
+        <p class="text-sm sm:text-base text-gray-500 mt-1">
+          Member since {{ userData.value.createdAt | date:'MMMM yyyy' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Personal Information Section -->
+    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6 settings-card">
+      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">
+        Personal Information
+      </h3>
+      <form [formGroup]="userData" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 form-grid">
+        <div class="space-y-1">
+          <label for="fullName" class="block text-sm font-medium text-gray-600 mb-2">
+            Full Name
+          </label>
+          <input type="text" id="fullName" formControlName="fullName"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            value="User" />
+        </div>
+        <div class="space-y-1">
+          <label for="phoneNumber" class="block text-sm font-medium text-gray-600 mb-2">
+            Phone Number
+          </label>
+          <div class="flex">
+            <select
+              class="p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+              <option>+20</option>
+              <option>+1</option>
+              <option>+44</option>
+              <option>+49</option>
+            </select>
+            <input type="tel" id="phoneNumber" formControlName="phoneNumber"
+              class="w-full p-3 border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              value="(555) 123-4567" />
+          </div>
+        </div>
+        <div class="space-y-1">
+          <label for="email" class="block text-sm font-medium text-gray-600 mb-2">
+            Email Address
+          </label>
+          <input type="email" id="email" formControlName="email"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            value="User@email.com" />
+        </div>
+        <div class="lg:col-span-2 space-y-1">
+          <label for="address" class="block text-sm font-medium text-gray-600 mb-2">
+            Address
+          </label>
+          <textarea id="address" formControlName="address" rows="4"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none">123 Green Street, Eco District
+  Sustainability City, SC 12345
+  United States</textarea>
+        </div>
+      </form>
+    </div>
+
+    <!-- Security Settings Section -->
+    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6 settings-card">
+      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">
+        Security Settings
+      </h3>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+        <div class="flex items-center">
+          <lucide-icon name="lock" [size]="20" class="text-gray-500 mr-3"></lucide-icon>
+          <div>
+            <p class="font-medium text-gray-800 mt-3">Password</p>
+          </div>
+        </div>
+        <button [routerLink]="['/reset-password']"
+          class="w-full sm:w-auto px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
+          style="border-radius: 20px;">
+          Change Password
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 action-buttons">
+      <button class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
+        style="border-radius: 20px;">
+        Save Changes
+      </button>
+      <button [routerLink]="['/']"
+        class="px-6 py-3 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+        Cancel
+      </button>
+      <div class="hidden sm:block flex-grow"></div>
+      <button (click)="logout()"
+        class="flex items-center justify-center sm:justify-start text-gray-500 hover:text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+        <lucide-icon name="log-out" [size]="16" class="mr-2"></lucide-icon> Logout
+      </button>
+      <button
+        class="text-red-500 hover:text-red-700 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors font-medium">
+        Delete Account
+      </button>
+    </div>
+  </main>
+</div>

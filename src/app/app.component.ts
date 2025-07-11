@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit } from '@angular/core';
 import { NavComponent } from "./nav/nav.component";
 import { FooterComponent } from "./footer/footer.component";
@@ -5,11 +7,14 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 @Component({
-  selector: 'app-root',
+    selector: 'app-root',
+    
+    templateUrl: './app.component.html',
+     styleUrl: './app.component.css',
+  
   standalone: true,
   imports: [NavComponent, RouterOutlet, FooterComponent, CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+ 
 })
 export class AppComponent implements OnInit {
   title = 'project';
