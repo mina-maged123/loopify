@@ -21,6 +21,7 @@ import { ViewMapComponent } from './components/Employee/view-map/view-map.compon
 import { report } from 'process';
 import { ReportIssueComponent } from './components/Employee/report-issue/report-issue.component';
 import { ProfileComponent } from './components/Employee/profile/profile.component';
+import { PickupDetailsComponent } from './components/Employee/pickup-details/pickup-details.component';
 
 export const routes: Routes = [
   {
@@ -70,8 +71,8 @@ export const routes: Routes = [
       { path: '', component: EmployeeDashboardComponent },
       { path: 'pickup', component: PickUpRequestComponent },
       { path: 'map-view', component: ViewMapComponent },
-      { path: 'report-issue', component: ReportIssueComponent, },
-      { path: 'profile', component: ProfileComponent }
+      { path: 'report-issue',component: ReportIssueComponent,},
+      {path:'profile',component:ProfileComponent}
     ],
   },
 

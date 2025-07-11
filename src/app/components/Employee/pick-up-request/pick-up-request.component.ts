@@ -1,50 +1,89 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { HttpClientModule } from '@angular/common/http';
+import { EmployeePickupRequestsService } from '@/app/services/employee-pickup-requests.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pick-up-request',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, HttpClientModule,RouterLink],
   templateUrl: './pick-up-request.component.html',
   styleUrls: ['./pick-up-request.component.css']
 })
-export class PickUpRequestComponent {
-  requests = [
-    { userName: 'Ahmed', status: 'Pending', location: 'Cairo', time: '9 AM', materials: ['Plastic', 'Glass'] },
-    { userName: 'Mona', status: 'Collected', location: 'Giza', time: '10 AM', materials: ['Metal'] },
-    { userName: 'Ali', status: 'Scheduled', location: 'Alex', time: '11 AM', materials: ['Cardboard'] },
-    { userName: 'Sara', status: 'Pending', location: 'Mansoura', time: '12 PM', materials: ['Glass'] },
-    { userName: 'John', status: 'Collected', location: 'Luxor', time: '1 PM', materials: ['Plastic'] },
-    { userName: 'Laila', status: 'Cancelled', location: 'Aswan', time: '2 PM', materials: ['Metal'] },
-    { userName: 'Tarek', status: 'Pending', location: 'Tanta', time: '3 PM', materials: ['Cardboard', 'Plastic'] },
-    { userName: 'Nour', status: 'Collected', location: 'Fayoum', time: '4 PM', materials: ['Glass'] }
-  ];
+export class PickUpRequestComponent implements OnInit {
+  requests: any[] = [];
+  filteredRequests: any[] = [];
+
+  selectedStatus: string = '';
+  searchName: string = '';
 
   currentPage = 1;
   itemsPerPage = 4;
 
+  constructor(private pickupService: EmployeePickupRequestsService) {}
+
+  ngOnInit(): void {
+    this.getRequests();
+  }
+
+  getRequests() {
+    this.pickupService.getAllRequests().subscribe({
+      next: (response) => {
+         console.log('Response:', response);
+        this.requests = response.data.map((item: any) => ({
+          userName: item.customer?.fullName,
+          status: this.mapStatus(item.status), // convert status code to string
+          location: item.address,
+          time: new Date(item.scheduledDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          materials: item.pickupItems?.map((m: any) => m.materialName) || [],
+          id:item.id
+        }));
+        this.filteredRequests = [...this.requests];
+      },
+      error: (err) => {
+        
+        console.error('Failed to load pickup requests:', err);
+      }
+    });
+  }
+
+  mapStatus(code: number): string {
+    switch (code) {
+      case 0: return 'Pending';
+      case 1: return 'Scheduled';
+      case 2: return 'Collected';
+      case 3: return 'Cancelled';
+      default: return 'Unknown';
+    }
+  }
+
   get paginatedRequests() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.requests.slice(start, start + this.itemsPerPage);
+    return this.filteredRequests.slice(start, start + this.itemsPerPage);
   }
 
   get totalPages() {
-    return Math.ceil(this.requests.length / this.itemsPerPage);
+    return Math.ceil(this.filteredRequests.length / this.itemsPerPage);
   }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages) this.currentPage++;
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) this.currentPage--;
-  }
   get pageNumbers(): number[] {
-  return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-}
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
 
-goToPage(page: number) {
-  this.currentPage = page;
-}
+  goToPage(page: number) {
+    this.currentPage = page;
+  }
 
+  applyFilters() {
+    this.filteredRequests = this.requests.filter(request => {
+      const matchesStatus = this.selectedStatus ? request.status === this.selectedStatus : true;
+      const matchesName = this.searchName ? request.userName.toLowerCase().includes(this.searchName.toLowerCase()) : true;
+      return matchesStatus && matchesName;
+    });
+
+    this.currentPage = 1;
+  }
 }
