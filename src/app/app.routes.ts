@@ -1,3 +1,4 @@
+import { SettingComponent } from './components/setting/setting.component';
 import { GiftComponent } from './components/gift/gift.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
@@ -51,9 +52,15 @@ export const routes: Routes = [
         path: 'gift',
         component: GiftComponent
     },
+    {
+        path: 'setting',
+        component: SettingComponent
+
+    },
     { 
         path: '**', 
         redirectTo: '' 
     }
+
 
 ];

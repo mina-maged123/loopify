@@ -1,16 +1,21 @@
-.nav{
-   width: 100%;
-    height: 68px;
-    background-color: #FFFFFF;
+.nav {
+  width: 100%;
+  height: 68px;
+  background-color: #FFFFFF;
 }
 
-.logo-img{
-    width: 34px;
-  height: 34px;
-  
+.logo {
+  margin-right: 20px;
 }
-.logo-title{
-     font-family: 'Poppins';
+
+.logo-img {
+  width: 34px;
+  height: 34px;
+
+}
+
+.logo-title {
+  font-family: 'Poppins';
   font-weight: 700;
   font-size: 20px;
   line-height: 28px;
@@ -18,24 +23,26 @@
   color: #1C4B41;
 }
 
-.user-section{
-    
-    margin-left: 860px;
+.user-section {
+
+  margin-left: 700px;
 }
 
-.bell-icon{
-    height: 36px;
-    width: 28px;
-    color: #69B31D;
-    font-size: 25px;
+.bell-icon {
+  height: 36px;
+  width: 28px;
+  color: #69B31D;
+  font-size: 25px;
 }
-.user-img{
-    width:36.8px ;
-    height:36.8px ;
-    border-radius: 9999px;
-    object-fit: cover;
-    cursor: pointer;
+
+.user-img {
+  width: 36.8px;
+  height: 36.8px;
+  border-radius: 9999px;
+  object-fit: cover;
+  cursor: pointer;
 }
+
 .settings-box {
   position: absolute;
   top: 50px;
@@ -45,9 +52,10 @@
   background: white;
   border-radius: 10px;
   padding: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 100;
 }
+
 .close-btn {
   position: absolute;
   top: 10px;
@@ -65,42 +73,42 @@
   color: red;
   
 } */
-.user-setting-img{
-    width: 36px;
-    height: 36px;
-    border-radius: 9999px;
-    object-fit: cover;
-    
+.user-setting-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  object-fit: cover;
+
 }
 
-.setting-text{
+.setting-text {
   font-family: inter;
   font-weight: 500;
   font-size: 18px;
-  
+
   letter-spacing: -1%;
   color: #1C4B41;
 }
 
-.user-email-text{
+.user-email-text {
   font-family: inter;
   font-weight: 500;
   font-size: 16px;
-  
+
   letter-spacing: -1%;
   color: #999999;
 }
 
-.setting-icon{
+.setting-icon {
   color: #999999;
-  width:8px ;
+  width: 8px;
   height: 16px;
 }
 
 .footer-divider {
-  border-top: 1px solid #E2D6D6; 
-  margin-top: 10px ; 
+  border-top: 1px solid #E2D6D6;
+  margin-top: 10px;
   width: 100%;
-  margin-left:-80px;
+  margin-left: -80px;
 
 }
