@@ -6,6 +6,10 @@ import { FooterComponent } from "./footer/footer.component";
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { CustomerLayoutComponent } from "./Layouts/customer-layout/customer-layout.component";
+import { EmployeeLayoutComponent } from "./Layouts/employee-layout/employee-layout.component";
+import { AdminLayoutComponent } from "./Layouts/admin-layout/admin-layout.component";
+import { RegisterComponent } from "./components/register/register.component";
 @Component({
     selector: 'app-root',
     
@@ -13,7 +17,7 @@ import { filter } from 'rxjs/operators';
      styleUrl: './app.component.css',
   
   standalone: true,
-  imports: [NavComponent, RouterOutlet, FooterComponent, CommonModule],
+  imports: [NavComponent, RouterOutlet, FooterComponent, CommonModule, CustomerLayoutComponent, EmployeeLayoutComponent, AdminLayoutComponent, RegisterComponent],
  
 })
 export class AppComponent implements OnInit {

@@ -16,4 +16,5 @@ export class EmployeeLayoutComponent {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
+  
 }

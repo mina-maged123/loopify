@@ -36,6 +36,41 @@ li a{
 }
 
 
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    z-index: 1000;
+    height: 100vh;
+    left: -250px;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar.closed {
+    left: -250px;
+  }
+
+  .toggle-sidebar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+    background-color: #1C4B41;
+    border-radius: 6px;
+    padding: 6px 10px;
+  }
+
+  .sidebar .nav-link {
+    font-size: 14px;
+  }
+
+  .sidebar h4 {
+    font-size: 18px;
+  }
+}
 
 
 
