@@ -1,21 +1,27 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
     selector: 'app-reset-password',
-    imports: [CommonModule, FormsModule, RouterModule],
+    imports: [CommonModule, ReactiveFormsModule, RouterModule],
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent {
+  oldPassword = '';
   newPassword = '';
   confirmPassword = '';
+  showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
 
   constructor(private router: Router) {}
+
+  toggleOldPasswordVisibility() {
+    this.showOldPassword = !this.showOldPassword;
+  }
 
   toggleNewPasswordVisibility() {
     this.showNewPassword = !this.showNewPassword;
@@ -25,21 +31,29 @@ export class ResetPasswordComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  onSubmit() {
-    if (this.newPassword !== this.confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
+  resetPassword = new FormGroup({
+    oldPassword: new FormControl('', [Validators.required]),
+    newPassword: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required])
+  });
 
-    if (this.newPassword.length < 6) {
-      alert('Password must be at least 6 characters long!');
-      return;
-    }
-
-    // Simulate password reset
-    console.log('Password reset successful');
-    this.router.navigate(['/reset-success']);
+  get getOldPassword() {
+    return this.resetPassword.get('oldPassword');
   }
+
+  get getNewPassword() {
+    return this.resetPassword.get('newPassword');
+  }
+
+  get getConfirmPassword() {
+    return this.resetPassword.get('confirmPassword');
+  }
+
+  
+  changePassword() {
+
+  }
+
 
   goBackToLogin() {
     this.router.navigate(['/login']);

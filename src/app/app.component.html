@@ -1,1 +1,15 @@
+<!-- @if(role == 'Customer'){
+    <app-customer-layout></app-customer-layout>
+}
+@else if (role == 'Employee') {
+    <app-employee-layout></app-employee-layout>
+}
+@else if(role == 'Admin') {
+    <app-admin-layout></app-admin-layout>
+}
+@else {
+    <app-register></app-register>
+}  -->
+<app-nav *ngIf="showNavAndFooter"></app-nav>
 <router-outlet></router-outlet>
+<app-footer *ngIf="showNavAndFooter"></app-footer>

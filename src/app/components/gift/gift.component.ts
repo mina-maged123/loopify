@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../nav/nav.component';
-import { FooterComponent } from '../../footer/footer.component';
 import { Irewards } from '@/app/models/irewards';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { RewardsService } from '@/app/services/rewards.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, NavComponent, FooterComponent],
+  imports: [CommonModule, RouterLink],
   templateUrl: './gift.component.html',
   styleUrls: ['./gift.component.css']
 })

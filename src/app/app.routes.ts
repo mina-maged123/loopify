@@ -9,6 +9,10 @@ import { ResetSuccessComponent } from './components/reset-success/reset-success.
 import { RegistrationFailedComponent } from './components/registration-failed/registration-failed.component';
 import { RegistrationSuccessComponent } from './components/registration-success/registration-success.component';
 import { HomeComponent } from './home/home.component';
+
+import { EmployeeDashboardComponent } from './components/Employee/employee-dashboard/employee-dashboard.component';
+import { EmployeeLayoutComponent } from './Layouts/employee-layout/employee-layout.component';
+
 import { RequestComponent } from './request/request.component';
 import { SubmitPickupRequestSuccessComponent } from './components/submit-pickup-request-success/submit-pickup-request-success.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -18,42 +22,57 @@ export const routes: Routes = [
         path: '',
         component: HomeComponent
     },
-    { 
-        path: 'login', 
-        component: LoginComponent 
+    {
+        path: 'login',
+        component: LoginComponent
     },
     {
         path: 'register',
         component: RegisterComponent
     },
-    { 
-        path: 'forgot-password', 
-        component: ForgotPasswordComponent 
+    {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent
     },
-    { 
-        path: 'verification-code', 
-        component: VerificationCodeComponent 
+    {
+        path: 'verification-code',
+        component: VerificationCodeComponent
     },
-    { 
-        path: 'reset-password', 
-        component: ResetPasswordComponent 
+    {
+        path: 'reset-password',
+        component: ResetPasswordComponent
     },
-    { 
-        path: 'reset-success', 
-        component: ResetSuccessComponent 
+    {
+        path: 'reset-success',
+        component: ResetSuccessComponent
     },
-    { 
-        path: 'registration-failed', 
-        component: RegistrationFailedComponent 
+    {
+        path: 'registration-failed',
+        component: RegistrationFailedComponent
     },
-    { 
-        path: 'registration-success', 
-        component: RegistrationSuccessComponent 
+    {
+        path: 'registration-success',
+        component: RegistrationSuccessComponent
     },
     {
         path: 'gift',
         component: GiftComponent
-    },
+
+    }
+    ,
+
+    {
+        path: 'employee',
+        component: EmployeeLayoutComponent,
+        children: [
+            { path: '', component: EmployeeDashboardComponent }, // /employee
+            { path: 'pickup', component: EmployeeDashboardComponent }, // /employee/profile
+            { path: 'map-view', component: EmployeeDashboardComponent }, // /employee/settings,
+
+        ]
+    }
+
+    ,
     {
         path: 'request',
         component: RequestComponent
