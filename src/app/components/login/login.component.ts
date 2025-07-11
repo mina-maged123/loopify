@@ -110,14 +110,18 @@ export class LoginComponent {
 
           if (error.error && error.error[""] && Array.isArray(error.error[""])) {
             this.errorMessage = error.error[""][0];
+            alert(this.errorMessage);
           } else if (typeof error.error === 'string') {
             this.errorMessage = error.error;
+            alert(this.errorMessage);
           } else if (error.status === 401) {
-            this.errorMessage = 'Invalid account. Please check your credentials.';
+            this.errorMessage = 'Invalid account. Please check your password.';
+            alert(this.errorMessage);
           } else {
             this.errorMessage = 'Login failed. Please try again.';
+            alert(this.errorMessage);
           }
-
+          
           this.loginSuccess = false;
         }
       });

@@ -1,38 +1,129 @@
-.nav {
+:host {
+  display: block;
   width: 100%;
-  height: 68px;
+  margin-top: 0 !important;
+}
+
+/* Override any external nav styles */
+:host nav {
+  margin-top: 0 !important;
+}
+
+.nav{
+   width: 100%;
+    height: 68px;
+    background-color: #FFFFFF;
+}
+
+.navbar {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.5rem 1rem;
   background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 0 !important;
+  margin-top: 0 !important;
 }
 
-.logo {
-  margin-right: 20px;
+.nav-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.logo-img {
-  width: 34px;
-  height: 34px;
-
+.nav-logo-img{
+    width: 34px !important;
+    height: 34px !important;
 }
 
-.logo-title {
-  font-family: 'Poppins';
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 28px;
-  letter-spacing: 0;
+.nav-logo-text {
+  font-family: 'Poppins' !important;
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  line-height: 28px !important;
+  letter-spacing: 0 !important;
+  color: #1C4B41 !important;
+}
+
+
+
+.user-section{
+    position: relative;
+}
+
+.button {
+  flex-direction: row;
+  width: 260.64px;
+  height: 40px;
+  gap: 20px;
+}
+
+.sign {
+  flex-direction: row;
+  width: 101px;
+  height: 40px;
+  border-radius: 8px;
+  gap: 10px;
+  background-color: transparent;
+  border: 1px solid #1C4B41;
+  border-color: #1C4B41;
+  transition: all 0.3s ease;
+}
+
+.sign:hover {
+  background-color: #1C4B41;
+}
+
+.sign:hover .sign-text {
+  color: white;
+}
+
+.sign-text {
   color: #1C4B41;
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
 }
 
-.user-section {
-
-  margin-left: 700px;
+.notification-section {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-.bell-icon {
-  height: 36px;
-  width: 28px;
-  color: #69B31D;
-  font-size: 25px;
+.bell-icon{
+    height: 36px;
+    width: 28px;
+    color: #69B31D;
+    font-size: 25px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.bell-icon:hover {
+    color: #5A9B1A;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -2px;
+    right: -8px;
+    background-color: #EF4444;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .user-img {
@@ -48,7 +139,6 @@
   top: 50px;
   right: 0;
   width: 306px;
-  height: 279px;
   background: white;
   border-radius: 10px;
   padding: 15px;
@@ -85,7 +175,6 @@
   font-family: inter;
   font-weight: 500;
   font-size: 18px;
-
   letter-spacing: -1%;
   color: #1C4B41;
 }
@@ -107,8 +196,79 @@
 
 .footer-divider {
   border-top: 1px solid #E2D6D6;
-  margin-top: 10px;
+  margin-top: 10px ;
   width: 100%;
-  margin-left: -80px;
-
+  margin-left:-80px;
 }
+
+/* Add pointer cursor for clickable menu items */
+.settings-box .d-flex {
+  cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem;
+  }
+
+  .navbar-brand {
+    margin-left: 0 !important;
+  }
+
+  .logo-text {
+    font-size: 18px;
+  }
+
+  .logo-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .user-section {
+    margin-right: 0;
+  }
+
+  .settings-box {
+    right: 10px;
+    width: 280px;
+    left: auto;
+  }
+
+  .bell-icon {
+    font-size: 20px;
+    margin-right: 0.5rem;
+  }
+
+  .user-img {
+    width: 32px;
+    height: 32px;
+    margin-left: 0.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-box {
+    right: 5px;
+    width: 260px;
+    font-size: 14px;
+  }
+
+  .setting-text {
+    font-size: 16px;
+  }
+
+  .user-email-text {
+    font-size: 14px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  .logo-img {
+    width: 24px;
+    height: 24px;
+  }
+}
+

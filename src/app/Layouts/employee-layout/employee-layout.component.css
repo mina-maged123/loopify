@@ -1,0 +1,42 @@
+/* employee-layout.component.css */
+.employee-layout {
+  display: flex;
+  height: 100vh;
+}
+.sidebar {
+  width: 200px;
+  background-color: #1C4B41;
+  color: white;
+  padding: 20px;
+}
+li a{
+    color: gray;
+}
+/* ✅ Active link styling */
+/* Active state styles */
+.active-link {
+  background-color: #69B31D33;
+  border-radius: 8px;
+  color: white !important;
+  font-weight: 600;
+}
+
+/* 👇 Default icon style - gray look */
+.nav-icon {
+  filter: grayscale(100%) brightness(0.7);
+}
+
+
+.active-link .nav-icon {
+  filter: brightness(0) invert(1);
+}
+
+.nav-link:hover .nav-icon {
+  filter: brightness(0) invert(0.7); 
+}
+
+
+
+
+
+

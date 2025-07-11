@@ -1,32 +1,218 @@
-.request-title{
-    margin-left: 355px;
-    font-weight: 700;
-    font-family: Poppins;
-    font-size: 36px;
-    line-height: 40px;
-    letter-spacing: 0%;
-    color: #1C4B41;
-}
-.request-text{
-font-family: Poppins;
-font-weight: 400;
-font-size: 18px;
-line-height: 28px;
-letter-spacing: 0%;
-color: #7A8986;
-margin-right: -340px;
+:host {
+  display: block;
+  font-family: 'Poppins', sans-serif;
 }
 
-.request-box{
-    background-color: #FFFFFF;
-    width:832px;
-    height: 1.3px;
-    border: 1px solid #FFFFFF;
-    border-radius: 16px;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
 
-    box-shadow: 
+
+/* Form Container Styles */
+.request-form-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 30px;
+  border: 1px  #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 
     0px 10px 15px rgba(0, 0, 0, 0.1),
     0px 4px 6px rgba(0, 0, 0, 0.1);
-
-    margin-top: 20px;
 }
+
+.form-title {
+  color: #1C4B41;
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+  line-height: 40px;
+  letter-spacing: 0%;
+}
+
+.form-subtitle {
+  color: #7A8986;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 28px;
+  font-weight: 400;
+  letter-spacing: 0%;
+}
+.material-select:invalid {
+  color: #888888; 
+}
+
+/* Form Control Styles */
+.form-label {
+  font-weight: 500;
+  color: #1C4B41;
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.add-btn, .remove-btn {
+  width: 50px;
+  height: 45px;
+  border: 1px solid #D1D5DB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-radius: 6px ;
+  background-color: #FFFFFF;
+  color: #A79C9C;
+}
+
+.form-control, .form-select {
+  border: 1px  #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+   box-shadow: 
+    0px 10px 15px rgba(0, 0, 0, 0.1),
+    0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 55px;
+    font-family: 'Poppins';
+}
+.pickup-Address{
+    width: 752px;
+    height: 98px;
+    border: 1px solid #E5E7EB;
+    border-radius: 18px;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #1e8a5a;
+  box-shadow: 0 0 0 0.2rem rgba(30, 138, 90, 0.25);
+}
+
+.form-control::placeholder, .form-select::placeholder {
+  color: #aaa;
+}
+
+/* Location Map Styles */
+.location-container {
+  margin-bottom: 20px;
+}
+
+.map-container {
+  height: 300px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+}
+
+.use-current-location {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.use-current-location input {
+  margin-right: 8px;
+}
+
+.input-group .btn-outline-secondary {
+  border-color: #ddd;
+  color: #666;
+}
+
+.input-group .btn-outline-secondary:hover {
+  background-color: #1e8a5a;
+  border-color: #1e8a5a;
+  color: white;
+}
+
+textarea {
+  resize:  none;
+  width: 740px !important;
+  height: 122px !important;
+  border-radius: 12px;
+}
+
+/* Terms Checkbox Styles */
+.terms-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.terms-checkbox input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.terms-checkbox label {
+  font-size: 14px;
+  color: #666;
+}
+
+.terms-checkbox label a {
+  color: #1e8a5a;
+  text-decoration: none;
+}
+
+.terms-checkbox label a:hover {
+  text-decoration: underline;
+}
+
+/* Button Styles */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-submit {
+  background-color: #1e8a5a;
+  color: white;
+  border: none;
+}
+
+.btn-submit i {
+  margin-left: 8px;
+}
+
+
+.btn-submit:disabled {
+  width: 215px;
+  height: 52px;
+  background-color: #1C4B41;
+  cursor: not-allowed;
+  color: #E5E7EB;
+  border-radius: 12px;
+}
+
+.btn-cancel {
+  width: 176px;
+  height: 52px;
+  background-color: white;
+  color: #DC3545;
+  border: 1px solid #DC3545;
+  border-radius: 12px;
+  margin-right: 330px;
+}
+
+.btn-cancel:hover {
+  background-color: #f5f5f5;
+}
+

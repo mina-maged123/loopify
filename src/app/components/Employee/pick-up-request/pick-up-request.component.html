@@ -1,0 +1,57 @@
+<div class="header">
+    <h1>My PickUp Requests</h1>
+<p>Manage and track your scheduled pickups</p>
+
+
+<!-- requests -->
+<div class="container">
+  <!-- Display 2 cards per row, total 4 per page -->
+  <div class="row g-4 ">
+    @for (request of paginatedRequests; track request) {
+      <div class="col-md-6 cart">
+        <div class="card p-3 shadow-sm">
+          <div class="d-flex justify-content-between">
+            <h5>{{ request.userName }}</h5>
+ 
+  <span class="badge status"
+        [ngClass]="{
+          'collected': request.status == 'Collected',
+          'canceld': request.status == 'Cancelled',
+          'scheduled': request.status == 'Scheduled',
+          'pending': request.status == 'Pending'
+ 
+        }">
+    {{ request.status }}
+  </span>
+
+
+          </div>
+          <p class="d-flex gap-2"> <img src="assets/location.svg" alt="">{{ request.location }}</p>
+          <p class="d-flex gap-2"><img src="assets/timer.svg" alt="">{{ request.time }}</p>
+          <ul class="d-flex gap-3">
+            @for (mat of request.materials; track mat) {
+              <li>{{ mat }}</li>
+            }
+          </ul>
+     <div class="d-flex align-items-center gap-3">
+      <img src="assets/details.svg" alt="">
+      <p class="viewDetails">View Details</p>
+    </div>
+        </div>
+      </div>
+    }
+  </div>
+
+<!-- Pagination by numbers -->
+<div class="mt-4 d-flex justify-content-center gap-2">
+  <button 
+    *ngFor="let page of pageNumbers" 
+    class="btn" 
+    [ngClass]="{ 'active': page === currentPage }"
+    (click)="goToPage(page)">
+    {{ page }}
+  </button>
+</div>
+
+</div>
+ 

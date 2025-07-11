@@ -72,9 +72,11 @@ export class RegisterComponent {
           else {
             this.router.navigate(['/registration-failed']);
           }
-          if (response.message) {
-            alert(response.message);
-          }
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || error.message ||
+            'An unknown error occurred during registration';
+          alert(errorMessage);
         }
       })
     }
