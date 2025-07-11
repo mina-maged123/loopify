@@ -125,13 +125,15 @@
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.user-img{
-    width:36.8px ;
-    height:36.8px ;
-    border-radius: 9999px;
-    object-fit: cover;
-    cursor: pointer;
+
+.user-img {
+  width: 36.8px;
+  height: 36.8px;
+  border-radius: 9999px;
+  object-fit: cover;
+  cursor: pointer;
 }
+
 .settings-box {
   position: absolute;
   top: 50px;
@@ -140,9 +142,10 @@
   background: white;
   border-radius: 10px;
   padding: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 100;
 }
+
 .close-btn {
   position: absolute;
   top: 10px;
@@ -160,15 +163,15 @@
   color: red;
   
 } */
-.user-setting-img{
-    width: 36px;
-    height: 36px;
-    border-radius: 9999px;
-    object-fit: cover;
-    
+.user-setting-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  object-fit: cover;
+
 }
 
-.setting-text{
+.setting-text {
   font-family: inter;
   font-weight: 500;
   font-size: 18px;
@@ -176,18 +179,18 @@
   color: #1C4B41;
 }
 
-.user-email-text{
+.user-email-text {
   font-family: inter;
   font-weight: 500;
   font-size: 16px;
-  
+
   letter-spacing: -1%;
   color: #999999;
 }
 
-.setting-icon{
+.setting-icon {
   color: #999999;
-  width:8px ;
+  width: 8px;
   height: 16px;
 }
 
