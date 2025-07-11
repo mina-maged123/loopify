@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="sm:ml-6 text-center sm:text-left pt-4">
-        <h3 class="text-xl sm:text-2xl font-semibold text-gray-800 text-left" [textContent]="userData.value.fullName"></h3>
+        <h3 class="text-xl sm:text-2xl font-semibold text-gray-800 text-left">{{userData.value.fullName}}</h3>
         <p class="text-sm sm:text-base text-gray-500 mt-1">
           Member since {{ userData.value.createdAt | date:'MMMM yyyy' }}
         </p>
@@ -87,7 +87,7 @@
             <p class="font-medium text-gray-800 mt-3">Password</p>
           </div>
         </div>
-        <button [routerLink]="['/reset-password']"
+        <button [routerLink]="['/reset-password']" (submit)="saveEdit()"
           class="w-full sm:w-auto px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
           style="border-radius: 20px;">
           Change Password
@@ -98,7 +98,7 @@
 
     <!-- Action Buttons -->
     <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 action-buttons">
-      <button class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
+      <button (click)="saveEdit()" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
         style="border-radius: 20px;">
         Save Changes
       </button>

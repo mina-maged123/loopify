@@ -54,10 +54,63 @@ export class SettingComponent implements OnInit{
   });
 
 
+  saveEdit() {
+    console.log('Form status:', this.userData.status);
+    console.log('Form value:', this.userData.value);
+    console.log('Form errors:', this.userData.errors);
 
+    if (this.userData.status == "VALID") {
+      // Prepare data wrapped in UserInfoDto as expected by API
+      const updateData = {
+        UserInfoDto: {
+          fullName: this.userData.value.fullName || '',
+          email: this.userData.value.email || '',
+          phoneNumber: this.userData.value.phoneNumber || '',
+          address: this.userData.value.address || '',
+          profilePictureUrl: this.userData.value.profilePictureUrl || ''
+        }
+      };
 
+      console.log('Sending data with UserInfoDto wrapper:', updateData);
 
+      this.userProfileService.updateUser(updateData).subscribe({
+        next: () => {
+          this.user = { ...this.user, ...updateData.UserInfoDto };
+          alert('Profile updated successfully!');
+        },
+        error: (error) => {
+          console.error('Full error object:', error);
+          console.error('Error details:', error.error);
+          console.error('Validation errors:', error.error?.errors);
 
+          // Show specific validation errors if available
+          if (error.error && error.error.errors) {
+            console.log('Processing validation errors...');
+            let errorMessage = 'Validation errors:\n\n';
+
+            for (const field in error.error.errors) {
+              const fieldErrors = error.error.errors[field];
+              console.log(`Field: ${field}, Errors:`, fieldErrors);
+
+              if (Array.isArray(fieldErrors)) {
+                errorMessage += `• ${field}: ${fieldErrors.join(', ')}\n`;
+              } else {
+                errorMessage += `• ${field}: ${fieldErrors}\n`;
+              }
+            }
+
+            alert(errorMessage);
+          } else {
+            alert(`Failed to update profile.\nError: ${error.error?.title || error.message}`);
+          }
+        }
+      });
+    }
+    else {
+      alert("Please fix the form errors before saving.");
+      console.log('Form errors:', this.userData.errors);
+    }
+  }
 
 
 

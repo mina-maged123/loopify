@@ -94,6 +94,11 @@
     align-items: center;
 }
 
+.notification-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
 .bell-icon{
     height: 36px;
     width: 28px;

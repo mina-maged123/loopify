@@ -10,7 +10,9 @@ export const ENDPOINTS = {
     GET_USER: (userId:number) => `${baseUrl}User/${userId}`,
     CHECK_EMAIL : `${baseUrl}User/CheckEmail`,
     CHANGE_PASSWORD: `${baseUrl}User/ChangePassword`,
+    UPDATE_USER: `${baseUrl}User`,
 
     POST_PICKUP_REQUEST: `${baseUrl}PickupRequest`,
 
+    GET_NOTIFICATIONS: `http://localhost:17306/api/Notification`,
 }

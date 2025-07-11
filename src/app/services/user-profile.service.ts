@@ -63,4 +63,26 @@ export class UserProfileService {
       })
     );
   }
+
+  updateUser(user: any): Observable<{message: string}> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('Authentication required'));
+    }
+  
+    return this.http.put<{message: string}>(
+      ENDPOINTS.UPDATE_USER,
+      user,
+      {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        })
+      }
+    ).pipe(
+      catchError(error => {
+        return throwError(() => error);
+      })
+    );
+  }
 }

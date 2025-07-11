@@ -2,11 +2,12 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserProfileService } from '../services/user-profile.service';
+import { NotificationsComponent } from '../components/notifications/notifications.component';
 
 @Component({
     selector: 'app-nav',
     standalone: true,
-    imports: [NgIf, RouterModule],
+    imports: [NgIf, RouterModule, NotificationsComponent],
     templateUrl: './nav.component.html',
     styleUrl: './nav.component.css'
 })
@@ -15,6 +16,7 @@ export class NavComponent implements OnInit {
   userName : string = '';
   userEmail : string = '';
   isDropdownOpen = false;
+  isNotificationsOpen = false;
 
   constructor(
     private router: Router,
@@ -58,6 +60,17 @@ export class NavComponent implements OnInit {
     this.isDropdownOpen = false;
   }
 
+  toggleNotifications(): void {
+    this.isNotificationsOpen = !this.isNotificationsOpen;
+    if (this.isNotificationsOpen) {
+      this.isDropdownOpen = false; // Close user dropdown if open
+    }
+  }
+
+  closeNotifications(): void {
+    this.isNotificationsOpen = false;
+  }
+
 
 
   logout(): void {
@@ -78,8 +91,13 @@ export class NavComponent implements OnInit {
     const target = event.target as HTMLElement;
     const userSection = target.closest('.user-section');
 
-    if (!userSection && this.isDropdownOpen) {
-      this.closeDropdown();
+    if (!userSection) {
+      if (this.isDropdownOpen) {
+        this.closeDropdown();
+      }
+      if (this.isNotificationsOpen) {
+        this.closeNotifications();
+      }
     }
   }
 }
