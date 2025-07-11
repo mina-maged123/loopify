@@ -14,5 +14,5 @@ export const ENDPOINTS = {
 
     POST_PICKUP_REQUEST: `${baseUrl}PickupRequest`,
 
-    GET_NOTIFICATIONS: `http://localhost:17306/api/Notification`,
+    GET_NOTIFICATIONS: `${baseUrl}api/Notification`,
 }

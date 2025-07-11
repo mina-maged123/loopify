@@ -34,10 +34,10 @@ export class UserProfileService {
     );
   }
 
-  checkEmail(email: any): Observable<{ isExist: boolean }> {
-    return this.http.post<{ isExist: boolean }>(
+  checkEmail(data: { email: string, oldPassword: string, newPassword: string, confirmPassword: string }): Observable<any> {
+    return this.http.post<any>(
       ENDPOINTS.CHECK_EMAIL,
-      { email },
+      data,
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }

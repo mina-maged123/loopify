@@ -91,6 +91,29 @@ color:#F9FAFB
   margin: auto;
 }
 
+/* Responsive adjustments for section2 */
+@media (max-width: 992px) {
+  .section2 {
+    padding: 20px 3%;
+  }
+
+  .inside-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .text {
+    max-width: 100%;
+    order: 1;
+  }
+
+  .img2 {
+    max-width: 400px;
+    order: 2;
+  }
+}
+
 .inside-section {
   display: flex;
   flex-direction: row;
@@ -198,15 +221,15 @@ color:#F9FAFB
 }
 /* /////////////////////////////////////////////////// */
 .section3{
-width: 1440px;
-height: 576px;
+width: 100%;
+max-width: 1440px;
+min-height: 576px;
 top:772px;
 color:#FFFFFF;
-margin-top: 90px;
-    display: flex
-;
-    justify-content: center;
-
+margin: 90px auto 0;
+display: flex;
+justify-content: center;
+padding: 0 20px;
 }
 .box-section3, .box-section4{
  margin-left: 80px;
@@ -288,15 +311,16 @@ margin-top: 30px;
 }
 
 .section4{
-  width: 1440px;
-height: 512px;
+width: 100%;
+max-width: 1440px;
+min-height: 512px;
 top:5px;
 background-color:#F9FAFB;
-margin-top: -80px;
+margin: -80px auto 0;
 border: 1px solid #F9FAFB;
-    display: flex
-;margin: auto;
-    justify-content: center;
+display: flex;
+justify-content: center;
+padding: 0 20px;
 }
 
 .circle-number{
@@ -368,4 +392,112 @@ border: 1px solid #F9FAFB;
   line-height: -25px;
   letter-spacing: 0%;
   margin-right: 27px;
+}
+
+/* Responsive styles for tablets and mobile */
+@media (max-width: 992px) {
+  .inside-section3, .inside-section4 {
+    width: 100%;
+    max-width: 1280px;
+    padding: 0 20px;
+  }
+
+  .row.container {
+    margin-left: 0 !important;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .card.col-3 {
+    width: 100% !important;
+    max-width: 340px;
+    margin: 0 auto 20px;
+  }
+
+  .circle-number {
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    font-size: 36px !important;
+    line-height: 44px !important;
+  }
+
+  .why, .how {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  .simple-steps, .three-simple {
+    font-size: 16px;
+    line-height: 24px;
+    padding: 0 20px;
+  }
+
+  .card.col-3 {
+    width: 100% !important;
+    max-width: 300px;
+    height: auto !important;
+    min-height: 250px;
+    padding: 20px;
+  }
+
+  .text-box1, .text-box2, .text-box3, .text-box4, .text-box5, .text-box6 {
+    width: 100%;
+    max-width: 280px;
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .section2 {
+    padding: 15px 10px;
+  }
+
+  .header {
+    font-size: 28px !important;
+    line-height: 34px !important;
+  }
+
+  .transform {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .button-section2 {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .free, .learn {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .img2 {
+    max-width: 280px;
+  }
+
+  .why, .how {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .card.col-3 {
+    width: 100% !important;
+    max-width: 280px;
+    margin: 0 auto 15px;
+  }
+
+  .section3, .section4 {
+    padding: 0 10px;
+  }
+
+  .inside-section3, .inside-section4 {
+    padding: 0 10px;
+  }
 }

@@ -5,17 +5,17 @@ import { RouterModule, Router } from '@angular/router';
 import { UserProfileService } from '@/app/services/user-profile.service';
 
 @Component({
-    selector: 'app-forgot-password',
-    imports: [CommonModule, ReactiveFormsModule, RouterModule],
-    templateUrl: './forgot-password.component.html',
-    styleUrls: ['./forgot-password.component.css']
+  selector: 'app-forgot-password',
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent {
   showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
 
-  constructor(private router: Router, private userProfileService: UserProfileService) {}
+  constructor(private router: Router, private userProfileService: UserProfileService) { }
 
   toggleOldPasswordVisibility() {
     this.showOldPassword = !this.showOldPassword;
@@ -53,21 +53,51 @@ export class ForgotPasswordComponent {
   }
 
   checkEmail() {
-    if (this.forgotForm.valid) {
-    this.userProfileService.checkEmail(this.forgotForm.value.email).subscribe({
-      next: (res) => {
-        if (res.isExist) {
-          this.router.navigate(['/reset-password']);
+    if (!this.forgotForm.valid) {
+      alert('Please fill all required fields correctly');
+      return;
+    }
+
+    if (this.forgotForm.value.newPassword !== this.forgotForm.value.confirmPassword) {
+      alert('New password and confirmation must match');
+      return;
+    }
+
+    // Send all data as your backend expects
+    const data = {
+      email: this.forgotForm.value.email || '',
+      oldPassword: this.forgotForm.value.oldPassword || '',
+      newPassword: this.forgotForm.value.newPassword || '',
+      confirmPassword: this.forgotForm.value.confirmPassword || ''
+    };
+
+    console.log('Sending data to API:', data);
+
+    this.userProfileService.checkEmail(data).subscribe({
+      next: (response) => {
+        console.log('Full response:', response);
+
+        // Handle both string response and object response
+        const message = typeof response === 'string' ? response : response.message || response;
+
+        if (message === "Email not found.") {
+          alert('Email not found!');
+          this.router.navigate(['/forget-password']);
+        } else if (message === "Old password is incorrect.") {
+          alert('Old password is incorrect!');
+          this.router.navigate(['/forget-password']);
+        } else if (message === "Password changed successfully") {
+          console.log('Password changed successfully!');
+          this.router.navigate(['/reset-success']);
         } else {
-          alert('Email not registered!');
-          this.router.navigate(['/forgot-password']);
+          alert('Unexpected response: ' + message);
         }
       },
       error: (err) => {
-        alert('Error: ' + err.message);
+        console.error('API Error:', err);
+        alert('Error: ' + (err.error || err.message));
       }
     });
-  }
   }
 
   goBackToLogin() {
