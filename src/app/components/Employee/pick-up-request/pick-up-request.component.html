@@ -26,8 +26,8 @@
 
 
           </div>
-          <p>{{ request.location }}</p>
-          <p>{{ request.time }}</p>
+          <p class="d-flex gap-2"> <img src="assets/location.svg" alt="">{{ request.location }}</p>
+          <p class="d-flex gap-2"><img src="assets/timer.svg" alt="">{{ request.time }}</p>
           <ul class="d-flex gap-3">
             @for (mat of request.materials; track mat) {
               <li>{{ mat }}</li>
