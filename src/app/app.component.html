@@ -5,11 +5,11 @@
     <app-employee-layout></app-employee-layout>
 }
 @else if(role == 'Admin') {
-    <app-admin-layout></app-admin-layout>   
+    <app-admin-layout></app-admin-layout>
 }
 @else {
     <app-register></app-register>
 }  -->
-<app-nav></app-nav>
+<app-nav *ngIf="showNavAndFooter"></app-nav>
 <router-outlet></router-outlet>
-<app-footer></app-footer>
+<app-footer *ngIf="showNavAndFooter"></app-footer>

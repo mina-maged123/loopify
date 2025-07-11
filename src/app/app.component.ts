@@ -1,21 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployeeLayoutComponent } from "./Layouts/employee-layout/employee-layout.component";
-import { AdminLayoutComponent } from "./Layouts/admin-layout/admin-layout.component";
-import { CustomerLayoutComponent } from "./Layouts/customer-layout/customer-layout.component";
 import { NavComponent } from "./nav/nav.component";
-import { RouterOutlet } from "../../node_modules/@angular/router/router_module.d-Bx9ArA6K";
 import { FooterComponent } from "./footer/footer.component";
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
-  imports: [NavComponent, RouterOutlet, FooterComponent],
+  standalone: true,
+  imports: [NavComponent, RouterOutlet, FooterComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   title = 'project';
   role : any = '';
+  showNavAndFooter = true;
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.role = localStorage.getItem('role');
+
+    // Listen to route changes
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.checkRoute(event.url);
+    });
+
+    // Check initial route
+    this.checkRoute(this.router.url);
+  }
+
+  private checkRoute(url: string): void {
+    // Hide nav and footer on login and register pages
+    const hideNavRoutes = ['/login', '/register', '/forgot-password', '/verification-code', '/reset-password', '/reset-success', '/registration-failed', '/registration-success'];
+    this.showNavAndFooter = !hideNavRoutes.includes(url);
   }
 }

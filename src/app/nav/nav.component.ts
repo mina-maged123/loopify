@@ -2,11 +2,10 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserProfileService } from '../services/user-profile.service';
-import { response } from 'express';
-import { error } from 'console';
 
 @Component({
     selector: 'app-nav',
+    standalone: true,
     imports: [NgIf, RouterModule],
     templateUrl: './nav.component.html',
     styleUrl: './nav.component.css'
@@ -17,20 +16,35 @@ export class NavComponent implements OnInit {
   userEmail : string = '';
   isDropdownOpen = false;
 
-  constructor(private router: Router, private userProfileService: UserProfileService ) {}
+  constructor(
+    private router: Router,
+    private userProfileService: UserProfileService,
+  ) {}
 
   ngOnInit() {
-    this.Id = localStorage.getItem('id');
-    this.userProfileService.GetUser(this.Id).subscribe({
-      next: (response) => {
-        this.userName = response.data.fullName;
-        this.userEmail = response.data.email;
-      },
-      error : (error) => {
-        console.log(error);
-      }
-    })
+    this.loadUserData();
   }
+
+
+  loadUserData() {
+    this.Id = localStorage.getItem('id');
+    if (this.Id && this.isLoggedIn()) {
+      this.userProfileService.GetUser(this.Id).subscribe({
+        next: (response) => {
+          this.userName = response.data.fullName;
+          this.userEmail = response.data.email;
+        },
+        error: (error) => {
+          console.log('Error loading user data:', error);
+          // Handle unauthorized error - maybe force logout
+          if (error.status === 401) {
+            this.logout();
+          }
+        }
+      });
+    }
+  }
+
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token') && !!localStorage.getItem('id');
@@ -44,13 +58,22 @@ export class NavComponent implements OnInit {
     this.isDropdownOpen = false;
   }
 
+
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('id');
     localStorage.removeItem('role');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+
+    this.userName = '';
+    this.userEmail = '';
     this.router.navigate(['/login']);
     this.closeDropdown();
   }
+
+
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {

@@ -19,8 +19,8 @@
           </svg>
           <span [routerLink]="['/']">Back to Home</span>
         </button>
-        <button class="bg-green-500 border-green-500 text-white px-4 py-2 btn-primary hover:bg-green-600"
-          style="border-radius: 20px;">
+        <button class="text-white px-4 py-2 btn-primary"
+          style="background-color: #69B31D; border: 1px solid #69B31D; border-radius: 20px;">
           You have {{totalQuantity}} Points
         </button>
       </div>
@@ -106,7 +106,8 @@
                   <span class="text-lg font-bold text-green-600">
                     {{ item.pointsRequired }} Points
                   </span>
-                  <button class="bg-green-500 text-white rounded-md px-4 py-1.5 text-sm btn-primary hover:bg-green-600">
+                  <button class="text-white rounded-md px-4 py-1.5 text-sm btn-primary"
+                    style="background-color: #69B31D;">
                     Redeem
                   </button>
                 </div>
@@ -118,7 +119,8 @@
           <div class="flex justify-center mt-8">
             <div class="flex items-center gap-1">
               <button
-                class="w-8 h-8 flex items-center justify-center rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors">
+                class="w-8 h-8 flex items-center justify-center rounded-md text-white transition-colors pagination-btn"
+                style="background-color: #69B31D;">
                 1
               </button>
               <button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 transition-colors">

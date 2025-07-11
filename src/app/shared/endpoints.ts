@@ -8,6 +8,9 @@ export const ENDPOINTS = {
     GET_MATERIAL: (materialId:number) => `${baseUrl}Material/${materialId}`,
 
     GET_USER: (userId:number) => `${baseUrl}User/${userId}`,
+    CHECK_EMAIL : `${baseUrl}User/CheckEmail`,
+    CHANGE_PASSWORD: `${baseUrl}User/ChangePassword`,
 
     POST_PICKUP_REQUEST: `${baseUrl}PickupRequest`,
+
 }
