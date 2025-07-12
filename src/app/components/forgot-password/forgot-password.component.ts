@@ -11,15 +11,10 @@ import { UserProfileService } from '@/app/services/user-profile.service';
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent {
-  showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
 
   constructor(private router: Router, private userProfileService: UserProfileService) { }
-
-  toggleOldPasswordVisibility() {
-    this.showOldPassword = !this.showOldPassword;
-  }
 
   toggleNewPasswordVisibility() {
     this.showNewPassword = !this.showNewPassword;
@@ -31,17 +26,12 @@ export class ForgotPasswordComponent {
 
   forgotForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    oldPassword: new FormControl('', [Validators.required]),
     newPassword: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required])
   });
 
   get getEmail() {
     return this.forgotForm.get('email');
-  }
-
-  get getOldPassword() {
-    return this.forgotForm.get('oldPassword');
   }
 
   get getNewPassword() {
@@ -66,7 +56,6 @@ export class ForgotPasswordComponent {
     // Send all data as your backend expects
     const data = {
       email: this.forgotForm.value.email || '',
-      oldPassword: this.forgotForm.value.oldPassword || '',
       newPassword: this.forgotForm.value.newPassword || '',
       confirmPassword: this.forgotForm.value.confirmPassword || ''
     };
@@ -82,9 +71,6 @@ export class ForgotPasswordComponent {
 
         if (message === "Email not found.") {
           alert('Email not found!');
-          this.router.navigate(['/forget-password']);
-        } else if (message === "Old password is incorrect.") {
-          alert('Old password is incorrect!');
           this.router.navigate(['/forget-password']);
         } else if (message === "Password changed successfully") {
           console.log('Password changed successfully!');

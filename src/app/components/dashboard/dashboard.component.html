@@ -33,8 +33,8 @@
   <p class="level-info">{{ userProfile.daysToNextLevel }} more days to reach Level {{ userProfile.currentLevel + 1 }}</p>
 
   <div class="action-buttons">
-    <button class="btn primary" (click)="requestPickup()"><i class="fas fa-truck"></i> Request Pickup</button>
-    <button class="btn secondary" (click)="viewGifts()"><i class="fas fa-gift"></i> View Gifts</button>
+    <button class="btn primary" [routerLink]="['/customer/request']" (click)="requestPickup()"><i class="fas fa-truck"></i> Request Pickup</button>
+    <button class="btn secondary" [routerLink]="['/customer/gift']" (click)="viewGifts()"><i class="fas fa-gift"></i> View Gifts</button>
     <button class="btn third" (click)="trackRequests()"><i class="fas fa-clipboard-list"></i> Track Requests</button>
   </div>
 

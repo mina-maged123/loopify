@@ -1,3 +1,4 @@
+import { response } from 'express';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -66,8 +67,16 @@ export class ResetPasswordComponent {
     };
 
     this.userProfileService.changePassword(passwords).subscribe({
-        next: () => {
-            this.router.navigate(['/reset-success']);
+        next: (response) => {
+            if (response.message === "Old password is incorrect.") {
+                alert('Old password is incorrect!');
+                this.router.navigate(['/reset-password']);
+            } else if (response.message === "Password changed successfully") {
+                console.log('Password changed successfully!');
+                this.router.navigate(['/reset-success']);
+            } else {
+                alert('Unexpected response: ' + response.message);
+            }
         },
         error: (err) => {
             const errorMessage = err.error?.message || 'Failed to change password';

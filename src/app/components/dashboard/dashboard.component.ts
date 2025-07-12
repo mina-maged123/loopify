@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import{CommonModule} from '@angular/common';
 import { NgFor, NgClass, DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
-import { response } from 'express';
+import { Router, RouterLink } from '@angular/router';
 import { IUserInfo } from '@/app/models/iuser-info';
 import { ICustomerRequest } from '@/app/models/ICustomerRequest';
 import { UserProfileService } from '@/app/services/user-profile.service';
@@ -38,7 +37,7 @@ interface PickupRequest {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,[NgFor, NgClass, DatePipe]],
+  imports: [CommonModule,[NgFor, NgClass, DatePipe], RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -111,7 +110,7 @@ recentRequests: PickupRequest[] = [
     this.recentRequests = [];
 
     this.requestService.getAllCustomerRequests().subscribe({
-      next: (response) => {
+      next: (response: { data: ICustomerRequest[]; }) => {
         // console.log(response.data);
         this.myUserRequests = response.data;
         console.log(this.myUserRequests);
@@ -142,7 +141,7 @@ recentRequests: PickupRequest[] = [
           successfulPickups: this.recentRequests.filter((r => r.status == "Collected")).length,
         } as Stats;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.log(error);
       }
     });

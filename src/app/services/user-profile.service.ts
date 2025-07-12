@@ -67,7 +67,7 @@ export class UserProfileService {
     return request$;
   }
 
-  checkEmail(data: { email: string, oldPassword: string, newPassword: string, confirmPassword: string }): Observable<any> {
+  checkEmail(data: { email: string, newPassword: string, confirmPassword: string }): Observable<any> {
     return this.http.post<any>(
       ENDPOINTS.CHECK_EMAIL,
       data,

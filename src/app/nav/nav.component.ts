@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserProfileService } from '../services/user-profile.service';
+import { AuthService } from '../services/auth.service';
 import { NotificationsComponent } from '../components/notifications/notifications.component';
 
 @Component({
@@ -21,6 +22,7 @@ export class NavComponent implements OnInit {
   constructor(
     private router: Router,
     private userProfileService: UserProfileService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -74,13 +76,12 @@ export class NavComponent implements OnInit {
 
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
-    localStorage.removeItem('role');
+    // Use AuthService for logout
+    this.authService.logout();
 
+    // Clear local component state
     this.userName = '';
     this.userEmail = '';
-    this.router.navigate(['/login']);
     this.closeDropdown();
   }
 

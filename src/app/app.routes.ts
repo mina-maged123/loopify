@@ -10,6 +10,7 @@ import { ResetSuccessComponent } from './components/reset-success/reset-success.
 import { RegistrationFailedComponent } from './components/registration-failed/registration-failed.component';
 import { RegistrationSuccessComponent } from './components/registration-success/registration-success.component';
 import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './guards/auth.guard';
 
 import { EmployeeDashboardComponent } from './components/Employee/employee-dashboard/employee-dashboard.component';
 import { EmployeeLayoutComponent } from './Layouts/employee-layout/employee-layout.component';
@@ -27,11 +28,6 @@ import { PickupDetailsComponent } from './components/Employee/pickup-details/pic
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
   {
     path: '',
     component: HomeComponent
@@ -72,6 +68,7 @@ export const routes: Routes = [
   {
     path: 'customer',
     component: CustomerLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', component: HomeComponent },
       { path: 'gift', component: GiftComponent },
@@ -83,11 +80,13 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
+    canActivate: [AuthGuard],
     children: [],
   },
   {
     path: 'employee',
     component: EmployeeLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', component: EmployeeDashboardComponent },
       { path: 'pickup', component: PickUpRequestComponent },
