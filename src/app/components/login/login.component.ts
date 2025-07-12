@@ -99,7 +99,18 @@ export class LoginComponent {
             localStorage.setItem('id', id);
             localStorage.setItem('role', role);
 
-            this.router.navigate(['/']);
+            // Navigate based on role
+            console.log('🔐 Login successful, role:', role);
+            if (role === 'Customer') {
+              this.router.navigate(['/customer']);
+            } else if (role === 'Employee') {
+              this.router.navigate(['/employee']);
+            } else if (role === 'Admin') {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/']);
+            }
+
             this.loginSuccess = true;
           } else {
             this.errorMessage = 'Login succeeded but token is missing.';

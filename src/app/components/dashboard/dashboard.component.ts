@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import{CommonModule} from '@angular/common';
 import { NgFor, NgClass, DatePipe } from '@angular/common';
-import { UserProfileService } from '../services/user-profile.service';
-import { IUserInfo } from '../models/iuser-info';
-import { response } from 'express';
 import { Router } from '@angular/router';
-import { ICustomerRequest } from '../models/ICustomerRequest';
-import { RequestService } from '../services/request.service';
+import { IUserInfo } from '@/app/models/iuser-info';
+import { ICustomerRequest } from '@/app/models/ICustomerRequest';
+import { UserProfileService } from '@/app/services/user-profile.service';
+import { RequestService } from '@/app/services/request.service';
+import { Response } from '@/app/models/response.model';
 
 
 interface UserProfile {
@@ -111,7 +111,7 @@ recentRequests: PickupRequest[] = [
     this.recentRequests = [];
 
     this.requestService.getAllCustomerRequests().subscribe({
-      next: (response) => {
+      next: (response: Response<ICustomerRequest[]>) => {
         // console.log(response.data);
         this.myUserRequests = response.data;
         console.log(this.myUserRequests);

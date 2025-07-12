@@ -1,7 +1,7 @@
 <!-- Main Navigation Container -->
 <nav class="navbar navbar-expand-lg w-100 d-flex justify-content-between align-items-center">
   <!-- Logo (shown for both logged in and logged out states) -->
-  <a href="#" class="navbar-brand ms-5">
+  <a [routerLink]="['/customer']" class="navbar-brand ms-5">
     <div class="nav-logo">
       <img src="./assets/1e40e569dbec080aeb443a93cf256016804f2344.png" class="nav-logo-img me-2">
       <span class="nav-logo-text">Loopify</span>
@@ -33,26 +33,30 @@
         <span class="close-btn" (click)="closeDropdown()">
           <i class="fa-regular fa-circle-xmark"></i>
         </span>
-        <div class="user-email d-flex" [routerLink]="['/dashboard']" (click)="closeDropdown()">
+        <div class="user-email d-flex" (click)="closeDropdown()">
           <span>
-            <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" [routerLink]="['/setting']" (click)="closeDropdown()" class="user-setting-img mt-3">
+            <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" [routerLink]="['/customer/setting']" (click)="closeDropdown()" class="user-setting-img mt-3">
           </span>
           <span class="ms-3 mt-1" style="line-height: 8px;">
-            <p class="mt-3 setting-text" [routerLink]="['/setting']" (click)="closeDropdown()">{{userName}}</p>
+            <p class="mt-3 setting-text" [routerLink]="['/customer/setting']" (click)="closeDropdown()">{{userName}}</p>
             <p class="mb-3 user-email-text">{{userEmail}}</p>
           </span>
         </div>
-        <div class="d-flex ms-3 mt-3" [routerLink]="['/setting']" (click)="closeDropdown()">
+        <div class="d-flex ms-3 mt-3" [routerLink]="['/customer/setting']" (click)="closeDropdown()">
           <span><i class="fa-solid fa-sliders fa-rotate-90 setting-icon mb-4"></i></span>
           <span class="setting-text ms-3">Profile Settings</span>
         </div>
-        <div class="d-flex ms-3 mt-2" [routerLink]="['/gift']" (click)="closeDropdown()"  >
+        <div class="d-flex ms-3 mt-2" [routerLink]="['/customer/gift']" (click)="closeDropdown()"  >
           <span><i class="fa-solid fa-gift setting-icon mb-4"></i></span>
           <span class="setting-text ms-3 mb-3">Rewards</span>
         </div>
-        <div class="d-flex ms-3 mt-2" [routerLink]="['/request']" (click)="closeDropdown()">
+        <div class="d-flex ms-3 mt-2" [routerLink]="['/customer/request']" (click)="closeDropdown()">
           <span><i class="fa-solid fa-truck setting-icon mb-4"></i></span>
           <span class="setting-text ms-3 mb-3">Make A Request</span>
+        </div>
+        <div class="d-flex ms-3 mt-2" [routerLink]="['/customer/dashboard']" (click)="closeDropdown()">
+          <span><i class="fa-solid fa-table-columns setting-icon mb-4"></i></span>
+          <span class="setting-text ms-3 mb-3">Dashobard</span>
         </div>
 
         <div class="container" style="margin-left: 85px;">

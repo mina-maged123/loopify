@@ -13,18 +13,25 @@ import { HomeComponent } from './home/home.component';
 
 import { EmployeeDashboardComponent } from './components/Employee/employee-dashboard/employee-dashboard.component';
 import { EmployeeLayoutComponent } from './Layouts/employee-layout/employee-layout.component';
+import { CustomerLayoutComponent } from './Layouts/customer-layout/customer-layout.component';
+import { AdminLayoutComponent } from './Layouts/admin-layout/admin-layout.component';
 
 import { RequestComponent } from './request/request.component';
 import { SubmitPickupRequestSuccessComponent } from './components/submit-pickup-request-success/submit-pickup-request-success.component';
 import { PickUpRequestComponent } from './components/Employee/pick-up-request/pick-up-request.component';
 import { ViewMapComponent } from './components/Employee/view-map/view-map.component';
-import { report } from 'process';
+
 import { ReportIssueComponent } from './components/Employee/report-issue/report-issue.component';
 import { ProfileComponent } from './components/Employee/profile/profile.component';
 import { PickupDetailsComponent } from './components/Employee/pickup-details/pickup-details.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
   {
     path: '',
     component: HomeComponent
@@ -61,26 +68,33 @@ export const routes: Routes = [
     path: 'registration-success',
     component: RegistrationSuccessComponent
   },
-  {
-    path: 'gift',
-    component: GiftComponent
-  },
-  {
-    path: 'setting',
-    component: SettingComponent
 
+  {
+    path: 'customer',
+    component: CustomerLayoutComponent,
+    children: [
+      { path: '', component: HomeComponent },
+      { path: 'gift', component: GiftComponent },
+      { path: 'request', component: RequestComponent },
+      { path: 'setting', component: SettingComponent },
+      { path: 'dashboard', component: DashboardComponent }
+    ],
   },
   {
-    redirectTo: '',
+    path: 'admin',
+    component: AdminLayoutComponent,
+    children: [],
+  },
+  {
     path: 'employee',
     component: EmployeeLayoutComponent,
     children: [
       { path: '', component: EmployeeDashboardComponent },
       { path: 'pickup', component: PickUpRequestComponent },
       { path: 'map-view', component: ViewMapComponent },
-      { path: 'report-issue',component: ReportIssueComponent,},
-      {path:'profile',component:ProfileComponent},
-     { path: 'details/:id', component: PickupDetailsComponent }
+      { path: 'report-issue', component: ReportIssueComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'details/:id', component: PickupDetailsComponent }
     ],
   },
 
@@ -93,10 +107,6 @@ export const routes: Routes = [
     component: SubmitPickupRequestSuccessComponent
   },
 
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-  },
   {
     path: '**',
     redirectTo: ''
