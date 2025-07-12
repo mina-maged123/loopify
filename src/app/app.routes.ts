@@ -71,7 +71,7 @@ export const routes: Routes = [
 
   },
   {
-    redirectTo: '',
+    // redirectTo: '',
     path: 'employee',
     component: EmployeeLayoutComponent,
     children: [
