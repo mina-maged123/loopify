@@ -2,6 +2,22 @@
     <h1>My PickUp Requests</h1>
 <p>Manage and track your scheduled pickups</p>
 
+<div class="my-5 d-flex gap-3 align-items-end"> 
+  <div>
+    <select [(ngModel)]="selectedStatus" (change)="applyFilters()" class="form-select">
+      <option value="">All Status</option>
+      <option value="Collected">Collected</option>
+      <option value="Scheduled">Scheduled</option>
+      <option value="Pending">Pending</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
+  </div>
+
+  <div>
+    <input type="text" [(ngModel)]="searchName" (input)="applyFilters()" class="form-control" placeholder="Search by name">
+  </div>
+</div>
+
 
 <!-- requests -->
 <div class="container">
@@ -33,9 +49,9 @@
               <li>{{ mat }}</li>
             }
           </ul>
-     <div class="d-flex align-items-center gap-3">
+     <div class="d-flex align-items-baseline gap-1">
       <img src="assets/details.svg" alt="">
-      <p class="viewDetails">View Details</p>
+      <p class="viewDetails" [routerLink]="['/employee/details', request.id]">View Details</p>
     </div>
         </div>
       </div>

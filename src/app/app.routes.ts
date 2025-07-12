@@ -21,6 +21,7 @@ import { ViewMapComponent } from './components/Employee/view-map/view-map.compon
 import { report } from 'process';
 import { ReportIssueComponent } from './components/Employee/report-issue/report-issue.component';
 import { ProfileComponent } from './components/Employee/profile/profile.component';
+import { PickupDetailsComponent } from './components/Employee/pickup-details/pickup-details.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
@@ -74,14 +75,15 @@ export const routes: Routes = [
     path: 'employee',
     component: EmployeeLayoutComponent,
     children: [
-      { path: '', component: EmployeeDashboardComponent }, // /employee
-      { path: 'pickup', component: EmployeeDashboardComponent }, // /employee/profile
-      { path: 'map-view', component: EmployeeDashboardComponent }, // /employee/settings,
+      { path: '', component: EmployeeDashboardComponent },
+      { path: 'pickup', component: PickUpRequestComponent },
+      { path: 'map-view', component: ViewMapComponent },
+      { path: 'report-issue',component: ReportIssueComponent,},
+      {path:'profile',component:ProfileComponent},
+     { path: 'details/:id', component: PickupDetailsComponent }
+    ],
+  },
 
-    ]
-  }
-
-  ,
   {
     path: 'request',
     component: RequestComponent
@@ -90,6 +92,7 @@ export const routes: Routes = [
     path: 'submit-pickup-request-success',
     component: SubmitPickupRequestSuccessComponent
   },
+
   {
     path: 'dashboard',
     component: DashboardComponent,

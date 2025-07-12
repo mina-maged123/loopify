@@ -4,6 +4,10 @@
 * {
     transition: all 0.2s ease-in-out;
   }
+
+  .bg-green-500 {
+    background-color: #69B31D !important;
+  }
   
   /* Enhanced button hover effects */
   button:hover {

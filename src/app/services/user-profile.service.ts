@@ -34,19 +34,55 @@ export class UserProfileService {
     );
   }
 
-  checkEmail(email: any): Observable<{ isExist: boolean }> {
-    return this.http.post<{ isExist: boolean }>(
+  checkEmail(data: { email: string, oldPassword: string, newPassword: string, confirmPassword: string }): Observable<any> {
+    return this.http.post<any>(
       ENDPOINTS.CHECK_EMAIL,
-      { email },  
+      data,
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
 
-  changePassword(password: any): Observable<{message: string}> {
-    return this.http.post<{message: string}>(
+  changePassword(passwords: { oldPassword: string, newPassword: string, confirmPassword: string }): Observable<{ message: string }> {
+    const token = this.getToken(); 
+    if (!token) {
+      return throwError(() => new Error('Authentication required'));
+    }
+
+    return this.http.post<{ message: string }>(
       ENDPOINTS.CHANGE_PASSWORD,
-      { password },
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+      passwords, 
+      {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        })
+      }
+    ).pipe(
+      catchError(error => {
+        return throwError(() => error);
+      })
+    );
+  }
+
+  updateUser(user: any): Observable<{message: string}> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('Authentication required'));
+    }
+  
+    return this.http.put<{message: string}>(
+      ENDPOINTS.UPDATE_USER,
+      user,
+      {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        })
+      }
+    ).pipe(
+      catchError(error => {
+        return throwError(() => error);
+      })
     );
   }
 }

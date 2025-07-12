@@ -1,0 +1,44 @@
+<!-- Notification Dropdown -->
+<div class="notification-dropdown">
+  <!-- Header -->
+  <div class="notification-header">
+    <h4>Notifications</h4>
+    <div class="header-actions">
+      <button *ngIf="unreadCount > 0" (click)="markAllAsRead()" class="mark-all-btn">
+        Mark All Read
+      </button>
+      <span class="notification-count">{{ unreadCount }}</span>
+    </div>
+  </div>
+
+  <!-- Notification List -->
+  <div class="notification-list">
+    <!-- Empty State -->
+    <div *ngIf="notifications.length === 0" class="empty-state">
+      <i class="fa-regular fa-bell" style="font-size: 48px; color: #d1d5db; margin-bottom: 16px;"></i>
+      <p style="color: #6b7280; font-size: 14px;">No notifications yet</p>
+    </div>
+
+    <!-- Notifications -->
+    <div *ngFor="let notification of notifications"
+         class="notification-item"
+         [class.unread]="!notification.isRead && !isNotificationRead(notification.userId)"
+         (click)="markAsRead(notification.userId)">
+
+      <!-- Notification Content -->
+      <div class="notification-content">
+        <div class="notification-title">{{ notification.title }}</div>
+        <div class="notification-description">{{ notification.message }}</div>
+        <div class="notification-time">{{ getTimeAgo(notification.createdAt) }}</div>
+      </div>
+
+      <!-- Unread Indicator -->
+      <div *ngIf="!notification.isRead && !isNotificationRead(notification.userId)" class="unread-dot"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="notification-footer">
+    <button class="view-all-btn">View All Notifications</button>
+  </div>
+</div>
