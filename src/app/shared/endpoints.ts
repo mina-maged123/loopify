@@ -12,5 +12,6 @@ export const ENDPOINTS = {
     CHANGE_PASSWORD: `${baseUrl}User/ChangePassword`,
 
     POST_PICKUP_REQUEST: `${baseUrl}PickupRequest`,
+    GET_ALL_CUSTOMER_REQUESTS: `${baseUrl}PickupRequest`,
 
 }

@@ -26,7 +26,7 @@
         <span class="close-btn" (click)="closeDropdown()">
           <i class="fa-regular fa-circle-xmark"></i>
         </span>
-        <div class="user-email d-flex">
+        <div class="user-email d-flex" [routerLink]="['/dashboard']" (click)="closeDropdown()">
           <span>
             <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" class="user-setting-img mt-3">
           </span>
@@ -35,7 +35,7 @@
             <p class="mb-3 user-email-text">{{userEmail}}</p>
           </span>
         </div>
-        <div class="d-flex ms-3 mt-3">
+        <div class="d-flex ms-3 mt-3" [routerLink]="['/setting']" (click)="closeDropdown()">
           <span><i class="fa-solid fa-sliders fa-rotate-90 setting-icon mb-4"></i></span>
           <span class="setting-text ms-3">Profile Settings</span>
         </div>

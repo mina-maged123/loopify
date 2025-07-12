@@ -5,6 +5,7 @@ export interface IUserInfo {
         fullName: string,
         email: string,
         phoneNumber: string,
+        totalPoints:number,
         address: string,
         profilePictureUrl: string,
         createdAt: Date,

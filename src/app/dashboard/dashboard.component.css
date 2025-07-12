@@ -338,7 +338,7 @@ main {
  background-color:  #F3E8FF;
 }
 
-.completed {
+.collected {
   background-color: #DCFCE7;
   color: #166534;
 }
@@ -347,7 +347,7 @@ main {
   color: #1F2937;
 }
 
-.in-progress {
+.scheduled {
   background-color: #fff3cd;
   color: #856404;
 }

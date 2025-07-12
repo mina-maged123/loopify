@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Response } from '../models/response.model';
 import { CreatePickupRequestResponse } from '../models/CreatePickupRequestResponse';
 import { ENDPOINTS } from '../shared/endpoints';
+import { ICustomerRequest } from '../models/ICustomerRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,12 @@ export class RequestService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
     return this.http.post<Response<CreatePickupRequestResponse>>(ENDPOINTS.POST_PICKUP_REQUEST, data, {headers: headers});
+  }
+
+  getAllCustomerRequests() : Observable<Response<ICustomerRequest[]>>{
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<Response<ICustomerRequest[]>>(ENDPOINTS.GET_ALL_CUSTOMER_REQUESTS, {headers: headers});
   }
 }

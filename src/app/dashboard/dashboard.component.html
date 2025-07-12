@@ -7,12 +7,12 @@
         <img src="./assets/ec4b2d5a8922c8f21399798d8187510308a9eb44.jpg" alt="User">
       </div>
       <div class="user-details">
-        <h2>User</h2>
+        <h2>{{myUser.data.fullName || ""}}</h2>
         <p><i class="fa-solid fa-fire"></i> Level 3 Eco Warrior</p>
       </div>
     </div>
     <div class="points">
-      <h2>2,450</h2>
+      <h2>{{myUser.data.totalPoints || 0}}</h2>
       <p>Total Points</p>
     </div>
   </div>
@@ -41,7 +41,7 @@
   <div class="recent-requests">
     <h2>Recent Pickup Requests</h2>
     <div class="request-list">
-      <div class="request-item" *ngFor="let request of recentRequests">
+      <div class="request-item" *ngFor="let request of recentRequests | slice:0:3">
         <div class="request-icon" [ngClass]="request.iconColor">
           <i class="fas" [ngClass]="request.icon"></i>
         </div>
