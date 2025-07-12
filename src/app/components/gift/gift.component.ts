@@ -4,6 +4,7 @@ import { Irewards } from '@/app/models/irewards';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { RewardsService } from '@/app/services/rewards.service';
 import { RouterLink } from '@angular/router';
+import { UserProfileService } from '@/app/services/user-profile.service';
 
 @Component({
   selector: 'app-root',
@@ -18,16 +19,17 @@ export class GiftComponent implements OnInit {
   filteredRewards$!: Observable<Irewards[]>;
   selectedRanges$ = new BehaviorSubject<string[]>([]);
   searchTerm$ = new BehaviorSubject<string>(''); // البحث
-  totalQuantity: number = 0;
-userName: string = '';
-  constructor(private rewardsService: RewardsService) {}
+  totalPoints: number = 0;
+  userName: string = '';
+  constructor(private rewardsService: RewardsService, private userProfileService: UserProfileService) { }
 
   ngOnInit(): void {
     this.rewards$ = this.rewardsService.getAllRewards();
- this.rewardsService.getTotalPoint().subscribe(data => {
-    this.totalQuantity = data.totalQuantity;
-    this.userName = data.name;
-  });
+    let userId = Number(localStorage.getItem('id'));
+    this.userProfileService.GetUser(userId).subscribe(data => {
+      this.totalPoints = data.data.totalPoints;
+      this.userName = data.data.fullName;
+    });
     this.filteredRewards$ = combineLatest([
       this.rewards$,
       this.selectedRanges$,
