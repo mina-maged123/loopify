@@ -1,9 +1,12 @@
+import { ICreateRedeemReward } from './../../models/ICreateRedeemReward';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Irewards } from '@/app/models/irewards';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { RewardsService } from '@/app/services/rewards.service';
 import { RouterLink } from '@angular/router';
+import { UserProfileService } from '@/app/services/user-profile.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-root',
@@ -18,16 +21,17 @@ export class GiftComponent implements OnInit {
   filteredRewards$!: Observable<Irewards[]>;
   selectedRanges$ = new BehaviorSubject<string[]>([]);
   searchTerm$ = new BehaviorSubject<string>(''); // البحث
-  totalQuantity: number = 0;
-userName: string = '';
-  constructor(private rewardsService: RewardsService) {}
+  totalPoints: number = 0;
+  userName: string = '';
+  constructor(private rewardsService: RewardsService, private userProfileService: UserProfileService) { }
 
   ngOnInit(): void {
     this.rewards$ = this.rewardsService.getAllRewards();
- this.rewardsService.getTotalPoint().subscribe(data => {
-    this.totalQuantity = data.totalQuantity;
-    this.userName = data.name;
-  });
+    let userId = Number(localStorage.getItem('id'));
+    this.userProfileService.GetUser(userId).subscribe(data => {
+      this.totalPoints = data.data.totalPoints;
+      this.userName = data.data.fullName;
+    });
     this.filteredRewards$ = combineLatest([
       this.rewards$,
       this.selectedRanges$,
@@ -77,5 +81,16 @@ userName: string = '';
   onCheckboxChange(range: string, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     this.toggleRange(range, checked);
+  }
+
+  redeemReward(rewardId:number, quantity:number = 1){
+    this.rewardsService.postRedeemReward(rewardId, quantity).subscribe({
+      next: (response) => {
+        alert(response.data);
+      },
+      error: (error) => {
+        alert(error.error.message);
+      }
+    });
   }
 }
