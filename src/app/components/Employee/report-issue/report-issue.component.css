@@ -1,0 +1,213 @@
+.report-container {
+  margin-left: 256px; /* Match your sidebar width */
+  padding: 30px;
+  background-color: #f5f7f6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  color: #1C4B41;
+  margin-bottom: 30px;
+  font-size: 30px;
+  font-weight: 700;
+  font-family: Poppins;
+  align-self: flex-start; /* Align title to the left */
+  width: 100%;
+  max-width: 900px; 
+}
+
+.report-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 60px;
+  max-width: 950px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); 
+  /* width: 100%; */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #7A8986;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.required {
+  color: #e74c3c;
+  margin-left: 2px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #000000;
+  font-weight: 400;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: #666;
+}
+
+select {
+  appearance: none;
+  padding-right: 30px;
+  background-color: white;
+}
+
+.upload-area {
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  padding: 30px;
+  text-align: center;
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #666;
+}
+
+.upload-content i {
+  font-size: 48px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.upload-content p {
+  margin-bottom: 15px;
+}
+
+.file-button {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #7A8986;
+}
+
+.file-button:hover {
+  background-color: #e0e0e0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #76b852;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  
+}
+
+.btn-submit i {
+  margin-right: 8px;
+}
+
+.btn-submit:hover {
+  background-color: #69B31D;
+}
+
+.btn-submit:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  background-color: white;
+  color: #7A8986;
+  border: 1px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #f5f5f5;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .report-container {
+    margin-left: 60px; /* Match your collapsed sidebar width */
+    padding: 20px;
+  }
+  
+  .report-card {
+    padding: 20px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .btn-submit, .btn-cancel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .report-container {
+    
+    margin-left: 60px; /* Match your collapsed sidebar width */
+    padding: 20px;
+  
+  }
+  
+  h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .report-card {
+    padding: 15px;
+  }
+  
+  .upload-area {
+    padding: 20px 15px;
+  }
+
+  .btn-submit, .btn-cancel {
+    width: 100%;
+    justify-content: center; /* Center the content */
+    text-align: center;
+  }
+}

@@ -1,1 +1,39 @@
-<p>report-issue works!</p>
+<div class="report-container ">
+    <h1>Report Issue</h1>
+
+    <div class="report-card">
+        <form [formGroup]="reportForm" (submit)="onSubmit()">
+            <div class="form-group">
+                <label for="issueType">Issue Type<span class="required">*</span></label>
+                <div class="select-wrapper">
+                    <select id="issueType" formControlName="issueType" required>
+                        <option value="" disabled selected>Select Issue Type</option>
+                        <option value="damaged">Pickup</option>
+                        <option value="missing">Warehouse</option>
+                        <option value="wrong">System</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="select-arrow">▼</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pickupId">Pickup ID (Optional)</label>
+                <input type="text" id="pickupId" formControlName="pickupId" placeholder="Enter pickup ID if applicable">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Describe the issue in detail<span class="required">*</span></label>
+                <textarea id="description" formControlName="description" rows="6"
+                    placeholder="Provide a detailed description of the issue you encountered..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit" [disabled]="!reportForm.valid">
+                    <i class="fa-solid fa-paper-plane"></i> Report to Admin
+                </button>
+                <button type="button" [routerLink]="['/employee']" class="btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
