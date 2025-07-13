@@ -22,7 +22,7 @@ import { SubmitPickupRequestSuccessComponent } from './components/submit-pickup-
 import { PickUpRequestComponent } from './components/Employee/pick-up-request/pick-up-request.component';
 import { ViewMapComponent } from './components/Employee/view-map/view-map.component';
 
-import { ReportIssueComponent } from './components/Employee/report-issue/report-issue.component';
+import { ReportComponent } from './components/Employee/report-issue/report-issue.component';
 import { ProfileComponent } from './components/Employee/profile/profile.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PickupDetailsComponent } from './components/Employee/pickup-details/pickup-details.component';
@@ -91,7 +91,7 @@ export const routes: Routes = [
       { path: '', component: EmployeeDashboardComponent },
       { path: 'pickup', component: PickUpRequestComponent },
       { path: 'map-view', component: ViewMapComponent },
-      { path: 'report-issue', component: ReportIssueComponent },
+      { path: 'report-issue', component: ReportComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'details/:id', component:PickupDetailsComponent }
     ],

@@ -49,16 +49,20 @@
         </div>
       </div>
 
-      <!-- Materials -->
-      <div>
-        <p class="text-sm text-gray-500 mb-4">Materials</p>
-        <div class="flex flex-wrap gap-2">
-          <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-            No items added
-          </span>
-          <!-- لما تضيفي pickupItems -->
-        </div>
-      </div>
+
+    <!-- Materials -->
+<div>
+  <p class="text-sm text-gray-500 mb-4">Materials</p>
+  <div class="flex flex-wrap gap-2">
+    <span
+      *ngFor="let item of pickupRequest.pickupItems"
+      class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+    >
+      {{ item.materialName }}
+    </span>
+  </div>
+</div>
+
     </div>
   </div>
 
@@ -83,9 +87,10 @@
 </div>
 
 <!-- Completed (status === 2): -->
-<div *ngIf="pickupRequest.status === 2" class="bg-white rounded-lg shadow-sm p-4 md:p-6 mb-6">
+<div *ngIf="pickupRequest.status === 2">
   <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-6">Collected Information</h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+ <div  class="bg-white rounded-lg shadow-sm p-4 md:p-6 mb-6">
+   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
       <div class="mb-6">
         <p class="text-sm text-gray-500">Actual Quantity Collected</p>
@@ -101,6 +106,10 @@
       <p class="font-medium">{{ pickupRequest.note || 'No notes available' }}</p>
     </div>
   </div>
+ </div>
+  <div class=" d-flex justify-content-end p-3  my-4 bg-white rounded-lg shadow-sm p-4 md:p-6 mb-6">
+  <button class="btn btn-secondary d-flex gap-2"><img src="assets/rv.svg" alt=""> Already Completed</button>
+</div>
 </div>
 
 </div>
@@ -116,32 +125,38 @@
       </div>
 
       <div class="modal-body">
-    <form [formGroup]="pickupForm" (ngSubmit)="onSubmit()">
- <div class="form-inputs">
-     <div class="mb-3">
-    <label>Actual Quantity Collected</label>
-    <input type="text" formControlName="quantity" class="form-control" placeholder="Enter total weight in lbs">
-    <div class="text-danger" *ngIf="pickupForm.get('quantity')?.invalid && pickupForm.get('quantity')?.touched">
-      Quantity is required.
+<form [formGroup]="pickupForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="materials">
+    <div *ngFor="let group of materials.controls; let i = index" [formGroupName]="i" class="mb-4 border p-3 rounded">
+ 
+
+      <div class="mb-3">
+        <label>Material Name</label>
+        <input type="text" formControlName="materialName" class="form-control" placeholder="Enter material name">
+        <div class="text-danger" *ngIf="group.get('materialName')?.invalid && group.get('materialName')?.touched">
+          Material name is required.
+        </div>
+      </div>
+
+           <div class="mb-3">
+        <label>Actual Quantity Collected</label>
+        <input type="text" formControlName="quantity" class="form-control" placeholder="Enter quantity in kg">
+        <div class="text-danger" *ngIf="group.get('quantity')?.invalid && group.get('quantity')?.touched">
+          Quantity is required.
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="mb-3">
-    <label>Material Name </label>
-    <input type="text" formControlName="materialName" class="form-control" placeholder="Enter total Material Name "> 
-    <div class="text-danger" *ngIf="pickupForm.get('condition')?.invalid && pickupForm.get('condition')?.touched">
-      Material Name is required.
-    </div>
-  </div>
- </div>
+  <!-- ✅ زرار إضافة مادة جديدة -->
+  <p style="color: #69B31D; cursor: pointer;" (click)="addMaterial()">+ Add Another Material</p>
 
-  <div>
-    <p style="color: #69B31D;">Add Another Material</p>
-  </div>
-
+  <!-- زرار الإرسال -->
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-    <button type="submit" class="confirm w-50 p-2 rounded-1 " [disabled]="pickupForm.invalid">Submit Confirmation</button>
+    <button type="submit" class="confirm w-50 p-2 rounded-1" [disabled]="pickupForm.invalid">
+      Submit Confirmation
+    </button>
   </div>
 </form>
 
