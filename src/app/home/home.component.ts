@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { NavComponent } from "../nav/nav.component";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [RouterModule],
+    imports: [RouterModule, NavComponent, FooterComponent],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css',
     encapsulation: ViewEncapsulation.None
@@ -24,7 +26,7 @@ export class HomeComponent implements OnInit {
       this.authService.navigateBasedOnRole();
     } else {
       console.log('🏠 Home: User not authenticated, redirecting to login');
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
   }
 }

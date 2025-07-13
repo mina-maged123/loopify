@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
       console.log('🚪 User not authenticated');
       // Only redirect to login if not already on an auth page or home
       if (currentUrl === '/' || currentUrl === '') {
-        this.router.navigate(['/login']);
+        // this.router.navigate(['/login']);
       }
     }
   }

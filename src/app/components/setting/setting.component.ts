@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, Bell, Calendar, Lock, LogOut } from 'lucide-angular';
+import { FooterComponent } from "@/app/footer/footer.component";
+import { NavComponent } from '@/app/nav/nav.component';
 
 @Component({
   selector: 'app-setting',
@@ -12,8 +14,10 @@ import { LucideAngularModule, Bell, Calendar, Lock, LogOut } from 'lucide-angula
     LucideAngularModule,
     RouterLink,
     ReactiveFormsModule,
-    DatePipe
-  ],
+    DatePipe,
+    FooterComponent,
+    NavComponent
+],
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.css']
 })

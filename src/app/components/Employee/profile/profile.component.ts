@@ -1,3 +1,5 @@
+import { NavComponent } from '@/app/nav/nav.component';
+import { FooterComponent } from './../../../footer/footer.component';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -6,7 +8,7 @@ import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink,FooterComponent,NavComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })

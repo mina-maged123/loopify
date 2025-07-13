@@ -6,6 +6,8 @@ import { IUserInfo } from '@/app/models/iuser-info';
 import { ICustomerRequest } from '@/app/models/ICustomerRequest';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { RequestService } from '@/app/services/request.service';
+import { NavComponent } from '@/app/nav/nav.component';
+import { FooterComponent } from '@/app/footer/footer.component';
 
 
 interface UserProfile {
@@ -37,7 +39,7 @@ interface PickupRequest {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,[NgFor, NgClass, DatePipe], RouterLink],
+  imports: [CommonModule,[NgFor, NgClass, DatePipe], RouterLink,NavComponent,FooterComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
