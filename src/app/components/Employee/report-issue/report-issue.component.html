@@ -23,6 +23,19 @@
             </div>
 
             <div class="form-group">
+                <label for="warehouseName">Warehouse Name<span class="required">*</span></label>
+                <div class="select-wrapper">
+                    <select id="warehouseName" formControlName="warehouseName" required>
+                        <option value="" disabled selected>Select Warehouse</option>
+                        <option *ngFor="let warehouse of warehouses; trackBy: trackByWarehouseId" [value]="warehouse.id">
+                            {{ warehouse.name }} - {{ warehouse.location }}
+                        </option>
+                    </select>
+                    <span class="select-arrow">▼</span>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="description">Describe the issue in detail<span class="required">*</span></label>
                 <textarea id="description" formControlName="description" rows="6"
                     placeholder="Provide a detailed description of the issue you encountered..."></textarea>
