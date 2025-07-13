@@ -174,7 +174,7 @@ export class AuthService {
     const userRole = role || this.getRole();
     
     if (userRole === 'Customer') {
-      this.router.navigate(['/customer/dashboard']);
+      this.router.navigate(['/customer']);
     } else if (userRole === 'Employee') {
       this.router.navigate(['/employee']);
     } else if (userRole === 'Admin') {
