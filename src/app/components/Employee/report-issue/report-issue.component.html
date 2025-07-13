@@ -2,32 +2,49 @@
     <h1>Report Issue</h1>
 
     <div class="report-card">
-        <form [formGroup]="reportForm" (submit)="onSubmit()">
+        <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="issueType">Issue Type<span class="required">*</span></label>
+                <label for="issueType">Issue Type</label>
                 <div class="select-wrapper">
                     <select id="issueType" formControlName="issueType" required>
-                        <option value="" disabled selected>Select Issue Type</option>
-                        <option value="damaged">Pickup</option>
-                        <option value="missing">Warehouse</option>
-                        <option value="wrong">System</option>
+                        <option value="" disabled>Select Issue Type</option>
+                        <option value="pickup">Pickup</option>
+                        <option value="warehouse">Warehouse</option>
+                        <option value="system">System</option>
                         <option value="other">Other</option>
                     </select>
                     <span class="select-arrow">▼</span>
                 </div>
+                <div *ngIf="reportForm.get('issueType')?.invalid && reportForm.get('issueType')?.touched" class="error-message">
+                    Issue type is required
+                </div>
+            </div>
+
+            <div class="form-group" *ngIf="reportForm.get('pickupId')?.value">
+                <label for="pickupId">Pickup Request ID</label>
+                <input type="text" id="pickupId" formControlName="pickupId" readonly
+                    class="readonly-field">
+                <small class="text-info">
+                    <i class="fa-solid fa-info-circle"></i>
+                    This report is linked to pickup request: {{ reportForm.get('pickupId')?.value }}
+                </small>
+            </div>
+
+            <div class="form-group" *ngIf="!reportForm.get('pickupId')?.value">
+                <label for="pickupId">Pickup Request ID (Optional)</label>
+                <input type="text" id="pickupId" formControlName="pickupId"
+                    placeholder="Enter pickup request ID if related to a specific pickup">
             </div>
 
             <div class="form-group">
-                <label for="pickupId">Pickup ID (Optional)</label>
-                <input type="text" id="pickupId" formControlName="pickupId" placeholder="Enter pickup ID if applicable">
-            </div>
-
-            <div class="form-group">
-                <label for="warehouseName">Warehouse Name<span class="required">*</span></label>
+                <label for="warehouseName">Warehouse Name (Optional)</label>
                 <div class="select-wrapper">
-                    <select id="warehouseName" formControlName="warehouseName" required>
-                        <option value="" disabled selected>Select Warehouse</option>
-                        <option *ngFor="let warehouse of warehouses; trackBy: trackByWarehouseId" [value]="warehouse.id">
+                    <select id="warehouseName" formControlName="warehouseName" [disabled]="isLoadingWarehouses">
+                        <option value="" disabled selected>
+                            {{ isLoadingWarehouses ? 'Loading warehouses...' : 'Select Warehouse' }}
+                        </option>
+                        <option *ngFor="let warehouse of warehouses; trackBy: trackByWarehouseId"
+                            [value]="warehouse.id">
                             {{ warehouse.name }} - {{ warehouse.location }}
                         </option>
                     </select>
@@ -36,16 +53,22 @@
             </div>
 
             <div class="form-group">
-                <label for="description">Describe the issue in detail<span class="required">*</span></label>
+                <label for="description">Describe the issue in detail</label>
                 <textarea id="description" formControlName="description" rows="6"
                     placeholder="Provide a detailed description of the issue you encountered..."></textarea>
+                <div *ngIf="reportForm.get('description')?.invalid && reportForm.get('description')?.touched" class="error-message">
+                    <div *ngIf="reportForm.get('description')?.errors?.['required']">Description is required</div>
+                    <div *ngIf="reportForm.get('description')?.errors?.['maxlength']">Description cannot exceed 1000 characters</div>
+                </div>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-submit" [disabled]="!reportForm.valid">
-                    <i class="fa-solid fa-paper-plane"></i> Report to Admin
+                <button type="submit" class="btn-submit" [disabled]="!reportForm.valid || isSubmitting">
+                    <i class="fa-solid fa-paper-plane" *ngIf="!isSubmitting"></i>
+                    <i class="fa-solid fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+                    {{ isSubmitting ? 'Submitting...' : 'Report to Admin' }}
                 </button>
-                <button type="button" [routerLink]="['/employee']" class="btn-cancel">Cancel</button>
+                <button type="button" [routerLink]="['/employee']" class="btn-cancel" [disabled]="isSubmitting">Cancel</button>
             </div>
         </form>
     </div>

@@ -41,7 +41,8 @@
           </a>
         </li>
         <li class="nav-item mb-2">
-          <a class="nav-link  d-flex" routerLink="/employee/report-issue">
+          <a class="nav-link  d-flex" routerLink="/employee/report-issue" routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }">
             <img src="assets/report-g.svg" class="me-2 nav-icon" alt="" width="20"> Report Issue
           </a>
         </li>
