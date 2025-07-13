@@ -1,204 +1,152 @@
-<div class="flex h-screen w-full bg-gray-50">
-    <!-- Mobile Menu Button -->
-    <div class="lg:hidden fixed top-4 left-4 z-50">
-      <button class="bg-green-800 text-white p-2 rounded-md" (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+<div *ngIf="!loading && pickupRequest">
+  <!-- Customer Information Card -->
+  <div class="bg-white rounded-lg shadow-sm p-4 md:p-6 mb-6 relative">
+    <div class="absolute right-4 top-4">
+     <!-- ✅ الصح بناءً على إن 1 = Scheduled، 2 = Completed -->
+<span
+  [ngClass]="{
+    'bg-yellow-100 text-yellow-800': pickupRequest.status === 1,
+    'bg-green-100 text-green-800': pickupRequest.status === 2
+  }"
+  class="text-sm px-3 py-1 rounded-full"
+>
+  {{ pickupRequest.status == 1 ? 'Scheduled' : 'Completed' }}
+</span>
+
     </div>
-  
-    <!-- Sidebar -->
-    <div class="w-60 bg-green-800 text-white flex flex-col h-full fixed z-40 transform transition-transform duration-300 ease-in-out" 
-         [ngClass]="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}">
-      <div class="p-4 flex items-center space-x-2">
-        <div class="bg-green-600 rounded-full p-1">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-            <path d="M3.29 7L12 12l8.71-5"></path>
-            <path d="M12 22V12"></path>
-          </svg>
+
+    <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-6">
+      Customer Information
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <!-- Name -->
+        <div class="flex items-start mb-6">
+          <div class="mt-1 mr-3 text-gray-500"><!-- SVG icon --></div>
+          <div>
+            <p class="text-sm text-gray-500">Name</p>
+            <p class="font-medium">{{ pickupRequest.customer.fullName }}</p>
+          </div>
         </div>
-        <h1 class="text-xl font-bold">Loopify</h1>
+
+        <!-- Address -->
+        <div class="flex items-start mb-6">
+          <div class="mt-1 mr-3 text-gray-500"><!-- SVG icon --></div>
+          <div>
+            <p class="text-sm text-gray-500">Address</p>
+            <p class="font-medium">{{ pickupRequest.address || 'No address provided' }}</p>
+          </div>
+        </div>
+
+        <!-- Scheduled Date -->
+        <div class="flex items-start">
+          <div class="mt-1 mr-3 text-gray-500"><!-- SVG icon --></div>
+          <div>
+            <p class="text-sm text-gray-500">Scheduled Time</p>
+            <p class="font-medium">{{ pickupRequest.scheduledDate | date: 'medium' }}</p>
+          </div>
+        </div>
       </div>
-      <nav class="flex-1 mt-8">
-        <ul>
-          <li>
-            <a href="#" class="flex items-center px-6 py-3 text-gray-300 hover:bg-green-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9,22 9,12 15,12 15,22"></polyline>
-              </svg>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="flex items-center px-6 py-3 bg-green-700 text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <path d="M3.29 7L12 12l8.71-5"></path>
-                <path d="M12 22V12"></path>
-              </svg>
-              <span>My Pickups</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="flex items-center px-6 py-3 text-gray-300 hover:bg-green-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              <span>Map View</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="flex items-center px-6 py-3 text-gray-300 hover:bg-green-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                <line x1="12" y1="9" x2="12" y2="13"></line>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-              </svg>
-              <span>Report Issue</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="mt-auto mb-8">
-        <ul>
-          <li>
-            <a href="#" class="flex items-center px-6 py-3 text-gray-300 hover:bg-green-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              <span>Profile</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="flex items-center px-6 py-3 text-gray-300 hover:bg-green-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16,17 21,12 16,7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
-              <span>Logout</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    
-    <!-- Main Content -->
-    <div class="flex-1 p-4 md:p-8 overflow-auto" [ngClass]="{'ml-0': !sidebarOpen, 'ml-60': sidebarOpen}">
-      <!-- Overlay for mobile -->
-      <div class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30" 
-           *ngIf="sidebarOpen" 
-           (click)="toggleSidebar()"></div>
-      <h1 class="text-2xl md:text-3xl font-bold text-green-800 mb-6 md:mb-8">
-        Pickup Request Details
-      </h1>
-      
-      <!-- Customer Information Card -->
-      <div class="bg-white rounded-lg shadow-sm p-4 md:p-6 mb-6 relative">
-        <div class="absolute right-4 top-4">
-          <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">
-            Completed
+
+      <!-- Materials -->
+      <div>
+        <p class="text-sm text-gray-500 mb-4">Materials</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+            No items added
           </span>
+          <!-- لما تضيفي pickupItems -->
         </div>
-        <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-6">
-          Customer Information
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <div class="flex items-start mb-6">
-              <div class="mt-1 mr-3 text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </div>
-              <div>
-                <p class="text-sm text-gray-500">Name</p>
-                <p class="font-medium">User2</p>
-              </div>
-            </div>
-            <div class="flex items-start mb-6">
-              <div class="mt-1 mr-3 text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-              </div>
-              <div>
-                <p class="text-sm text-gray-500">Address</p>
-                <p class="font-medium">123 Oak Street, Downtown</p>
-              </div>
-            </div>
-            <div class="flex items-start">
-              <div class="mt-1 mr-3 text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-              </div>
-              <div>
-                <p class="text-sm text-gray-500">Scheduled Time</p>
-                <p class="font-medium">Today, 2:30 PM</p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500 mb-4">Materials</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                Plastic - 2 kg
-              </span>
-              <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
-                Metal - 1.5 kg
-              </span>
-              <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
-                Glass - 3 kg
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Collected Information Card -->
-      <div class="bg-white rounded-lg shadow-sm p-4 md:p-6 mb-6">
-        <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-6">
-          Collected Information
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <div class="mb-6">
-              <p class="text-sm text-gray-500">
-                Actual Quantity Collected
-              </p>
-              <p class="font-medium">7.5 kg</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500">Condition of Items</p>
-              <p class="font-medium">Good</p>
-            </div>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500">Notes</p>
-            <p class="font-medium">
-              Customer left extra cardboard near the bins.
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="flex justify-end">
-        <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20,6 9,17 4,12"></polyline>
-          </svg>
-          Already Completed
-        </button>
       </div>
     </div>
   </div>
+
+
+<!-- Scheduled (status === 1): -->
+<div *ngIf="pickupRequest.status === 1" class="">
+  <!-- <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-4">Map Location</h2> -->
+  <!-- <div class="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-500 rounded-lg">
+    <p>Map will appear here at ({{ pickupRequest.locationLat }}, {{ pickupRequest.locationLng }})</p>
+  </div> -->
+
+  <div class="flex gap-4  btns ">
+
   
+    <button class="d-flex justify-content-center align-items-center gap-2 confirm text-white px-4 py-2 rounded-2 w-50 "data-bs-toggle="modal" data-bs-target="#pickupConfirmationModal">
+      <img src="assets/rv.svg" alt="">  Confirm
+    </button>
+    <button class="d-flex justify-content-center align-items-center gap-2 text-danger px-4 py-2 w-50 btn-outline-danger border-1 rounded-2">
+    <img src="assets/xv.svg" alt="">  Cancel
+    </button>
+  </div>
+</div>
+
+<!-- Completed (status === 2): -->
+<div *ngIf="pickupRequest.status === 2" class="bg-white rounded-lg shadow-sm p-4 md:p-6 mb-6">
+  <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-6">Collected Information</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <div class="mb-6">
+        <p class="text-sm text-gray-500">Actual Quantity Collected</p>
+        <p class="font-medium">--</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Condition of Items</p>
+        <p class="font-medium">--</p>
+      </div>
+    </div>
+    <div>
+      <p class="text-sm text-gray-500">Notes</p>
+      <p class="font-medium">{{ pickupRequest.note || 'No notes available' }}</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="pickupConfirmationModal" tabindex="-1" aria-labelledby="pickupConfirmationLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-4">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pickupConfirmationLabel">Collection Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+    <form [formGroup]="pickupForm" (ngSubmit)="onSubmit()">
+ <div class="form-inputs">
+     <div class="mb-3">
+    <label>Actual Quantity Collected</label>
+    <input type="text" formControlName="quantity" class="form-control" placeholder="Enter total weight in lbs">
+    <div class="text-danger" *ngIf="pickupForm.get('quantity')?.invalid && pickupForm.get('quantity')?.touched">
+      Quantity is required.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label>Material Name </label>
+    <input type="text" formControlName="materialName" class="form-control" placeholder="Enter total Material Name "> 
+    <div class="text-danger" *ngIf="pickupForm.get('condition')?.invalid && pickupForm.get('condition')?.touched">
+      Material Name is required.
+    </div>
+  </div>
+ </div>
+
+  <div>
+    <p style="color: #69B31D;">Add Another Material</p>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+    <button type="submit" class="confirm w-50 p-2 rounded-1 " [disabled]="pickupForm.invalid">Submit Confirmation</button>
+  </div>
+</form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
