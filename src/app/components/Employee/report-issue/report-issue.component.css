@@ -1,6 +1,5 @@
 .report-container {
   padding: 10px;
-  background-color: #f5f7f6;
   min-height: 100vh;
   flex-direction: column;
   align-items: center;
@@ -44,6 +43,13 @@ label {
   margin-left: 2px;
 }
 
+.error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
 input, textarea, select {
   width: 100%;
   padding: 12px;
@@ -52,6 +58,30 @@ input, textarea, select {
   font-size: 16px;
   color: #000000;
   font-weight: 400;
+  transition: border-color 0.3s ease;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-color: #e74c3c;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #76b852;
+}
+
+.readonly-field {
+  background-color: #f8f9fa !important;
+  cursor: not-allowed;
+}
+
+.text-info {
+  color: #17a2b8;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
 }
 
 textarea {

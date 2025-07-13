@@ -92,6 +92,7 @@ export const routes: Routes = [
       { path: 'pickup', component: PickUpRequestComponent },
       { path: 'map-view', component: ViewMapComponent },
       { path: 'report-issue', component: ReportComponent },
+      { path: 'report-issue/:pickupId', component: ReportComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'details/:id', component: PickupDetailsComponent }
     ],
