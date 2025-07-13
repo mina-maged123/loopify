@@ -1,1 +1,99 @@
-<p>profile works!</p>
+<div class="profile-container">
+    <div class="profile-section">
+        <div class="section-header">
+            <h2>Profile Information</h2>
+            <button class="edit-btn">
+                <i class="fa-solid fa-pencil"></i>
+            </button>
+        </div>
+        <form [formGroup]="empData" (submit)="saveChanges()">
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    <img src="assets/profileEmp.svg" alt="Profile">
+                    <div class="avatar-badge">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                </div>
+
+                <div class="profile-fields">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Full Name</label>
+                            <input type="text" formControlName="fullName">
+                        </div>
+                        <div class="field">
+                            <label>Phone Number</label>
+                            <div class="phone-input">
+                                <select>
+                                    <option value="+20">+20</option>
+                                    <option value="+1">+1</option>
+                                    <option value="+44">+44</option>
+                                </select>
+                                <input type="text" formControlName="phoneNumber">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Email</label>
+                            <input type="text" formControlName="email">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="action-buttons mt-1">
+                <button class="cancel-btn" [routerLink]="['/employee']">Cancel</button>
+                <button class="save-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="profile-section">
+        <div class="section-header">
+            <h2>Change Password</h2>
+        </div>
+        <form [formGroup]="updatePass" (submit)="updatePassword()">
+            <div class="password-fields">
+                <div class="field full-width">
+                    <label>Current Password</label>
+                    <input type="password" formControlName="currentPassword">
+                    @if (getCurrentPassword?.touched) {
+                    @if (getCurrentPassword?.hasError('required')) {
+                    <div id="passwordHelpBlock" class="form-text text-danger">
+                        Current Password Is Required.
+                    </div>
+                    } }
+                </div>
+
+
+                <div class="field full-width">
+                    <label>New Password</label>
+                    <input type="password" formControlName="newPassword">
+                    @if (getNewPassword?.touched) {
+                    @if (getNewPassword?.hasError('required')) {
+                    <div id="passwordHelpBlock" class="form-text text-danger">
+                        New Password Is Required.
+                    </div>
+                    } }
+                </div>
+
+
+                <div class="field full-width">
+                    <label>Confirm New Password</label>
+                    <input type="password" formControlName="confirmPassword">
+                    @if (getConfirmPassword?.touched) {
+                    @if (getConfirmPassword?.hasError('required')) {
+                    <div id="passwordHelpBlock" class="form-text text-danger">
+                        Confirm Password Is Required.
+                    </div>
+                    } }
+                </div>
+
+
+                <button class="update-password-btn">Update Password</button>
+            </div>
+        </form>
+    </div>
+</div>
