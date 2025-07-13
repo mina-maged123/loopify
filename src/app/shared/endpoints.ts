@@ -18,7 +18,10 @@ export const ENDPOINTS = {
 
     GET_NOTIFICATIONS: `${baseUrl}api/Notification`,
 
-    POST_REPORT: `${baseUrl}api/Report`,
+    POST_REPORT: `${baseUrl}Report`,
 
-    POST_REDEEM_REWARD: `${baseUrl}RewardRedemptions`
+    POST_REDEEM_REWARD: `${baseUrl}RewardRedemptions`,
+
+    GET_WAREHOUSES: `http://localhost:17306/api/Warehouse
+`
 }

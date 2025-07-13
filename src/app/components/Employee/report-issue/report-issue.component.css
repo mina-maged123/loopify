@@ -1,9 +1,7 @@
 .report-container {
-  margin-left: 256px; /* Match your sidebar width */
-  padding: 30px;
+  padding: 10px;
   background-color: #f5f7f6;
   min-height: 100vh;
-  display: flex;
   flex-direction: column;
   align-items: center;
 }
@@ -26,7 +24,7 @@ h1 {
   padding: 60px;
   max-width: 950px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); 
-  /* width: 100%; */
+  margin: 0 auto;
 }
 
 .form-group {

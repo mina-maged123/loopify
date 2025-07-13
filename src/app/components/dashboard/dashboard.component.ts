@@ -157,7 +157,7 @@ recentRequests: PickupRequest[] = [
 
   viewGifts(): void {
     // Implement view gifts functionality
-    this.router.navigate(['customer/gift']);
+    this.router.navigate(['/gift']);
     console.log('View gifts clicked');
   }
 
