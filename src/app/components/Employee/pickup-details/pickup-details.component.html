@@ -56,7 +56,12 @@
   <div class="flex flex-wrap gap-2">
     <span
       *ngFor="let item of pickupRequest.pickupItems"
-      class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+       [ngClass]="{
+      'bg-green-100 text-green-800':  item.materialName  === 'Plastic',
+      'bg-blue-100 text-blue-800':  item.materialName  === 'Glass',
+      'bg-gray-100 text-gray-800':  item.materialName  !== 'Plastic' &&  item.materialName  !== 'Glass'
+    }"
+    class="px-3 py-1 rounded-full text-sm"
     >
       {{ item.materialName }}
     </span>
@@ -84,6 +89,10 @@
     <img src="assets/xv.svg" alt="">  Cancel
     </button>
   </div>
+
+  <div class="d-flex justify-content-center  ">
+    <p>Report an issue</p>
+  </div>
 </div>
 
 <!-- Completed (status === 2): -->
@@ -94,7 +103,7 @@
     <div>
       <div class="mb-6">
         <p class="text-sm text-gray-500">Actual Quantity Collected</p>
-        <p class="font-medium">--</p>
+        <p class="font-medium">{{actualQuantity}}</p>
       </div>
       <div>
         <p class="text-sm text-gray-500">Condition of Items</p>
@@ -126,27 +135,33 @@
 
       <div class="modal-body">
 <form [formGroup]="pickupForm" (ngSubmit)="onSubmit()">
-  <div formArrayName="materials">
-    <div *ngFor="let group of materials.controls; let i = index" [formGroupName]="i" class="mb-4 border p-3 rounded">
- 
-
-      <div class="mb-3">
-        <label>Material Name</label>
-        <input type="text" formControlName="materialName" class="form-control" placeholder="Enter material name">
-        <div class="text-danger" *ngIf="group.get('materialName')?.invalid && group.get('materialName')?.touched">
-          Material name is required.
-        </div>
-      </div>
-
-           <div class="mb-3">
-        <label>Actual Quantity Collected</label>
-        <input type="text" formControlName="quantity" class="form-control" placeholder="Enter quantity in kg">
-        <div class="text-danger" *ngIf="group.get('quantity')?.invalid && group.get('quantity')?.touched">
-          Quantity is required.
-        </div>
+<div formArrayName="materials">
+  <div *ngFor="let group of materials.controls; let i = index" [formGroupName]="i" class="mb-4 border p-3 rounded">
+    
+    <div class="mb-3">
+      <label>Material Name</label>
+      <select formControlName="materialName" class="form-select">
+        <option value="" disabled selected>Select material</option>
+        <option *ngFor="let item of pickupItems" [value]="item.materialName">
+          {{ item.materialName }}
+        </option>
+      </select>
+      <div class="text-danger" *ngIf="group.get('materialName')?.invalid && group.get('materialName')?.touched">
+        Material name is required.
       </div>
     </div>
+
+    <div class="mb-3">
+      <label>Actual Quantity Collected</label>
+      <input type="number" formControlName="quantity" class="form-control" placeholder="Enter quantity in kg">
+      <div class="text-danger" *ngIf="group.get('quantity')?.invalid && group.get('quantity')?.touched">
+        Quantity is required.
+      </div>
+    </div>
+
   </div>
+</div>
+
 
   <!-- ✅ زرار إضافة مادة جديدة -->
   <p style="color: #69B31D; cursor: pointer;" (click)="addMaterial()">+ Add Another Material</p>
