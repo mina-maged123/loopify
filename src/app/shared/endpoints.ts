@@ -16,12 +16,12 @@ export const ENDPOINTS = {
     GET_ALL_CUSTOMER_REQUESTS: `${baseUrl}PickupRequest`,
 
 
-    GET_NOTIFICATIONS: `${baseUrl}api/Notification`,
+    GET_NOTIFICATIONS: `${baseUrl}Notification`,
 
     POST_REPORT: `${baseUrl}Report`,
 
     POST_REDEEM_REWARD: `${baseUrl}RewardRedemptions`,
 
-    GET_WAREHOUSES: `http://localhost:17306/api/Warehouse
+    GET_WAREHOUSES: `${baseUrl}Warehouse
 `
 }
