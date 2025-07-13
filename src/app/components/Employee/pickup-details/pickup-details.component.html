@@ -66,6 +66,16 @@
       {{ item.materialName }}
     </span>
   </div>
+  <div>
+    <p></p>
+      <div class="flex items-start mb-6">
+          <div class="mt-1 mr-3 text-gray-500"><!-- SVG icon --></div>
+          <div>
+            <p class="text-sm text-gray-500">Mobile</p>
+            <p class="font-medium">{{ pickupRequest.customer.phoneNumber|| 'No Phone provided' }}</p>
+          </div>
+        </div>
+  </div>
 </div>
 
     </div>
@@ -163,8 +173,6 @@
 </div>
 
 
-  <!-- ✅ زرار إضافة مادة جديدة -->
-  <p style="color: #69B31D; cursor: pointer;" (click)="addMaterial()">+ Add Another Material</p>
 
   <!-- زرار الإرسال -->
   <div class="modal-footer">
