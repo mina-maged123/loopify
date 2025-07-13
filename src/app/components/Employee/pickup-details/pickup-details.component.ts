@@ -2,20 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-pickup-details',
   standalone: true,
-  imports: [CommonModule, HttpClientModule,RouterModule,ReactiveFormsModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule],
   templateUrl: './pickup-details.component.html',
   styleUrl: './pickup-details.component.css'
 })
 export class PickupDetailsComponent implements OnInit {
   pickupRequest: any;
   loading = true;
-  pickupForm!: FormGroup;
-  constructor(private http: HttpClient, private route: ActivatedRoute,private fb: FormBuilder) {}
+  pickupForm!: FormGroup; // ✅ خليه مرة واحدة بس
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -26,28 +27,41 @@ export class PickupDetailsComponent implements OnInit {
       .subscribe(response => {
         this.pickupRequest = response.data;
         this.loading = false;
-        console.log("🚀 Data loaded:", this.pickupRequest); 
       });
 
-       this.pickupForm = this.fb.group({
-      quantity: ['', Validators.required],
-      materialName: ['', Validators.required],
-      
+    // ✅ FormArray بداخله أول عنصر
+    this.pickupForm = this.fb.group({
+      materials: this.fb.array([this.createMaterialGroup()])
     });
   }
- 
+
+  // ✅ إنشاء مجموعة واحدة من الحقول
+  createMaterialGroup(): FormGroup {
+    return this.fb.group({
+      quantity: ['', Validators.required],
+      materialName: ['', Validators.required],
+    });
+  }
+
+  // ✅ getter للوصول للـ FormArray
+  get materials(): FormArray {
+    return this.pickupForm.get('materials') as FormArray;
+  }
+
+  addMaterial() {
+    this.materials.push(this.createMaterialGroup());
+  }
+
+  removeMaterial(index: number) {
+    this.materials.removeAt(index);
+  }
 
   onSubmit() {
-    if (this.pickupForm.invalid) {
-      return;
-    }
+    if (this.pickupForm.invalid) return;
 
-    const data = this.pickupForm.value;
-    console.log("Submitted Data:", data);
+    const materialsData = this.pickupForm.value.materials;
+    console.log("📝 All Submitted Materials:", materialsData);
 
-   
-    // this.pickupService.confirmPickup(data).subscribe(...);
-
-  
+    // Send to API هنا
   }
 }
