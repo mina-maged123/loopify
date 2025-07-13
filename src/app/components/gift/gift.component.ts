@@ -1,3 +1,4 @@
+import { ICreateRedeemReward } from './../../models/ICreateRedeemReward';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Irewards } from '@/app/models/irewards';
@@ -5,6 +6,7 @@ import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { RewardsService } from '@/app/services/rewards.service';
 import { RouterLink } from '@angular/router';
 import { UserProfileService } from '@/app/services/user-profile.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-root',
@@ -79,5 +81,16 @@ export class GiftComponent implements OnInit {
   onCheckboxChange(range: string, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     this.toggleRange(range, checked);
+  }
+
+  redeemReward(rewardId:number, quantity:number = 1){
+    this.rewardsService.postRedeemReward(rewardId, quantity).subscribe({
+      next: (response) => {
+        alert(response.data);
+      },
+      error: (error) => {
+        alert(error.error.message);
+      }
+    });
   }
 }

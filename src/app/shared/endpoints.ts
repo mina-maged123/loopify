@@ -15,5 +15,7 @@ export const ENDPOINTS = {
     POST_PICKUP_REQUEST: `${baseUrl}PickupRequest`,
     GET_ALL_CUSTOMER_REQUESTS: `${baseUrl}PickupRequest`,
 
-    GET_NOTIFICATIONS: `${baseUrl}api/Notification`,
+    GET_NOTIFICATIONS: `${baseUrl}Notification`,
+
+    POST_REDEEM_REWARD: `${baseUrl}RewardRedemptions`
 }
