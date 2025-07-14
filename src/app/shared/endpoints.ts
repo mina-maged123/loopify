@@ -22,6 +22,6 @@ export const ENDPOINTS = {
 
     POST_REDEEM_REWARD: `${baseUrl}RewardRedemptions`,
 
-    GET_WAREHOUSES: `${baseUrl}Warehouse
-`
+    GET_WAREHOUSES: `${baseUrl}Warehouse`,
+    
 }
