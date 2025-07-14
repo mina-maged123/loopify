@@ -15,7 +15,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { EmployeeDashboardComponent } from './components/Employee/employee-dashboard/employee-dashboard.component';
 import { EmployeeLayoutComponent } from './Layouts/employee-layout/employee-layout.component';
 import { CustomerLayoutComponent } from './Layouts/customer-layout/customer-layout.component';
-import { AdminLayoutComponent } from './Layouts/admin-layout/admin-layout.component';
 
 import { RequestComponent } from './request/request.component';
 import { SubmitPickupRequestSuccessComponent } from './components/submit-pickup-request-success/submit-pickup-request-success.component';
@@ -26,6 +25,12 @@ import { ProfileComponent } from './components/Employee/profile/profile.componen
 import { PickupDetailsComponent } from './components/Employee/pickup-details/pickup-details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ReportComponent } from './components/Employee/report-issue/report-issue.component';
+import { AdminLayoutComponent } from './Layouts/admin-layout/admin-layout.component';
+import { AdminDashboardComponent } from './components/Admin/admin-dashboard/admin-dashboard.component';
+import { RedemptionCatalogComponent } from './components/Admin/redemption-catalog/redemption-catalog.component';
+import { UserManagementComponent } from './components/Admin/user-management/user-management.component';
+import { WarehouseInventoryComponent } from './components/Admin/warehouse-inventory/warehouse-inventory.component';
+import { PickupRequestsComponent } from './components/Admin/pickup-requests/pickup-requests.component';
 import { PickupHistoryComponent } from './components/pickup-history/pickup-history.component';
 
 export const routes: Routes = [
@@ -83,7 +88,14 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
-    children: [],
+    children: [
+      {path: '', component: AdminDashboardComponent},
+      {path: 'redeem-catalog', component: RedemptionCatalogComponent},
+      {path: 'user-management', component: UserManagementComponent},
+      {path: 'warehouse-inventory', component: WarehouseInventoryComponent},
+      {path: 'pickup-req', component: PickupRequestsComponent},
+      {path: 'profile', component: ProfileComponent}
+    ],
   },
   {
     path: 'employee',

@@ -1,1 +1,81 @@
-<p>admin-layout works!</p>
+<!-- layouts/employee-layout/employee-layout.component.html -->
+<div class="d-flex vh-100">
+    <!-- Mobile Menu Button -->
+    <!-- <div class="lg:hidden fixed top-4 left-4 z-50">
+      <button class="bg-green-800 text-white p-2 rounded-md" (click)="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div> -->
+    <!-- Sidebar -->
+    <aside class="sidebar text-white p-3 d-flex flex-column justify-content-between" style="width: 280px;">
+        <div>
+            <!-- Logo + Project Name -->
+            <div class="text-center mb-4 d-flex  align-items-center gap-3">
+                <img src="favicon.ico" alt="Loopify Logo" style="width: 40px;">
+                <h4 class="mt-2">Loopify</h4>
+            </div>
+
+            <!-- Nav List -->
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center" routerLink="/admin" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        <img src="assets/dash-wihte.svg" class="me-2 nav-icon" alt="" width="20">
+                        Dashboard
+                    </a>
+                </li>
+
+
+                <li class="nav-item mb-2">
+                    <a class="nav-link  d-flex" routerLink="/admin/user-management" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        <img src="assets/pickup-g.svg" class="me-2 nav-icon" alt="" width="18"> User Management
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link  d-flex" routerLink="/admin/pickup-req" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        <img src="assets/Vector.svg" class="me-2 nav-icon" alt="" width="20"> Pickup Requests
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link  d-flex" routerLink="/admin/warehouse-inventory" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        <img src="assets/report-g.svg" class="me-2 nav-icon" alt="" width="20"> Warehouse Inventory
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link  d-flex" routerLink="/admin/redeem-catalog" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        <img src="assets/report-g.svg" class="me-2 nav-icon" alt="" width="20"> Redemption Catalog
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="nav flex-column">
+            <li class=" mb-2">
+                <a class="nav-link d-flex align-items-center" routerLink="/admin/profile">
+                    <img src="assets/profileEmp.svg" class="me-2 " alt="" width="20">
+                    Profile
+                </a>
+            </li>
+
+
+            <li class="nav-item mb-2">
+                <a class="nav-link d-flex text-danger" (click)="logout()">
+
+                    <img src="assets/logout.svg" class="me-2 " alt="" width="20"> LogOut
+                </a>
+            </li>
+
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1 p-4 bg-light" style="overflow: auto;">
+        <router-outlet></router-outlet>
+    </main>
+</div>

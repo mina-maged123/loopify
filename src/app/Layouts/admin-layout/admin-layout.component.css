@@ -1,0 +1,73 @@
+/* employee-layout.component.css */
+.employee-layout {
+  display: flex;
+  height: 100vh;
+}
+.sidebar {
+  width: 200px;
+  background-color: #1C4B41;
+  color: white;
+  padding: 20px;
+}
+li a{
+    color: gray;
+}
+/* ✅ Active link styling */
+/* Active state styles */
+.active-link {
+  background-color: #69B31D33;
+  border-radius: 8px;
+  color: white !important;
+  font-weight: 500;
+}
+
+/* 👇 Default icon style - gray look */
+.nav-icon {
+  filter: grayscale(100%) brightness(0.7);
+}
+
+
+.active-link .nav-icon {
+  filter: brightness(0) invert(1);
+}
+
+.nav-link:hover .nav-icon {
+  filter: brightness(0) invert(0.7); 
+}
+
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    z-index: 1000;
+    height: 100vh;
+    left: -250px;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar.closed {
+    left: -250px;
+  }
+
+  .toggle-sidebar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+    background-color: #1C4B41;
+    border-radius: 6px;
+    padding: 6px 10px;
+  }
+
+  .sidebar .nav-link {
+    font-size: 14px;
+  }
+
+  .sidebar h4 {
+    font-size: 18px;
+  }
+}

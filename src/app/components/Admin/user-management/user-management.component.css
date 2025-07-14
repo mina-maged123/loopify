@@ -1,0 +1,226 @@
+/* Modal animations and backdrop */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease-out;
+  transform-origin: center bottom;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Enhanced hover effects */
+.close-button:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+.send-note-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+/* Stat Card Enhancements */
+.stat-card {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.stat-icon {
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1);
+}
+
+.stat-value {
+  background: linear-gradient(135deg, currentColor 0%, currentColor 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Employee profile enhancements */
+.employee-profile img {
+  transition: transform 0.3s ease;
+}
+
+.employee-profile:hover img {
+  transform: scale(1.05);
+}
+
+/* Info grid enhancements */
+.info-grid > div {
+  transition: all 0.2s ease;
+}
+
+.info-grid > div:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table enhancements */
+.table-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table-container table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table-container table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Status badge animations */
+.status-badge {
+  transition: all 0.2s ease;
+}
+
+.status-badge:hover {
+  transform: scale(1.05);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .modal-content {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+  
+  .employee-profile {
+    text-align: center;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .table-container {
+    font-size: 0.875rem;
+  }
+  
+  .table-container th,
+  .table-container td {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .stat-title {
+    font-size: 0.75rem;
+  }
+}
+
+/* Enhanced table responsiveness */
+@media (max-width: 480px) {
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .table-container table {
+    min-width: 500px;
+  }
+}
+
+/* Button enhancements */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Form enhancements */
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus states for accessibility */
+button:focus,
+textarea:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .stat-card {
+    border: 2px solid #000;
+  }
+  
+  .info-grid > div {
+    border: 1px solid #000;
+  }
+}
+
