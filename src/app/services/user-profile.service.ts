@@ -1,10 +1,23 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { catchError, Observable, throwError, of, BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
 import { tap, shareReplay } from 'rxjs/operators';
 import { ENDPOINTS } from '../shared/endpoints';
 import { IUserInfo } from '../models/iuser-info';
-import { Router } from '@angular/router';
+import { ResponseGetAll } from '../models/response-get-all.model';
+
+// Interface for user data in the array response
+export interface UserData {
+  id: number;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  totalPoints: number;
+  address: string;
+  role: string;
+  profilePictureUrl: string;
+  createdAt: Date;
+}
 
 
 @Injectable({
@@ -15,7 +28,7 @@ export class UserProfileService {
   private cacheExpiry = new Map<number, number>();
   private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) { }
 
   private getToken(): string {
     return localStorage.getItem('token') || '';
@@ -65,6 +78,18 @@ export class UserProfileService {
     this.userCache.set(userId, request$);
 
     return request$;
+  }
+
+  GetAllUsers() : Observable<ResponseGetAll<UserData>> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('No token available'));
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseGetAll<UserData>>(ENDPOINTS.GET_ALL_USERS, { headers });
   }
 
   checkEmail(data: { email: string, newPassword: string, confirmPassword: string }): Observable<any> {
