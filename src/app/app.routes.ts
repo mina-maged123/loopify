@@ -91,7 +91,8 @@ export const routes: Routes = [
       {path: 'redeem-catalog', component: RedemptionCatalogComponent},
       {path: 'user-management', component: UserManagementComponent},
       {path: 'warehouse-inventory', component: WarehouseInventoryComponent},
-      {path: 'pickup-req', component: PickupRequestsComponent}
+      {path: 'pickup-req', component: PickupRequestsComponent},
+      {path: 'profile', component: ProfileComponent}
     ],
   },
   {
