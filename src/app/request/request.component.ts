@@ -9,15 +9,19 @@ import { HttpClient } from '@angular/common/http';
 import { RequestService } from '../services/request.service';
 import { IMaterial } from '../models/IMaterial.model';
 import { Router } from '@angular/router';
+import { NavComponent } from "../nav/nav.component";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
     selector: 'app-request',
     standalone: true,
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-    ],
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NavComponent,
+    FooterComponent
+],
     templateUrl: './request.component.html',
     styleUrl: './request.component.css'
 })

@@ -7,11 +7,13 @@ import { RewardsService } from '@/app/services/rewards.service';
 import { RouterLink } from '@angular/router';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { response } from 'express';
+import { NavComponent } from "@/app/nav/nav.component";
+import { FooterComponent } from "@/app/footer/footer.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, NavComponent, FooterComponent],
   templateUrl: './gift.component.html',
   styleUrls: ['./gift.component.css']
 })

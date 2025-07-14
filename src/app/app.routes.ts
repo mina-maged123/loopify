@@ -117,6 +117,15 @@ export const routes: Routes = [
     path: 'submit-pickup-request-success',
     component: SubmitPickupRequestSuccessComponent
   },
+{
+  path: '',
+  redirectTo: 'home',
+  pathMatch: 'full'
+},
+{
+  path: 'home',
+  component: HomeComponent
+},
 
   {
     path: '**',
