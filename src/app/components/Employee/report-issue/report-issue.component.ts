@@ -33,7 +33,7 @@ export class ReportComponent implements OnInit {
     const pickupId = pickupIdFromRoute || pickupIdFromQuery || '';
 
     this.reportForm = new FormGroup({
-      issueType: new FormControl(pickupId ? 'pickup' : '', Validators.required),
+      issueType: new FormControl(pickupId ? 0 : '', Validators.required),
       pickupId: new FormControl(pickupId),
       warehouseName: new FormControl(''),
       description: new FormControl('', [Validators.required, Validators.maxLength(1000)])
@@ -51,27 +51,39 @@ export class ReportComponent implements OnInit {
   }
 
   onSubmit(): void {
+
+    
+
     if (this.reportForm.invalid) return;
 
     this.isSubmitting = true;
     const formValue = this.reportForm.value;
 
     const reportData = {
+      employeeId: Number(localStorage.getItem('id')),
       type: formValue.issueType,
       pickupRequestId: formValue.pickupId || null,
       warehouseName: formValue.warehouseName || null,
       description: formValue.description
     };
 
+    console.log(`Report Data: ${reportData.employeeId}`);
+    console.log(`Report Data: ${reportData.type}`);
+    console.log(`Report Data: ${reportData.pickupRequestId}`);
+    console.log(`Report Data: ${reportData.warehouseName}`);
+    console.log(`Report Data: ${reportData.description}`);
+
     this.reportService.AddReport(reportData).subscribe({
       next: (response) => {
         console.log('Report submitted successfully:', response);
         alert('Report submitted successfully!');
         this.router.navigate(['/employee']);
+        this.isSubmitting = false;
       },
       error: (err) => {
-        console.error('Failed to submit report', err);
+        console.error('Failed to submit report', err.error.errors);
         alert('Failed to submit report. Please try again.');
+        this.isSubmitting = false;
       },
       complete: () => {
         this.isSubmitting = false;
