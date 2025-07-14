@@ -1,0 +1,28 @@
+/* Card hover effects */
+.summary-card {
+  transition: all 0.3s ease-in-out;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon container animations */
+.icon-container {
+  transition: transform 0.2s ease-in-out;
+}
+
+.summary-card:hover .icon-container {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Number animation */
+.amount-text {
+  transition: color 0.2s ease-in-out;
+}
+
+.summary-card:hover .amount-text {
+  color: #065f46; /* emerald-800 */
+}
+
