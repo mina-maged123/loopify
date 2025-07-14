@@ -7,6 +7,7 @@ export interface IUserInfo {
         phoneNumber: string,
         totalPoints:number,
         address: string,
+        role: string,
         profilePictureUrl: string,
         createdAt: Date,
     },
