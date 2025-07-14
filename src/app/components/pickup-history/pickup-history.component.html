@@ -1,0 +1,98 @@
+<app-nav></app-nav>
+
+
+<div class="container">
+  <h2>Pickup History</h2>
+  <p class="subtitle">Track and manage your recycling pickup requests</p>
+
+  <div class="search-filter">
+    <input type="text" placeholder="Search requests..." />
+    <select>
+      <option>All Status</option>
+      <option>Collected</option>
+      <option>Pending</option>
+      <option>Scheduled</option>
+      <option>Canceled</option>
+    </select>
+    <button class="back-btn" [routerLink]="['/customer/dashboard']">← Back to Dashboard</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Request ID</th>
+          <th>Date</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Points Earned</th>
+        </tr>
+      </thead>
+      <tbody>
+  <tr *ngFor="let req of pickupRequests">
+    <td>{{ req.id }}</td>
+    <td>{{ req.date | date: 'mediumDate' }}</td>
+    <td>{{ req.quantity }}</td>
+    <td>
+      <span class="status" [ngClass]="{
+        'collected': req.status === 'Collected',
+        'pending': req.status === 'Pending',
+        'rejected': req.status === 'Canceled'
+      }">{{ req.status }}</span>
+    </td>
+    <td>{{ req.pointsEarned !== null ? req.pointsEarned : '-' }}</td>
+  </tr>
+</tbody>
+    </table>
+  </div>
+
+  <!-- <div class="pagination">
+    <button></button>
+    <button class="active">1</button>
+    <button>2</button>
+    <button>3</button>
+    <button></button>
+  </div> -->
+
+  <div class="stats">
+  <div class="stat-card">
+    <div class="stat-content">
+      <div>
+        <p class="stat-label">Total Requests</p>
+        <p class="stat-value total-requests">{{totalRequests}}</p>
+      </div>
+      <div class="stat-icon blue-bg">
+        <i class="fas fa-list"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-content">
+      <div>
+        <p class="stat-label">Successful Pickups</p>
+        <p class="stat-value success">{{totalSuccessfulRequests}}</p>
+      </div>
+      <div class="stat-icon green-bg">
+        <i class="fas fa-check-circle"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-content">
+      <div>
+        <p class="stat-label">Total Points</p>
+        <p class="stat-value points">{{totalRedeemedPoints}}</p>
+      </div>
+      <div class="stat-icon yellow-bg">
+        <i class="fas fa-star"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<app-footer></app-footer>

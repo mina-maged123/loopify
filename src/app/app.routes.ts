@@ -31,6 +31,7 @@ import { RedemptionCatalogComponent } from './components/Admin/redemption-catalo
 import { UserManagementComponent } from './components/Admin/user-management/user-management.component';
 import { WarehouseInventoryComponent } from './components/Admin/warehouse-inventory/warehouse-inventory.component';
 import { PickupRequestsComponent } from './components/Admin/pickup-requests/pickup-requests.component';
+import { PickupHistoryComponent } from './components/pickup-history/pickup-history.component';
 
 export const routes: Routes = [
   {
@@ -79,7 +80,8 @@ export const routes: Routes = [
       { path: 'gift', component: GiftComponent },
       { path: 'request', component: RequestComponent },
       { path: 'setting', component: SettingComponent },
-      { path: 'dashboard', component: DashboardComponent }
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'history', component: PickupHistoryComponent }
     ],
   },
   {
