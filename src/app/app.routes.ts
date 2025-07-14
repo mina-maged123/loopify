@@ -26,6 +26,7 @@ import { ProfileComponent } from './components/Employee/profile/profile.componen
 import { PickupDetailsComponent } from './components/Employee/pickup-details/pickup-details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ReportComponent } from './components/Employee/report-issue/report-issue.component';
+import { PickupHistoryComponent } from './components/pickup-history/pickup-history.component';
 
 export const routes: Routes = [
   {
@@ -74,7 +75,8 @@ export const routes: Routes = [
       { path: 'gift', component: GiftComponent },
       { path: 'request', component: RequestComponent },
       { path: 'setting', component: SettingComponent },
-      { path: 'dashboard', component: DashboardComponent }
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'history', component: PickupHistoryComponent }
     ],
   },
   {

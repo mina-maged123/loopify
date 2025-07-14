@@ -35,7 +35,7 @@
   <div class="action-buttons">
     <button class="btn primary" [routerLink]="['/customer/request']"><i class="fas fa-truck"></i> Request Pickup</button>
     <button class="btn secondary" [routerLink]="['/customer/gift']"><i class="fas fa-gift"></i> View Gifts</button>
-    <button class="btn third" (click)="trackRequests()"><i class="fas fa-clipboard-list"></i> Track Requests</button>
+    <button class="btn third" [routerLink]="['/customer/history']"><i class="fas fa-clipboard-list"></i> Track Requests</button>
   </div>
 
   <div class="recent-requests">
@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <a href="#" class="view-all" (click)="viewAllRequests()">View All Requests <i class="fas fa-arrow-right"></i></a>
+    <!-- <a href="#" class="view-all" (click)="viewAllRequests()">View All Requests <i class="fas fa-arrow-right"></i></a> -->
   </div>
 
 <div class="stats-cards mt-4">
