@@ -1,0 +1,27 @@
+<div class="confirmation-backdrop" *ngIf="isVisible" (click)="onBackdropClick($event)">
+  <div class="confirmation-container" role="dialog" aria-labelledby="confirmation-title" aria-modal="true">
+    <div class="confirmation-header">
+      <h3 id="confirmation-title" class="confirmation-title">{{ title }}</h3>
+    </div>
+    
+    <div class="confirmation-body">
+      <p class="confirmation-message">{{ message }}</p>
+    </div>
+    
+    <div class="confirmation-footer">
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="onCancel()">
+        {{ cancelButtonText }}
+      </button>
+      <button 
+        type="button" 
+        class="btn"
+        [class]="confirmButtonClass"
+        (click)="onConfirm()">
+        {{ confirmButtonText }}
+      </button>
+    </div>
+  </div>
+</div>

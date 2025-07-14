@@ -1,0 +1,281 @@
+
+
+.redemption-catalog {
+  background-color: #FFFFFF;
+  min-height: 100vh;
+  padding: 24px;
+  margin-left: 256px;
+}
+
+/* Header Styles */
+.header {
+  margin-bottom: 32px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.title-section {
+  flex: 1;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1C4B41;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #7A8986;
+  margin: 0;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+.add-gift-btn {
+  background-color: #1C4B41;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.add-gift-btn:hover {
+  background-color: #047857;
+}
+
+.plus-icon {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Table Styles */
+.table-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.gifts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.gifts-table thead th {
+  background-color: #FFFFFF;
+  padding: 25px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.table-row {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.table-row:hover {
+  background-color: #f9fafb;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.gifts-table td {
+  padding: 14px;
+  vertical-align: middle;
+}
+
+.image-cell {
+  width: 80px;
+  
+}
+
+.gift-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.name-cell {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  min-width: 200px;
+  font-family: Poppins;
+  letter-spacing: 0%;
+}
+
+.points-cell,
+.stock-cell {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  min-width: 120px;
+}
+
+.actions-cell {
+  width: 100px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-btn {
+  color: #69B31D;
+}
+
+.edit-btn:hover {
+  background-color: #ecfdf5;
+}
+
+.delete-btn {
+  color: #EF4444;
+}
+
+.delete-btn:hover {
+  background-color: #fef2f2;
+}
+
+/* Footer Styles */
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.results-info {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-btn {
+  background-color: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.pagination-btn.active {
+  background-color: #059669;
+  border-color: #059669;
+  color: white;
+}
+
+.pagination-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-number {
+  min-width: 36px;
+}
+
+
+
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 24px;
+  }
+  
+  .gifts-table th,
+  .gifts-table td {
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+    padding-top: 76px; /* Account for mobile header */
+  }
+  
+  .table-container {
+    border-radius: 8px;
+  }
+  
+  /* Keep horizontal scrolling for table on tablets */
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .gifts-table th,
+  .gifts-table td {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .gift-image {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Mobile view - switch to cards */
+@media (max-width: 640px) {
+  .desktop-only {
+    display: none;
+  }
+  
+  .mobile-only {
+    display: block;
+  }
+  
+  /* Card styles remain the same as before */
+}

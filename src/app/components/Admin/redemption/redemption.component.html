@@ -1,0 +1,112 @@
+
+
+<div class="redemption-catalog">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1 class="title">Redemption Catalog</h1>
+        <p class="subtitle">Manage rewards that users can redeem with their points.</p>
+      </div>
+      <button class="add-gift-btn" (click)="onAddNewGift()">
+        <span class="plus-icon">+</span>
+        Add New Gift
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="table-container">
+    <div class="table-wrapper">
+      <table class="gifts-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Points Required</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let gift of gifts" class="table-row">
+            <td class="image-cell">
+              <img [src]="gift.image" [alt]="gift.name" class="gift-image">
+            </td>
+            <td class="name-cell">{{ gift.name }}</td>
+            <td class="points-cell">{{ gift.pointsRequired }} points</td>
+            <td class="stock-cell">{{ gift.stock }} units</td>
+            <td class="actions-cell">
+              <button class="action-btn edit-btn" (click)="onEditGift(gift)" title="Edit">
+               
+                <i class="fa-solid fa-pen-to-square"></i>
+
+              </button>
+              <button class="action-btn delete-btn" (click)="onDeleteGift(gift)" title="Delete">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <div class="table-footer">
+    <div class="results-info">
+      Showing {{ startResult }} to {{ endResult }} of {{ totalResults }} results
+    </div>
+    
+    <div class="pagination">
+      <button 
+        class="pagination-btn" 
+        [class.disabled]="currentPage === 1"
+        (click)="onPreviousPage()"
+        [disabled]="currentPage === 1">
+        Previous
+      </button>
+      
+      <button 
+        *ngFor="let page of pageNumbers"
+        class="pagination-btn page-number"
+        [class.active]="page === currentPage"
+        (click)="onPageChange(page)">
+        {{ page }}
+      </button>
+      
+      <button 
+        class="pagination-btn" 
+        [class.disabled]="currentPage === totalPages"
+        (click)="onNextPage()"
+        [disabled]="currentPage === totalPages">
+        Next
+      </button>
+    </div>
+  </div>
+  </div>
+ <app-add-new-gift
+    [isVisible]="isAddGiftModalVisible"
+    (close)="onCloseAddGiftModal()"
+    (save)="onSaveNewGift($event)">
+  </app-add-new-gift>
+
+  <!-- Edit Gift Modal -->
+<app-edit-gift
+  [isVisible]="isEditGiftModalVisible"
+  [gift]="giftBeingEdited"
+  (close)="onCloseEditGiftModal()"
+  (save)="onSaveEditedGift($event)">
+</app-edit-gift>
+
+<app-confirmation-dialog
+  [isVisible]="showDeleteConfirmation"
+  title="Delete Gift"
+  [message]="deleteConfirmationMessage"
+  confirmButtonText="Delete"
+  cancelButtonText="Cancel"
+  confirmButtonClass="btn-danger"
+  (confirm)="onDeleteConfirmationConfirm()"
+  (cancel)="onDeleteConfirmationCancel()">
+</app-confirmation-dialog>
+

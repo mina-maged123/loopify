@@ -32,6 +32,7 @@ import { UserManagementComponent } from './components/Admin/user-management/user
 import { WarehouseInventoryComponent } from './components/Admin/warehouse-inventory/warehouse-inventory.component';
 import { PickupRequestsComponent } from './components/Admin/pickup-requests/pickup-requests.component';
 import { PickupHistoryComponent } from './components/pickup-history/pickup-history.component';
+import { RedemptionComponent } from './components/Admin/redemption/redemption.component';
 
 export const routes: Routes = [
   {
@@ -90,7 +91,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: '', component: AdminDashboardComponent},
-      {path: 'redeem-catalog', component: RedemptionCatalogComponent},
+      {path: 'redeem-catalog', component: RedemptionComponent},
       {path: 'user-management', component: UserManagementComponent},
       {path: 'warehouse-inventory', component: WarehouseInventoryComponent},
       {path: 'pickup-req', component: PickupRequestsComponent},
