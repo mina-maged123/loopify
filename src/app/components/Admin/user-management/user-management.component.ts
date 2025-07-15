@@ -1,6 +1,10 @@
+import { EmployeeData } from './../../../services/admin-features.service';
+import { AdminFeaturesService } from '@/app/services/admin-features.service';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 export interface User {
   id: number,
@@ -53,7 +57,7 @@ export interface EmployeeDetails extends User {
 
 @Component({
   selector: 'app-users-management',
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
@@ -67,10 +71,12 @@ export class UserManagementComponent implements OnInit {
   // Modal state
   showCustomerModal: boolean = false;
   showEmployeeModal: boolean = false;
+  AddEmployeeModal: boolean = false; 
   selectedCustomer: CustomerDetails | null = null;
   selectedEmployee: EmployeeDetails | null = null;
 
-  constructor(private userProfileService: UserProfileService) { }
+  constructor(private userProfileService: UserProfileService, private adminFeaturesService: AdminFeaturesService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.userProfileService.GetAllUsers().subscribe({
@@ -159,16 +165,10 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  // Add new user action
-  addNewUser(): void {
+  // Add new employee action
+  addNewEmployee(): void {
     // Implement add new user logic
     console.log('Add new user clicked');
-  }
-
-  // Edit user action
-  editUser(user: User): void {
-    // Implement edit user logic
-    console.log('Edit user:', user);
   }
 
   // View user action
@@ -182,6 +182,11 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
+  //open add employee modal
+  openAddEmployeeModal(): void {
+    this.AddEmployeeModal = true;
+  }
+
   // Close modals
   closeCustomerModal(): void {
     this.showCustomerModal = false;
@@ -191,6 +196,10 @@ export class UserManagementComponent implements OnInit {
   closeEmployeeModal(): void {
     this.showEmployeeModal = false;
     this.selectedEmployee = null;
+  }
+
+  closeAddEmployeeModal(): void {
+    this.AddEmployeeModal = false;
   }
 
   // Get customer details (replace with actual service call)
@@ -233,5 +242,47 @@ export class UserManagementComponent implements OnInit {
     const total = this.filteredUsers.length;
     return `Showing ${start} to ${end} of ${total} results`;
   }
+
+  // Add new employee
+  employeeForm = new FormGroup({
+    firstName: new FormControl('',[Validators.required]),
+    lastName: new FormControl('',[Validators.required]),
+    emailAddress: new FormControl('',[Validators.required, Validators.email]),
+    phoneNumber: new FormControl('',[Validators.required, Validators.maxLength(11)]),
+    address: new FormControl('',[Validators.required]),
+    password: new FormControl('',[Validators.required]),
+    confirmPassword: new FormControl('',[Validators.required]),
+    warehouseName: new FormControl('',[Validators.required])
+  });
+
+  get getFName() {
+    return this.employeeForm.get('firstName');
+  }
+  get getLName() {
+    return this.employeeForm.get('lastName');
+  }
+  get getEmail() {
+    return this.employeeForm.get('emailAddress')
+  }
+  get getPhoneNumber() {
+    return this.employeeForm.get('phoneNumber');
+  }
+  get getAddress() {
+    return this.employeeForm.get('address');
+  }
+  get getPassword() {
+    return this.employeeForm.get('password');
+  }
+  get getConPassword() {
+    return this.employeeForm.get('confirmPassword');
+  }
+  get getWarehouseName() {
+    return this.employeeForm.get('warehouseName');
+  }
+
+  SaveData() {
+    
+  }
+
 }
 

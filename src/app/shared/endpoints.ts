@@ -12,6 +12,8 @@ export const ENDPOINTS = {
     CHANGE_PASSWORD: `${baseUrl}User/ChangePassword`,
     UPDATE_USER: `${baseUrl}User`,
     GET_ALL_USERS: `${baseUrl}User`,
+    
+    POST_EMPLOYEE: `${baseUrl}Admin/registerEmployee`,
 
     POST_PICKUP_REQUEST: `${baseUrl}PickupRequest`,
     GET_ALL_CUSTOMER_REQUESTS: `${baseUrl}PickupRequest`,
