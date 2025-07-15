@@ -1,305 +1,252 @@
-import { Component } from '@angular/core';
+import { UserProfileService } from '@/app/services/user-profile.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
-// Interfaces
-export interface StatData {
-  title: string;
-  value: string;
-  iconName: string;
-  iconColor: string;
-  bgColor: string;
+export interface User {
+  id: number,
+  fullName: string,
+  email: string,
+  phoneNumber: string,
+  totalPoints: number,
+  address: string,
+  role: string,
+  profilePictureUrl: string,
+  createdAt: Date,
 }
 
-export interface Pickup {
+export interface CustomerActivity {
   date: string;
-  customer: string;
+  actionType: string;
+  details: string;
+  status?: string;
+}
+
+export interface CustomerDetails extends User {
+  totalPickups: number;
+  totalRewards: number;
+  weeklyFrequency: number;
+  lastPickup: string;
+  engagement: string;
+  lastLogin: string;
+  dateCreated: string;
+  activities: CustomerActivity[];
+}
+
+export interface EmployeePickup {
+  date: string;
+  customerName: string;
   material: string;
   quantity: string;
   status: string;
 }
 
-export interface EmployeeData {
-  fullName: string;
-  role: string;
-  email: string;
-  phone: string;
+export interface EmployeeDetails extends User {
+  totalPickupsAssigned: number;
+  completedPickups: number;
+  pendingPickups: number;
+  averageCompletionTime: string;
   dateCreated: string;
   lastLogin: string;
-  profileImage: string;
-  status: string;
-  stats: StatData[];
-  pickups: Pickup[];
+  pickups: EmployeePickup[];
+  adminNotes: string;
 }
 
 @Component({
-  selector: 'app-unified-employee-view',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  selector: 'app-users-management',
+  imports: [CommonModule],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
-export class UserManagementComponent {
-  // Component state
-  isModalOpen = true;
-  adminNote = '';
+export class UserManagementComponent implements OnInit {
+  activeTab: 'Customer' | 'Employee' = 'Customer';
+  searchTerm: string = '';
+  currentPage: number = 1;
+  itemsPerPage: number = 8;
+  allUsers: User[] = [];
 
-  // Employee data
-  employeeData: EmployeeData = {
-    fullName: 'Ahmed Hassan',
-    role: 'Employee',
-    email: 'ahmed.hassan@company.com',
-    phone: '+20 1234567890',
-    dateCreated: 'March 15, 2024',
-    lastLogin: '2 days ago',
-    profileImage: '/View_Employee.png',
-    status: 'Active',
-    stats: [
-      {
-        title: 'Total Pickups Assigned',
-        value: '48',
-        iconName: 'check-circle',
-        iconColor: 'text-blue-500',
-        bgColor: 'bg-blue-50'
-      },
-      {
-        title: 'Completed Pickups',
-        value: '42',
-        iconName: 'file-text',
-        iconColor: 'text-green-500',
-        bgColor: 'bg-green-50'
-      },
-      {
-        title: 'Pending Pickups',
-        value: '6',
-        iconName: 'alert-circle',
-        iconColor: 'text-orange-500',
-        bgColor: 'bg-orange-50'
-      },
-      {
-        title: 'Areas Covered',
-        value: 'Giza, Maadi',
-        iconName: 'globe',
-        iconColor: 'text-purple-500',
-        bgColor: 'bg-purple-50'
-      }
-    ],
-    pickups: [
-      {
-        date: 'Jan 15, 2024',
-        customer: 'Sarah Ahmed',
-        material: 'Plastic',
-        quantity: '5 kg',
-        status: 'Completed'
-      },
-      {
-        date: 'Jan 14, 2024',
-        customer: 'Mohamed Ali',
-        material: 'Paper',
-        quantity: '3 kg',
-        status: 'Completed'
-      },
-      {
-        date: 'Jan 13, 2024',
-        customer: 'Fatima Hassan',
-        material: 'Metal',
-        quantity: '8 kg',
-        status: 'Pending'
-      },
-      {
-        date: 'Jan 12, 2024',
-        customer: 'Omar Khaled',
-        material: 'Glass',
-        quantity: '2 kg',
-        status: 'Completed'
-      },
-      {
-        date: 'Jan 11, 2024',
-        customer: 'Nour Mahmoud',
-        material: 'Plastic',
-        quantity: '4 kg',
-        status: 'Completed'
-      }
-    ]
-  };
+  // Modal state
+  showCustomerModal: boolean = false;
+  showEmployeeModal: boolean = false;
+  selectedCustomer: CustomerDetails | null = null;
+  selectedEmployee: EmployeeDetails | null = null;
 
-  // Modal control methods
-  openModal(): void {
-    this.isModalOpen = true;
-  }
+  constructor(private userProfileService: UserProfileService) { }
 
-  closeModal(): void {
-    this.isModalOpen = false;
-  }
-
-  // Status badge methods
-  getStatusBadgeClasses(): string {
-    const baseClasses = 'flex items-center gap-1.5 px-2.5 py-1 rounded-full status-badge';
-
-    if (this.employeeData.status === 'Active') {
-      return `${baseClasses} bg-green-100 text-green-800`;
-    } else if (this.employeeData.status === 'Inactive') {
-      return `${baseClasses} bg-red-100 text-red-800`;
-    }
-
-    return `${baseClasses} bg-gray-100 text-gray-800`;
-  }
-
-  getStatusDotClasses(): string {
-    const baseClasses = 'w-2 h-2 rounded-full';
-
-    if (this.employeeData.status === 'Active') {
-      return `${baseClasses} bg-green-500`;
-    }
-
-    return `${baseClasses} bg-red-500`;
-  }
-
-  // Stat card methods
-  getStatCardClasses(stat: StatData): string {
-    return `${stat.bgColor} rounded-lg p-4`;
-  }
-
-  getStatIconClasses(stat: StatData): string {
-    return `w-6 h-6 ${stat.iconColor}`;
-  }
-
-  // Pickup table methods
-  getPickupStatusClasses(status: string): string {
-    const baseClasses = 'px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full';
-
-    if (status === 'Completed') {
-      return `${baseClasses} bg-green-100 text-green-800`;
-    } else {
-      return `${baseClasses} bg-orange-100 text-orange-800`;
-    }
-  }
-
-  // Admin notes methods
-  sendNote(): void {
-    if (this.adminNote.trim()) {
-      console.log('Sending note:', this.adminNote);
-      // Here you would typically send the note to a service
-      alert('Note sent successfully!');
-      this.adminNote = '';
-    }
-  }
-
-  // Track by functions for performance
-  trackByIndex(index: number, item: any): number {
-    return index;
-  }
-
-  trackByPickupIndex(index: number, pickup: Pickup): number {
-    return index;
-  }
-
-  // Utility methods
-  isNoteValid(): boolean {
-    return this.adminNote.trim().length > 0;
-  }
-
-  getNoteCharacterCount(): number {
-    return this.adminNote.length;
-  }
-
-  getMaxNoteLength(): number {
-    return 500;
-  }
-
-  // Data manipulation methods
-  getCompletedPickupsCount(): number {
-    return this.employeeData.pickups.filter(pickup => pickup.status === 'Completed').length;
-  }
-
-  getPendingPickupsCount(): number {
-    return this.employeeData.pickups.filter(pickup => pickup.status === 'Pending').length;
-  }
-
-  getTotalPickupsCount(): number {
-    return this.employeeData.pickups.length;
-  }
-
-  // Status check methods
-  isEmployeeActive(): boolean {
-    return this.employeeData.status === 'Active';
-  }
-
-  getEmployeeStatusColor(): string {
-    return this.isEmployeeActive() ? 'green' : 'red';
-  }
-
-  // Format methods
-  formatDate(dateString: string): string {
-    // You can implement custom date formatting here
-    return dateString;
-  }
-
-  formatPhoneNumber(phone: string): string {
-    // You can implement custom phone formatting here
-    return phone;
-  }
-
-  // Validation methods
-  validateEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
-  validatePhoneNumber(phone: string): boolean {
-    const phoneRegex = /^\+?[\d\s-()]+$/;
-    return phoneRegex.test(phone);
-  }
-
-  // Component lifecycle methods
   ngOnInit(): void {
-    // Initialize component
-    console.log('UnifiedEmployeeViewComponent initialized');
+    this.userProfileService.GetAllUsers().subscribe({
+      next: (response) => {
+        console.log(response.data);
+        this.allUsers = response.data;
+      },
+      error: (err) => {
+        console.error("Error fetching users:", err);
+      }
+    });
   }
 
-  ngOnDestroy(): void {
-    // Cleanup
-    console.log('UnifiedEmployeeViewComponent destroyed');
-  }
-
-  // Event handlers
-  onModalBackdropClick(event: Event): void {
-    // Close modal when clicking on backdrop
-    if (event.target === event.currentTarget) {
-      this.closeModal();
+  // Get filtered users based on active tab
+  get filteredUsers(): User[] {
+    if (this.activeTab === 'Customer') {
+      return this.allUsers.filter(user =>
+        user.role === 'Customer' &&
+        (this.searchTerm === '' ||
+          user.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          user.email.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      );
+    } else {
+      return this.allUsers.filter(user =>
+        (user.role === 'Employee' || user.role === 'Manager') &&
+        (this.searchTerm === '' ||
+          user.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          user.email.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      );
     }
   }
 
-  onKeyDown(event: KeyboardEvent): void {
-    // Handle keyboard events
-    if (event.key === 'Escape') {
-      this.closeModal();
+  // Get paginated users
+  get paginatedUsers(): User[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredUsers.slice(startIndex, endIndex);
+  }
+
+  // Get total pages
+  get totalPages(): number {
+    return Math.ceil(this.filteredUsers.length / this.itemsPerPage);
+  }
+
+  // Get page numbers for pagination
+  get pageNumbers(): number[] {
+    const pages = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  // Switch between tabs
+  switchTab(tab: 'Customer' | 'Employee'): void {
+    this.activeTab = tab;
+    this.currentPage = 1; // Reset to first page when switching tabs
+    this.searchTerm = ''; // Clear search when switching tabs
+  }
+
+  // Handle search input
+  onSearch(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.searchTerm = target.value;
+    this.currentPage = 1; // Reset to first page when searching
+  }
+
+  // Navigate to specific page
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
     }
   }
 
-  // Accessibility methods
-  getAriaLabel(element: string): string {
-    switch (element) {
-      case 'close-button':
-        return 'Close employee details modal';
-      case 'open-button':
-        return 'Open employee details modal';
-      case 'send-note-button':
-        return 'Send admin note to employee';
-      default:
-        return '';
+  // Navigate to previous page
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
     }
   }
 
-  // Performance optimization methods
-  shouldUpdateStats(): boolean {
-    // Implement change detection optimization
-    return true;
+  // Navigate to next page
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
   }
 
-  shouldUpdatePickups(): boolean {
-    // Implement change detection optimization
-    return true;
+  // Add new user action
+  addNewUser(): void {
+    // Implement add new user logic
+    console.log('Add new user clicked');
+  }
+
+  // Edit user action
+  editUser(user: User): void {
+    // Implement edit user logic
+    console.log('Edit user:', user);
+  }
+
+  // View user action
+  viewUser(user: User): void {
+    if (user.role === 'Customer') {
+      this.selectedCustomer = this.getCustomerDetails(user.id);
+      this.showCustomerModal = true;
+    } else {
+      this.selectedEmployee = this.getEmployeeDetails(user.id);
+      this.showEmployeeModal = true;
+    }
+  }
+
+  // Close modals
+  closeCustomerModal(): void {
+    this.showCustomerModal = false;
+    this.selectedCustomer = null;
+  }
+
+  closeEmployeeModal(): void {
+    this.showEmployeeModal = false;
+    this.selectedEmployee = null;
+  }
+
+  // Get customer details (replace with actual service call)
+  getCustomerDetails(userId: number): CustomerDetails | null {
+    const user = this.allUsers.find(u => u.id === userId);
+    if (!user) return null;
+
+    return {
+      ...user,
+      totalPickups: 22,
+      totalRewards: 3,
+      weeklyFrequency: 42,
+      lastPickup: 'July 10',
+      engagement: 'High',
+      lastLogin: '3 days ago',
+      dateCreated: 'March 15, 2024',
+      activities: [
+        { date: 'July 15', actionType: 'Pickup', details: '4kg Plastic', status: 'completed' },
+        { date: 'July 5', actionType: 'Redemption', details: 'Gift Card (250 pts)', status: 'completed' },
+        { date: 'July 1', actionType: 'Pickup', details: '8kg Metal', status: 'completed' },
+        { date: 'June 28', actionType: 'Login', details: 'Website', status: 'completed' },
+        { date: 'June 25', actionType: 'Pickup', details: '2kg Paper', status: 'completed' }
+      ]
+    } as CustomerDetails;
+  }
+
+  // Get employee details (replace with actual service call)
+  getEmployeeDetails(userId: number): EmployeeDetails | null {
+    const user = this.allUsers.find(u => u.id === userId);
+    if (!user) return null;
+
+    return {
+      ...user,
+      totalPickupsAssigned: 48,
+      completedPickups: 6,
+      pendingPickups: 6,
+      averageCompletionTime: '2 days ago',
+      dateCreated: 'March 15, 2024',
+      lastLogin: '2 days ago',
+      pickups: [
+        { date: 'Jan 15, 2024', customerName: 'Sarah Ahmed', material: 'Plastic', quantity: '3 kg', status: 'Completed' },
+        { date: 'Jan 14, 2024', customerName: 'Mohamed Ali', material: 'Paper', quantity: '5 kg', status: 'Completed' },
+        { date: 'Jan 13, 2024', customerName: 'Fatima Hassan', material: 'Metal', quantity: '8 kg', status: 'Pending' },
+        { date: 'Jan 12, 2024', customerName: 'Omar Khaled', material: 'Glass', quantity: '2 kg', status: 'Completed' },
+        { date: 'Jan 11, 2024', customerName: 'Nour Mahmoud', material: 'Plastic', quantity: '4 kg', status: 'Completed' }
+      ],
+      adminNotes: 'Add your notes here...'
+    } as EmployeeDetails;
+  }
+
+  // Get showing results text
+  get showingResultsText(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(this.currentPage * this.itemsPerPage, this.filteredUsers.length);
+    const total = this.filteredUsers.length;
+    return `Showing ${start} to ${end} of ${total} results`;
   }
 }
 

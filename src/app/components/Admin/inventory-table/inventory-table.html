@@ -1,0 +1,50 @@
+<div class="table-container w-full overflow-x-auto bg-white rounded-lg">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="table-header px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Material
+        </th>
+        <th class="table-header px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Quantity (kg)
+        </th>
+        <th class="table-header px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+          Received Date
+        </th>
+        <th class="table-header px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Status
+        </th>
+        <th class="table-header px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+          Location
+        </th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <tr *ngFor="let item of inventoryData" class="table-row">
+        <td class="table-cell px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+          {{ item.material }}
+        </td>
+        <td class="table-cell px-6 py-4 whitespace-nowrap text-gray-700">
+          {{ item.quantity }}
+        </td>
+        <td class="table-cell px-6 py-4 whitespace-nowrap text-gray-500 hidden sm:table-cell">
+          {{ item.receivedDate }}
+        </td>
+        <td class="table-cell px-6 py-4 whitespace-nowrap">
+          <span 
+            class="status-badge px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer"
+            [ngClass]="{
+              'bg-blue-100 text-blue-800': item.status === 'Ready to ship',
+              'bg-amber-100 text-amber-800': item.status === 'Stored'
+            }">
+            {{ item.status }}
+          </span>
+        </td>
+        <td class="table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden lg:table-cell">
+          {{ item.location }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
