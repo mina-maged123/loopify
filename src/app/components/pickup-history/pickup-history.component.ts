@@ -21,7 +21,7 @@ export class PickupHistoryComponent implements OnInit {
   totalRedeemedPoints = 0;
   totalSuccessfulRequests = 0;
   totalRequests = 0;
-
+index:number=1;
 selectedStatus: string = '';
 fromDate: string = '';
 toDate: string = '';

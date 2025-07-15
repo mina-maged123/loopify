@@ -63,7 +63,7 @@
     <table>
       <thead>
         <tr>
-          <th>Request ID</th>
+          <!-- <th>ID</th> -->
           <th>Date</th>
           <th>Quantity</th>
           <th>Status</th>
@@ -71,8 +71,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let req of paginatedRequests">
-          <td>{{ req.id }}</td>
+        <tr *ngFor="let req of paginatedRequests; let i = index">
+     <!-- <td>{{ (currentPage - 1) * pageSize  + 1 }}</td> يعرض 1، 2، 3... -->
+
           <td>{{ req.date | date: 'mediumDate' }}</td>
           <td>{{ req.quantity }}</td>
           <td>
