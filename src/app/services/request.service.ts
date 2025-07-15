@@ -6,6 +6,7 @@ import { Response } from '../models/response.model';
 import { CreatePickupRequestResponse } from '../models/CreatePickupRequestResponse';
 import { ENDPOINTS } from '../shared/endpoints';
 import { ICustomerRequest } from '../models/ICustomerRequest';
+import { PickupRequestDetails } from '../models/PickupRequestDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,23 @@ export class RequestService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.get<Response<ICustomerRequest[]>>(ENDPOINTS.GET_ALL_CUSTOMER_REQUESTS, {headers: headers});
+  }
+
+  getAllRequestsForAdmin() : Observable<Response<PickupRequestDetails[]>>{
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<Response<PickupRequestDetails[]>>(ENDPOINTS.GET_ALL_REQUESTS_FOR_ADMIN, {headers: headers});
+  }
+
+  assignEmployeeToRequest(requestId:number ,employeeEmail:string) : Observable<Response<any>> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    let data = {
+      "email" : employeeEmail,
+    };
+
+    return this.http.post<Response<any>>(ENDPOINTS.POST_ASSIGN_EMPLOYEE_TO_REQUEST(requestId), data, {headers:headers});
   }
 }
