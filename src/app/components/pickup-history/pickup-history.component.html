@@ -29,20 +29,20 @@
         </tr>
       </thead>
       <tbody>
-  <tr *ngFor="let req of pickupRequests">
-    <td>{{ req.id }}</td>
-    <td>{{ req.date | date: 'mediumDate' }}</td>
-    <td>{{ req.quantity }}</td>
-    <td>
-      <span class="status" [ngClass]="{
+        <tr *ngFor="let req of pickupRequests">
+          <td>{{ req.id }}</td>
+          <td>{{ req.date | date: 'mediumDate' }}</td>
+          <td>{{ req.quantity }}</td>
+          <td>
+            <span class="status" [ngClass]="{
         'collected': req.status === 'Collected',
         'pending': req.status === 'Pending',
         'rejected': req.status === 'Canceled'
       }">{{ req.status }}</span>
-    </td>
-    <td>{{ req.pointsEarned !== null ? req.pointsEarned : '-' }}</td>
-  </tr>
-</tbody>
+          </td>
+          <td>{{ req.pointsEarned !== null ? req.pointsEarned : '-' }}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 
@@ -55,42 +55,42 @@
   </div> -->
 
   <div class="stats">
-  <div class="stat-card">
-    <div class="stat-content">
-      <div>
-        <p class="stat-label">Total Requests</p>
-        <p class="stat-value total-requests">{{totalRequests}}</p>
-      </div>
-      <div class="stat-icon blue-bg">
-        <i class="fas fa-list"></i>
+    <div class="stat-card">
+      <div class="stat-content">
+        <div>
+          <p class="stat-label">Total Requests</p>
+          <p class="stat-value total-requests">{{totalRequests}}</p>
+        </div>
+        <div class="stat-icon blue-bg">
+          <i class="fas fa-list"></i>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="stat-card">
-    <div class="stat-content">
-      <div>
-        <p class="stat-label">Successful Pickups</p>
-        <p class="stat-value success">{{totalSuccessfulRequests}}</p>
-      </div>
-      <div class="stat-icon green-bg">
-        <i class="fas fa-check-circle"></i>
+    <div class="stat-card">
+      <div class="stat-content">
+        <div>
+          <p class="stat-label">Successful Pickups</p>
+          <p class="stat-value success">{{totalSuccessfulRequests}}</p>
+        </div>
+        <div class="stat-icon green-bg">
+          <i class="fas fa-check-circle"></i>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="stat-card">
-    <div class="stat-content">
-      <div>
-        <p class="stat-label">Total Points</p>
-        <p class="stat-value points">{{totalRedeemedPoints}}</p>
-      </div>
-      <div class="stat-icon yellow-bg">
-        <i class="fas fa-star"></i>
+    <div class="stat-card">
+      <div class="stat-content">
+        <div>
+          <p class="stat-label">Total Points</p>
+          <p class="stat-value points">{{totalRedeemedPoints}}</p>
+        </div>
+        <div class="stat-icon yellow-bg">
+          <i class="fas fa-star"></i>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 </div>
 

@@ -207,13 +207,6 @@ export class UserManagementComponent implements OnInit {
       engagement: 'High',
       lastLogin: '3 days ago',
       dateCreated: 'March 15, 2024',
-      activities: [
-        { date: 'July 15', actionType: 'Pickup', details: '4kg Plastic', status: 'completed' },
-        { date: 'July 5', actionType: 'Redemption', details: 'Gift Card (250 pts)', status: 'completed' },
-        { date: 'July 1', actionType: 'Pickup', details: '8kg Metal', status: 'completed' },
-        { date: 'June 28', actionType: 'Login', details: 'Website', status: 'completed' },
-        { date: 'June 25', actionType: 'Pickup', details: '2kg Paper', status: 'completed' }
-      ]
     } as CustomerDetails;
   }
 
@@ -230,14 +223,6 @@ export class UserManagementComponent implements OnInit {
       averageCompletionTime: '2 days ago',
       dateCreated: 'March 15, 2024',
       lastLogin: '2 days ago',
-      pickups: [
-        { date: 'Jan 15, 2024', customerName: 'Sarah Ahmed', material: 'Plastic', quantity: '3 kg', status: 'Completed' },
-        { date: 'Jan 14, 2024', customerName: 'Mohamed Ali', material: 'Paper', quantity: '5 kg', status: 'Completed' },
-        { date: 'Jan 13, 2024', customerName: 'Fatima Hassan', material: 'Metal', quantity: '8 kg', status: 'Pending' },
-        { date: 'Jan 12, 2024', customerName: 'Omar Khaled', material: 'Glass', quantity: '2 kg', status: 'Completed' },
-        { date: 'Jan 11, 2024', customerName: 'Nour Mahmoud', material: 'Plastic', quantity: '4 kg', status: 'Completed' }
-      ],
-      adminNotes: 'Add your notes here...'
     } as EmployeeDetails;
   }
 
