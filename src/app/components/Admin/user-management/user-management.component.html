@@ -208,30 +208,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Activity Table -->
-      <div class="activity-table-section">
-        <table class="activity-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Action Type</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let activity of selectedCustomer.activities">
-              <td>{{ activity.date }}</td>
-              <td>
-                <span class="action-type" [class]="activity.actionType.toLowerCase()">
-                  {{ activity.actionType }}
-                </span>
-              </td>
-              <td>{{ activity.details }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
 </div>
@@ -307,34 +283,6 @@
             <span class="stat-value">{{ selectedEmployee.pendingPickups }}</span>
           </div>
         </div>
-      </div>
-
-      <!-- Pickup History Table -->
-      <div class="pickup-table-section">
-        <table class="pickup-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Customer Name</th>
-              <th>Material</th>
-              <th>Quantity</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let pickup of selectedEmployee.pickups">
-              <td>{{ pickup.date }}</td>
-              <td>{{ pickup.customerName }}</td>
-              <td>{{ pickup.material }}</td>
-              <td>{{ pickup.quantity }}</td>
-              <td>
-                <span class="pickup-status" [class]="pickup.status.toLowerCase()">
-                  {{ pickup.status }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>

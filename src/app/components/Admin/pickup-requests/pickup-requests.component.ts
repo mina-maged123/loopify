@@ -12,6 +12,7 @@ interface Request {
   materialType: string;
   status: string;
   assignedTo: string;
+  scheduledDate: string;
 }
 
 interface MenuItem {
@@ -56,6 +57,10 @@ export class PickupRequestsComponent implements OnInit {
   //   { icon: 'analytics', label: 'Analytics' }
   // ];
 
+  currentPage: number = 1;
+  itemsPerPage: number = 8;
+  fromDateFilter: string = '';
+  toDateFilter: string = '';
   requests: Request[] = [];
   filteredRequests: Request[] = [];
   constructor(private requestService: RequestService) { }
@@ -77,6 +82,7 @@ export class PickupRequestsComponent implements OnInit {
             status: r.status == 0 ? "Pending" : r.status == 1 ? "Schedualed" : r.status == 2 ? "Collected" : "Canceled",
             assignedTo: r.employee?.fullName ?? "None",
             materialType: requestMaterials,
+            scheduledDate: r.scheduledDate,
           };
 
           this.requests.push(request);
@@ -99,13 +105,9 @@ export class PickupRequestsComponent implements OnInit {
   onStatusFilterChange(event: any) {
     this.statusFilter = event.target.value;
     this.filteredRequests = this.requests.filter((r) => r.status == this.statusFilter);
-    if(this.statusFilter == "All Status"){
+    if (this.statusFilter == "All Status") {
       this.filteredRequests = this.requests;
     }
-  }
-
-  onEmployeeFilterChange(event: any) {
-    this.employeeFilter = event.target.value;
   }
 
   getStatusClass(status: string): string {
@@ -150,5 +152,81 @@ export class PickupRequestsComponent implements OnInit {
 
   updateStatus(requestId: number) {
     console.log('Updating status for request:', requestId);
+  }
+
+  get paginatedUsers(): Request[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredRequests.slice(startIndex, endIndex);
+  }
+
+  // Get total pages
+  get totalPages(): number {
+    return Math.ceil(this.filteredRequests.length / this.itemsPerPage);
+  }
+
+  // Get page numbers for pagination
+  get pageNumbers(): number[] {
+    const pages = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  // Navigate to specific page
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  // Navigate to previous page
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  // Navigate to next page
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  // Get showing results text
+  get showingResultsText(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(this.currentPage * this.itemsPerPage, this.filteredRequests.length);
+    const total = this.filteredRequests.length;
+    return `Showing ${start} to ${end} of ${total} results`;
+  }
+
+  onDateFilterChange() {
+    if (!this.fromDateFilter && !this.toDateFilter) {
+      this.filteredRequests = this.requests;
+      return;
+    }
+
+    const fromDate = this.fromDateFilter ? new Date(this.fromDateFilter) : null;
+    const toDate = this.toDateFilter ? new Date(this.toDateFilter) : null;
+
+    this.filteredRequests = this.requests.filter(request => {
+      if (!request.scheduledDate) return false;
+
+      const requestDate = new Date(request.scheduledDate);
+
+      if (fromDate && toDate) {
+        return requestDate >= fromDate && requestDate <= toDate;
+      } else if (fromDate) {
+        return requestDate >= fromDate;
+      } else if (toDate) {
+        return requestDate <= toDate;
+      }
+      return true;
+    });
+
+    this.currentPage = 1; // Reset to first page when filtering
   }
 }

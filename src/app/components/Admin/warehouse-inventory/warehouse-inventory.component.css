@@ -1,0 +1,17 @@
+.page-title {
+    color: #1C4B41;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    font-family: Poppins;
+    align-self: flex-start;
+    /* Align title to the left */
+    width: 100%;
+    max-width: 900px;
+}
+
+.page-subtitle {
+    font-size: 17px;
+    color: #6b7280;
+    margin: 0;
+}
