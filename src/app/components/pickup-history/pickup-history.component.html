@@ -1,22 +1,64 @@
+<!-- pickup-history.component.html -->
 <app-nav></app-nav>
 
-
 <div class="container">
-  <h2>Pickup History</h2>
+  <h2 style="color: #1C4B41;">Pickup History</h2>
   <p class="subtitle">Track and manage your recycling pickup requests</p>
 
-  <div class="search-filter">
-    <input type="text" placeholder="Search requests..." />
-    <select>
-      <option>All Status</option>
-      <option>Collected</option>
-      <option>Pending</option>
-      <option>Scheduled</option>
-      <option>Canceled</option>
-    </select>
-    <button class="back-btn" [routerLink]="['/customer/dashboard']">← Back to Dashboard</button>
+  <!-- الإحصائيات -->
+  <div class="stats my-5">
+    <div class="stat-card">
+      <div class="stat-content">
+        <div>
+          <p class="stat-label">Total Requests</p>
+          <p class="stat-value">{{ totalRequests }}</p>
+        </div>
+        <div class="stat-icon blue-bg"><i class="fas fa-list"></i></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-content">
+        <div>
+          <p class="stat-label">Successful Pickups</p>
+          <p class="stat-value success">{{ totalSuccessfulRequests }}</p>
+        </div>
+        <div class="stat-icon green-bg"><i class="fas fa-check-circle"></i></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-content">
+        <div>
+          <p class="stat-label">Total Points</p>
+          <p class="stat-value points">{{ totalRedeemedPoints }}</p>
+        </div>
+        <div class="stat-icon yellow-bg"><i class="fas fa-star"></i></div>
+      </div>
+    </div>
   </div>
 
+<!-- الفلترة -->
+<div class="search-filter mb-4">
+  <select (change)="onStatusChange($event)">
+    <option value="">All Status</option>
+    <option>Collected</option>
+    <option>Pending</option>
+    <option>Scheduled</option>
+    <option>Canceled</option>
+  </select>
+
+  <!-- تاريخ من -->
+  <input type="date" (change)="onFromDateChange($event)" placeholder="From Date" />
+
+  <!-- تاريخ إلى -->
+  <input type="date" (change)="onToDateChange($event)" placeholder="To Date" />
+
+  <button class="back-btn" [routerLink]="['/customer/dashboard']">← Back</button>
+</div>
+
+
+  <!-- جدول الطلبات -->
   <div class="table-wrapper">
     <table>
       <thead>
@@ -29,70 +71,31 @@
         </tr>
       </thead>
       <tbody>
-  <tr *ngFor="let req of pickupRequests">
-    <td>{{ req.id }}</td>
-    <td>{{ req.date | date: 'mediumDate' }}</td>
-    <td>{{ req.quantity }}</td>
-    <td>
-      <span class="status" [ngClass]="{
-        'collected': req.status === 'Collected',
-        'pending': req.status === 'Pending',
-        'rejected': req.status === 'Canceled'
-      }">{{ req.status }}</span>
-    </td>
-    <td>{{ req.pointsEarned !== null ? req.pointsEarned : '-' }}</td>
-  </tr>
-</tbody>
+        <tr *ngFor="let req of paginatedRequests">
+          <td>{{ req.id }}</td>
+          <td>{{ req.date | date: 'mediumDate' }}</td>
+          <td>{{ req.quantity }}</td>
+          <td>
+            <span class="status" [ngClass]="{
+              'collected': req.status === 'Collected',
+              'pending': req.status === 'Pending',
+              'rejected': req.status === 'Canceled'
+            }">{{ req.status }}</span>
+          </td>
+          <td>{{ req.pointsEarned !== null ? req.pointsEarned : '-' }}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 
-  <!-- <div class="pagination">
-    <button></button>
-    <button class="active">1</button>
-    <button>2</button>
-    <button>3</button>
-    <button></button>
-  </div> -->
-
-  <div class="stats">
-  <div class="stat-card">
-    <div class="stat-content">
-      <div>
-        <p class="stat-label">Total Requests</p>
-        <p class="stat-value total-requests">{{totalRequests}}</p>
-      </div>
-      <div class="stat-icon blue-bg">
-        <i class="fas fa-list"></i>
-      </div>
-    </div>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-content">
-      <div>
-        <p class="stat-label">Successful Pickups</p>
-        <p class="stat-value success">{{totalSuccessfulRequests}}</p>
-      </div>
-      <div class="stat-icon green-bg">
-        <i class="fas fa-check-circle"></i>
-      </div>
-    </div>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-content">
-      <div>
-        <p class="stat-label">Total Points</p>
-        <p class="stat-value points">{{totalRedeemedPoints}}</p>
-      </div>
-      <div class="stat-icon yellow-bg">
-        <i class="fas fa-star"></i>
-      </div>
-    </div>
+  <!-- Pagination -->
+  <div class="pagination mt-4">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+    <button *ngFor="let page of [].constructor(totalPages); let i = index"
+            (click)="goToPage(i + 1)"
+            [class.active]="currentPage === i + 1">{{ i + 1 }}</button>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
   </div>
 </div>
-
-</div>
-
 
 <app-footer></app-footer>
