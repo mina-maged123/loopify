@@ -8,7 +8,7 @@
       <option value="">All Status</option>
       <option value="Collected">Collected</option>
       <option value="Scheduled">Scheduled</option>
-      <option value="Pending">Pending</option>
+      <!-- <option value="Pending">Pending</option> -->
       <option value="Cancelled">Cancelled</option>
     </select>
   </div>
@@ -25,7 +25,7 @@
   <div class="row g-4 ">
     @for (request of paginatedRequests; track request) {
       <div class="col-md-6 cart">
-        <div class="card p-3 shadow-sm">
+        <div class="card p-4 shadow-sm">
           <div class="d-flex justify-content-between">
             <h5>{{ request.userName }}</h5>
  
