@@ -8,6 +8,11 @@ import { ENDPOINTS } from '../shared/endpoints';
 import { ICustomerRequest } from '../models/ICustomerRequest';
 import { PickupRequestDetails } from '../models/PickupRequestDetails';
 
+export interface customerData {
+  totalPickupRequests: number;
+  totalRewards: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,4 +51,12 @@ export class RequestService {
 
     return this.http.post<Response<any>>(ENDPOINTS.POST_ASSIGN_EMPLOYEE_TO_REQUEST(requestId), data, {headers:headers});
   }
+
+  getTotalRequestsAndRewards(userId:number) : Observable<Response<customerData>> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<Response<customerData>>(ENDPOINTS.GET_TOTAL_REQUESTS_REWARDS(userId), { headers });
+  }
+
 }

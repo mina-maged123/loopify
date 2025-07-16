@@ -27,7 +27,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ReportComponent } from './components/Employee/report-issue/report-issue.component';
 import { AdminLayoutComponent } from './Layouts/admin-layout/admin-layout.component';
 import { AdminDashboardComponent } from './components/Admin/admin-dashboard/admin-dashboard.component';
-import { RedemptionCatalogComponent } from './components/Admin/redemption-catalog/redemption-catalog.component';
 import { UserManagementComponent } from './components/Admin/user-management/user-management.component';
 import { WarehouseInventoryComponent } from './components/Admin/warehouse-inventory/warehouse-inventory.component';
 import { PickupRequestsComponent } from './components/Admin/pickup-requests/pickup-requests.component';

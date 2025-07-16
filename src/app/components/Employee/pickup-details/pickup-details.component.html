@@ -4,8 +4,13 @@
     <div class="absolute right-4 top-4">
       <!-- ✅ الصح بناءً على إن 1 = Scheduled، 2 = Completed -->
       <span [ngClass]="{
+      <!-- ✅ الصح بناءً على إن 1 = Scheduled، 2 = Completed -->
+      <span [ngClass]="{
     'bg-yellow-100 text-yellow-800': pickupRequest.status === 1,
     'bg-green-100 text-green-800': pickupRequest.status === 2
+  }" class="text-sm px-3 py-1 rounded-full">
+        {{ pickupRequest.status == 1 ? 'Scheduled' : 'Completed' }}
+      </span>
   }" class="text-sm px-3 py-1 rounded-full">
         {{ pickupRequest.status == 1 ? 'Scheduled' : 'Completed' }}
       </span>
@@ -52,9 +57,29 @@
         <p class="text-sm text-gray-500 mb-4">Materials</p>
         <div class="flex flex-wrap gap-2">
           <span *ngFor="let item of pickupRequest.pickupItems" [ngClass]="{
+      <!-- Materials -->
+      <div>
+        <p class="text-sm text-gray-500 mb-4">Materials</p>
+        <div class="flex flex-wrap gap-2">
+          <span *ngFor="let item of pickupRequest.pickupItems" [ngClass]="{
       'bg-green-100 text-green-800':  item.materialName  === 'Plastic',
       'bg-blue-100 text-blue-800':  item.materialName  === 'Glass',
       'bg-gray-100 text-gray-800':  item.materialName  !== 'Plastic' &&  item.materialName  !== 'Glass'
+    }" class="px-3 py-1 rounded-full text-sm">
+            {{ item.materialName }} - {{item.plannedQuantity}}
+          </span>
+        </div>
+        <div>
+          <p></p>
+          <div class="flex items-start mb-6">
+            <div class="mt-1 mr-3 text-gray-500"><!-- SVG icon --></div>
+            <div>
+              <p class="text-sm text-gray-500">Mobile</p>
+              <p class="font-medium">{{ pickupRequest.customer.phoneNumber|| 'No Phone provided' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     }" class="px-3 py-1 rounded-full text-sm">
             {{ item.materialName }} - {{item.plannedQuantity}}
           </span>
@@ -79,9 +104,14 @@
   <div *ngIf="pickupRequest.status === 1" class="">
     <!-- <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-4">Map Location</h2> -->
     <!-- <div class="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-500 rounded-lg">
+  <!-- Scheduled (status === 1): -->
+  <div *ngIf="pickupRequest.status === 1" class="">
+    <!-- <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-4">Map Location</h2> -->
+    <!-- <div class="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-500 rounded-lg">
     <p>Map will appear here at ({{ pickupRequest.locationLat }}, {{ pickupRequest.locationLng }})</p>
   </div> -->
 
+    <div class="flex gap-4  btns ">
     <div class="flex gap-4  btns ">
 
 
@@ -100,6 +130,22 @@
       </button>
     </div>
 
+      <button
+        class="d-flex justify-content-center align-items-center gap-2 confirm text-white px-4 py-2 rounded-2 w-50 "
+        data-bs-toggle="modal" data-bs-target="#pickupConfirmationModal">
+        <img src="assets/rv.svg" alt=""> Confirm
+      </button>
+      <button [routerLink]="['/employee/pickup']"
+        class="d-flex justify-content-center align-items-center gap-2 text-danger px-4 py-2 w-50 btn-outline-danger border-1 rounded-2">
+        <img src="assets/xv.svg" alt=""> Cancel
+      </button>
+      <button [routerLink]="['/employee/report-issue', pickupRequest.id]"
+        class="d-flex justify-content-center align-items-center gap-2 text-primary px-4 py-2 w-50 btn-outline-primary border-1 rounded-2">
+        <i class="fa-solid fa-comment"></i> Report For Issue
+      </button>
+    </div>
+
+  </div>
   </div>
 
   <!-- Completed (status === 2): -->
@@ -153,6 +199,8 @@
 
 
 <!-- Modal -->
+<div class="modal fade" id="pickupConfirmationModal" tabindex="-1" aria-labelledby="pickupConfirmationLabel"
+  aria-hidden="true">
 <div class="modal fade" id="pickupConfirmationModal" tabindex="-1" aria-labelledby="pickupConfirmationLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
