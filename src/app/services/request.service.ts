@@ -13,6 +13,12 @@ export interface customerData {
   totalRewards: number;
 }
 
+export interface employeeData {
+  totalPickupRequestsAssigned: number;
+  totalPickupScheduled: number;
+  totalPickupCollected: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -57,6 +63,13 @@ export class RequestService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.get<Response<customerData>>(ENDPOINTS.GET_TOTAL_REQUESTS_REWARDS(userId), { headers });
+  }
+
+  getTotalAssignedAndCollected(userId:number) : Observable<Response<employeeData>> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<Response<employeeData>>(ENDPOINTS.GET_TOTAL_ASSIGNED_COLLECTED(userId), { headers });
   }
 
 }
