@@ -21,7 +21,7 @@ export class PickUpRequestComponent implements OnInit {
   searchName: string = '';
 
   currentPage = 1;
-  itemsPerPage = 4;
+  itemsPerPage = 6;
 
   constructor(private pickupService: EmployeePickupRequestsService) {}
 
