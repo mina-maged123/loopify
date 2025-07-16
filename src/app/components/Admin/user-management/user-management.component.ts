@@ -1,4 +1,4 @@
-import { EmployeeData } from './../../../services/admin-features.service';
+import { RequestService } from '@/app/services/request.service';
 import { AdminFeaturesService } from '@/app/services/admin-features.service';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { CommonModule } from '@angular/common';
@@ -55,9 +55,25 @@ export interface EmployeeDetails extends User {
   adminNotes: string;
 }
 
+export interface EmpData {
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  phoneNumber: string;
+  address: string | null;
+  password: string;
+  confirmPassword: string;
+  warehouseName: string;
+}
+
+export interface customerData {
+  totalPickupRequests: number;
+  totalRewards: number;
+}
+
 @Component({
   selector: 'app-users-management',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
@@ -76,7 +92,7 @@ export class UserManagementComponent implements OnInit {
   selectedEmployee: EmployeeDetails | null = null;
 
   constructor(private userProfileService: UserProfileService, private adminFeaturesService: AdminFeaturesService,
-    private router: Router) { }
+    private router: Router, private requestService:RequestService) { }
 
   ngOnInit(): void {
     this.userProfileService.GetAllUsers().subscribe({
@@ -175,6 +191,7 @@ export class UserManagementComponent implements OnInit {
   viewUser(user: User): void {
     if (user.role === 'Customer') {
       this.selectedCustomer = this.getCustomerDetails(user.id);
+      this.showData(user.id);
       this.showCustomerModal = true;
     } else {
       this.selectedEmployee = this.getEmployeeDetails(user.id);
@@ -191,6 +208,7 @@ export class UserManagementComponent implements OnInit {
   closeCustomerModal(): void {
     this.showCustomerModal = false;
     this.selectedCustomer = null;
+    this.data = null;
   }
 
   closeEmployeeModal(): void {
@@ -200,6 +218,7 @@ export class UserManagementComponent implements OnInit {
 
   closeAddEmployeeModal(): void {
     this.AddEmployeeModal = false;
+    this.employeeForm.reset(); // Reset form when modal is closed
   }
 
   // Get customer details (replace with actual service call)
@@ -248,7 +267,7 @@ export class UserManagementComponent implements OnInit {
     firstName: new FormControl('',[Validators.required]),
     lastName: new FormControl('',[Validators.required]),
     emailAddress: new FormControl('',[Validators.required, Validators.email]),
-    phoneNumber: new FormControl('',[Validators.required, Validators.maxLength(11)]),
+    phoneNumber: new FormControl('',[Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
     address: new FormControl('',[Validators.required]),
     password: new FormControl('',[Validators.required]),
     confirmPassword: new FormControl('',[Validators.required]),
@@ -281,7 +300,51 @@ export class UserManagementComponent implements OnInit {
   }
 
   SaveData() {
-    
+    if(this.employeeForm.valid) {
+      const formValues = this.employeeForm.value;
+
+      // Check if passwords match
+      if (formValues.password !== formValues.confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const dataToSend: EmpData = {
+        firstName: formValues.firstName ?? '',
+        lastName: formValues.lastName ?? '',
+        emailAddress: formValues.emailAddress ?? '',
+        phoneNumber: formValues.phoneNumber ?? '',
+        address: formValues.address ? (formValues.address.trim() === '' ? null : formValues.address) : null,
+        password: formValues.password ?? '',
+        confirmPassword: formValues.confirmPassword ?? '',
+        warehouseName: formValues.warehouseName ?? ''
+      };
+
+      this.adminFeaturesService.AddEmployee(dataToSend).subscribe({
+        next: () => {
+          alert("Employee added successfully!");
+          this.employeeForm.reset(); 
+          this.closeAddEmployeeModal(); 
+        },
+        error: (err) => {
+          console.error("Error adding employee:", err);
+          alert("Error adding employee. Please try again.");
+        }
+      })
+    } else {
+      alert("Please fill in all required fields correctly.");
+    }
+  }
+
+  // Data for customer
+  data: customerData | null = null;
+  showData(userId:number) {
+    this.requestService.getTotalRequestsAndRewards(userId).subscribe({
+      next: (response) => {
+        console.log(response.data);
+        this.data = response.data;
+      }
+    });
   }
 
 }

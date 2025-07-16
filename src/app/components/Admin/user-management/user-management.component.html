@@ -178,14 +178,14 @@
           <div class="activity-card pickups">
             <div class="card-icon">📦</div>
             <div class="card-content">
-              <span class="card-value">{{ selectedCustomer.totalPickups }} pickups</span>
+              <span class="card-value">{{ data?.totalPickupRequests }} pickups</span>
               <span class="card-label">Total Pickups</span>
             </div>
           </div>
           <div class="activity-card rewards">
             <div class="card-icon">🎁</div>
             <div class="card-content">
-              <span class="card-value">{{ selectedCustomer.totalRewards }} rewards</span>
+              <span class="card-value">{{ data?.totalRewards }} rewards</span>
               <span class="card-label">Total Rewards</span>
             </div>
           </div>
@@ -273,7 +273,7 @@
 
 
 <div class="modal-overlay" *ngIf="AddEmployeeModal" (click)="closeAddEmployeeModal()">
-  <div class="modal-container" (click)="$event.stopPropagation()">
+  <div class="modal-container add-employee-modal" (click)="$event.stopPropagation()">
     <div class="modal-header">
       <h2>Add New Employee</h2>
       <button class="close-button" (click)="closeAddEmployeeModal()">
@@ -285,7 +285,7 @@
     </div>
 
     <div class="modal-body">
-      <form [formGroup]="employeeForm" (submit)="SaveData()">
+      <form [formGroup]="employeeForm" (ngSubmit)="SaveData()">
         <div class="form-group">
           <label for="fName" class="form-label">
             First Name
@@ -354,10 +354,9 @@
           <div id="passwordHelpBlock" class="form-text text-danger">
             Phone Number Is Required.
           </div>
-          }
-          @if (getPhoneNumber?.hasError('maxLength')) {
+          } @if (getPhoneNumber?.hasError('minLength') || getPhoneNumber?.hasError('maxLength')) {
           <div id="passwordHelpBlock" class="form-text text-danger">
-            Phone Number length must be 11 number.
+            Phone Number must be exactly 11 digits.
           </div>
           }}
         </div>
@@ -401,10 +400,10 @@
             }}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" [routerLink]="['/admin/user-management']">
+          <button type="button" class="btn btn-cancel" (click)="closeAddEmployeeModal()">
             Cancel
           </button>
-          <button type="button" class="btn btn-save">
+          <button type="submit" class="btn btn-save" [disabled]="!employeeForm.valid">
             Save
           </button>
         </div>

@@ -491,6 +491,11 @@
   animation: modalSlideIn 0.3s ease-out;
 }
 
+/* Specific styling for Add Employee Modal */
+.add-employee-modal {
+  max-width: 500px;
+}
+
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -1021,4 +1026,26 @@
 .btn-save:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Error message styling */
+.form-text.text-danger {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Form input error state */
+.form-input.ng-invalid.ng-touched {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Responsive design for add employee modal */
+@media (max-width: 600px) {
+  .add-employee-modal {
+    max-width: 95%;
+    margin: 10px;
+  }
 }

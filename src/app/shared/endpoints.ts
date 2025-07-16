@@ -19,7 +19,7 @@ export const ENDPOINTS = {
     GET_ALL_CUSTOMER_REQUESTS: `${baseUrl}PickupRequest`,
     GET_ALL_REQUESTS_FOR_ADMIN: `${baseUrl}PickupRequest/all`,
     POST_ASSIGN_EMPLOYEE_TO_REQUEST: (requestId:number) => `${baseUrl}PickupRequest/assign-employee/${requestId}`,
-
+    GET_TOTAL_REQUESTS_REWARDS: (userId:number) => `${baseUrl}PickupRequest/TotalRequests&Rewards/${userId}`,
 
     GET_NOTIFICATIONS: `${baseUrl}Notification`,
 
