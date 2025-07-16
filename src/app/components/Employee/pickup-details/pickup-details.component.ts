@@ -80,6 +80,7 @@ export class PickupDetailsComponent implements OnInit {
     if (this.pickupForm.invalid) return;
     // console.log(this.pickupForm.value.materials);
     let newDataToSend = this.dataNormalize(this.materials.value);
+    console.log(newDataToSend);
     
     try {
       // const dataToSend = formValues.map((mat: any) => {
@@ -143,7 +144,7 @@ export class PickupDetailsComponent implements OnInit {
 
     const normalizedArray = Object.entries(normalizedMap).map(([materialId, quantity]) => ({
       materialId: Number(materialId),
-      quantity
+      actualQuantity: Number(quantity),
     }));
 
     console.log(normalizedArray);
