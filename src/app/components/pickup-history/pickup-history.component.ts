@@ -25,6 +25,7 @@ index:number=1;
 selectedStatus: string = '';
 fromDate: string = '';
 toDate: string = '';
+  cancelRequestId: number | null = null;
 
 
   currentPage = 1;
@@ -64,6 +65,8 @@ toDate: string = '';
           .reduce((sum, r) => sum + (r.pointsEarned || 0), 0);
 
         this.applyFilters();
+        this.loadRequestsFromAPI();
+
       },
       error: (error) => {
         console.log(error);
@@ -124,4 +127,74 @@ applyFilters() {
 
 
 
+
+confirmCancel(reqId: number): void {
+  this.cancelRequestId = reqId;
 }
+
+cancelRequestConfirmed(): void {
+  if (this.cancelRequestId !== null) {
+    this.cancelRequest(this.cancelRequestId);
+    this.cancelRequestId = null;
+  }
+}
+
+cancelRequestDeclined(): void {
+  this.cancelRequestId = null;
+}
+
+// cancelRequest(reqId: string): void {
+//   const numericId = Number(reqId);
+//   if (isNaN(numericId)) {
+//     console.error('Invalid request ID:', reqId);
+//     return;
+//   }
+//   this.requestService.CancelRequestFromCustomer(numericId).subscribe({
+//     next: () => {
+//       const index = this.pickupRequests.findIndex(r => r.id === reqId);
+//       if (index !== -1) {
+//         this.pickupRequests[index].status = 'Canceled';
+//         this.pickupRequests[index].pointsEarned = 0;
+//        this.calculateStats();
+//         this.applyFilters();
+//       }
+//     },
+//     error: (err) => {
+//       console.error('Error cancelling request', err);
+//     }
+//   });
+// }
+cancelRequest(reqId: number): void {
+   const numericId = Number(reqId);
+  if (isNaN(numericId)) {
+    console.error('Invalid request ID:', reqId);
+    return;
+  }
+  console.log("Request status:", this.pickupRequests.find(r => Number(r.id) === reqId)?.status);
+
+  this.requestService.CancelRequestFromCustomer(numericId).subscribe({
+    next: (result) => {
+          console.log("Cancel result:", result);
+
+const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
+      if (index !== -1) {
+        this.pickupRequests[index].status = 'Canceled';
+        this.pickupRequests[index].pointsEarned = 0;
+        this.applyFilters();
+      }
+      const message = result?.message || "Pickup request cancelled.";
+      alert(message);
+    this.loadRequestsFromAPI();
+
+    },
+     error: (err) => {
+      alert(err?.error?.message || "An error occurred during cancellation.");
+      console.error('Error cancelling request', err);
+    }
+  });
+}
+
+
+ 
+}
+
