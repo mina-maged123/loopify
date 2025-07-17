@@ -99,10 +99,10 @@
       </div>
 
       <!-- Pagination Section -->
-      <div class="pagination-section" *ngIf="totalPages > 1">
-        <div class="results-info">
+      <div class="pagination-section d-flex justify-content-center my-4" *ngIf="totalPages > 1">
+        <!-- <div class="results-info">
           <span>{{ showingResultsText }}</span>
-        </div>
+        </div> -->
         <div class="pagination-controls">
           <button class="pagination-button" [disabled]="currentPage === 1" (click)="previousPage()">Previous</button>
           <div class="page-numbers">

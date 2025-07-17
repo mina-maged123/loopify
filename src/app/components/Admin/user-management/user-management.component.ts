@@ -83,7 +83,7 @@ export class UserManagementComponent implements OnInit {
   activeTab: 'Customer' | 'Employee' = 'Customer';
   searchTerm: string = '';
   currentPage: number = 1;
-  itemsPerPage: number = 8;
+  itemsPerPage: number = 6;
   allUsers: User[] = [];
 
   // Modal state
@@ -134,11 +134,12 @@ export class UserManagementComponent implements OnInit {
   }
 
   // Get paginated users
-  get paginatedUsers(): User[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredUsers.slice(startIndex, endIndex);
-  }
+get paginatedUsers(): User[] {
+  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  const endIndex = startIndex + this.itemsPerPage;
+  return this.filteredUsers.slice(startIndex, endIndex);
+}
+
 
   // Get total pages
   get totalPages(): number {

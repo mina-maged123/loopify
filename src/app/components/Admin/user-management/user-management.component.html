@@ -43,6 +43,8 @@
     <table class="users-table">
       <thead>
         <tr>
+          
+          <th>Id</th>
           <th>Name</th>
           <th>Role</th>
           <th>Email</th>
@@ -51,33 +53,48 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of paginatedUsers" class="user-row">
-          <td class="name-cell">
-            <div class="user-info">
-              <div class="avatar-container">
-                <img [src]="user.profilePictureUrl || './../../../../assets/user.png'">
-              </div>
-              <span class="user-name">{{ user.fullName }}</span>
-            </div>
-          </td>
-          <td class="role-cell">
-            <span class="role-badge" [class]="user.role.toLowerCase()">
-              {{ user.role }}
-            </span>
-          </td>
-          <td class="email-cell">{{ user.email }}</td>
-          <td class="phone-cell">{{ user.phoneNumber }}</td>
-          <td class="actions-cell">
-            <div class="action-buttons">
-              <button class="action-button view-button" (click)="viewUser(user)" title="View user details">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </button>
-            </div>
-          </td>
-        </tr>
+     <tr *ngFor="let user of paginatedUsers; let i = index" class="user-row">
+  <!-- ترتيب الصف -->
+  <td class="index-cell">
+    {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+  </td>
+
+  <!-- الاسم والصورة -->
+  <td class="name-cell">
+    <div class="user-info">
+      <div class="avatar-container">
+        <img [src]="user.profilePictureUrl || './../../../../assets/user.png'" alt="Avatar">
+      </div>
+      <span class="user-name">{{ user.fullName }}</span>
+    </div>
+  </td>
+
+  <!-- الدور -->
+  <td class="role-cell">
+    <span class="role-badge" [class]="user.role.toLowerCase()">
+      {{ user.role }}
+    </span>
+  </td>
+
+  <!-- الإيميل -->
+  <td class="email-cell">{{ user.email }}</td>
+
+  <!-- رقم الهاتف -->
+  <td class="phone-cell">{{ user.phoneNumber }}</td>
+
+  <!-- زر التفاصيل -->
+  <td class="actions-cell">
+    <div class="action-buttons">
+      <button class="action-button view-button" (click)="viewUser(user)" title="View user details">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </button>
+    </div>
+  </td>
+</tr>
+
       </tbody>
     </table>
 
@@ -95,12 +112,12 @@
   </div>
 
   <!-- Pagination Section -->
-  <div class="pagination-section" *ngIf="totalPages > 1">
-    <div class="results-info">
+  <div class="pagination-section d-flex justify-content-center" *ngIf="totalPages > 1">
+    <!-- <div class="results-info">
       <span>{{ showingResultsText }}</span>
-    </div>
+    </div> -->
 
-    <div class="pagination-controls">
+    <div class="pagination-controls ">
       <button class="pagination-button" [disabled]="currentPage === 1" (click)="previousPage()">
         Previous
       </button>
