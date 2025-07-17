@@ -178,14 +178,14 @@
           <div class="activity-card pickups">
             <div class="card-icon">📦</div>
             <div class="card-content">
-              <span class="card-value">{{ data?.totalPickupRequests }} pickups</span>
+              <span class="card-value">{{ custData?.totalPickupRequests }} pickups</span>
               <span class="card-label">Total Pickups</span>
             </div>
           </div>
           <div class="activity-card rewards">
             <div class="card-icon">🎁</div>
             <div class="card-content">
-              <span class="card-value">{{ data?.totalRewards }} rewards</span>
+              <span class="card-value">{{ custData?.totalRewards }} rewards</span>
               <span class="card-label">Total Rewards</span>
             </div>
           </div>
@@ -251,19 +251,19 @@
         <div class="stat-card assigned">
           <div class="stat-content">
             <span class="stat-label">Total Pickups Assigned</span>
-            <span class="stat-value">{{ selectedEmployee.totalPickupsAssigned }}</span>
+            <span class="stat-value">{{ empData?.totalPickupRequestsAssigned }}</span>
           </div>
         </div>
         <div class="stat-card completed">
           <div class="stat-content">
-            <span class="stat-label">Completed Pickups</span>
-            <span class="stat-value">{{ selectedEmployee.completedPickups }}</span>
+            <span class="stat-label">Collected Pickups</span>
+            <span class="stat-value">{{ empData?.totalPickupCollected }}</span>
           </div>
         </div>
         <div class="stat-card pending">
           <div class="stat-content">
-            <span class="stat-label">Pending Pickups</span>
-            <span class="stat-value">{{ selectedEmployee.pendingPickups }}</span>
+            <span class="stat-label">Scheduled Pickups</span>
+            <span class="stat-value">{{ empData?.totalPickupScheduled }}</span>
           </div>
         </div>
       </div>
@@ -390,14 +390,16 @@
           <label for="warehouseName" class="form-label">
             Warehouse Name
           </label>
-          <input type="text" formControlName="warehouseName" id="warehouseName" name="warehouseName" class="form-input"
-            placeholder="Enter Warehouse Name">
-            @if (getWarehouseName?.touched) {
-            @if (getWarehouseName?.hasError('required')) {
-            <div id="passwordHelpBlock" class="form-text text-danger">
-              Warehouse Name Is Required.
-            </div>
-            }}
+          <div class="select-wrapper">
+            <select formControlName="warehouseName" id="warehouseName" name="warehouseName" class="form-input" [disabled]="isLoadingWarehouses">
+              <option value="" disabled selected>
+                {{ isLoadingWarehouses ? 'Loading warehouses...' : 'Select Warehouse' }}
+              </option>
+              <option *ngFor="let warehouse of warehouses; trackBy: trackByWarehouseId" [value]="warehouse.name">
+                {{ warehouse.name }} - {{ warehouse.location }}
+              </option>
+            </select>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" (click)="closeAddEmployeeModal()">

@@ -4,13 +4,20 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response } from '../models/response.model';
 import { CreatePickupRequestResponse } from '../models/CreatePickupRequestResponse';
-import { ENDPOINTS } from '../shared/endpoints';
+import { baseUrl, ENDPOINTS } from '../shared/endpoints';
 import { ICustomerRequest } from '../models/ICustomerRequest';
 import { PickupRequestDetails } from '../models/PickupRequestDetails';
+import { ICancelRequest } from '../models/icancel-request';
 
 export interface customerData {
   totalPickupRequests: number;
   totalRewards: number;
+}
+
+export interface employeeData {
+  totalPickupRequestsAssigned: number;
+  totalPickupScheduled: number;
+  totalPickupCollected: number;
 }
 
 @Injectable({
@@ -57,6 +64,24 @@ export class RequestService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.get<Response<customerData>>(ENDPOINTS.GET_TOTAL_REQUESTS_REWARDS(userId), { headers });
+  }
+
+  CancelRequestFromCustomer(requestId: number): Observable<Response<ICancelRequest>> {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  return this.http.put<Response<ICancelRequest>>(
+    baseUrl + "PickupRequest/Cancel/Customer",
+    { requestId },
+    { headers }   
+  );
+}
+
+  getTotalAssignedAndCollected(userId:number) : Observable<Response<employeeData>> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<Response<employeeData>>(ENDPOINTS.GET_TOTAL_ASSIGNED_COLLECTED(userId), { headers });
   }
 
 }

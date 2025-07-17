@@ -1,10 +1,12 @@
-import { RequestService } from '@/app/services/request.service';
+import { employeeData, RequestService } from '@/app/services/request.service';
 import { AdminFeaturesService } from '@/app/services/admin-features.service';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { IWarehouseData } from '@/app/models/iwarehouse';
+import { WarehouseService } from '@/app/services/warehouse.service';
 
 export interface User {
   id: number,
@@ -87,12 +89,17 @@ export class UserManagementComponent implements OnInit {
   // Modal state
   showCustomerModal: boolean = false;
   showEmployeeModal: boolean = false;
-  AddEmployeeModal: boolean = false; 
+  AddEmployeeModal: boolean = false;
   selectedCustomer: CustomerDetails | null = null;
   selectedEmployee: EmployeeDetails | null = null;
 
-  constructor(private userProfileService: UserProfileService, private adminFeaturesService: AdminFeaturesService,
-    private router: Router, private requestService:RequestService) { }
+  constructor(
+    private userProfileService: UserProfileService,
+    private adminFeaturesService: AdminFeaturesService,
+    private router: Router,
+    private requestService: RequestService,
+    private warehouseService: WarehouseService
+  ) { }
 
   ngOnInit(): void {
     this.userProfileService.GetAllUsers().subscribe({
@@ -104,6 +111,7 @@ export class UserManagementComponent implements OnInit {
         console.error("Error fetching users:", err);
       }
     });
+    this.GetWarehouseNames();
   }
 
   // Get filtered users based on active tab
@@ -195,6 +203,7 @@ export class UserManagementComponent implements OnInit {
       this.showCustomerModal = true;
     } else {
       this.selectedEmployee = this.getEmployeeDetails(user.id);
+      this.showEmpData(user.id);
       this.showEmployeeModal = true;
     }
   }
@@ -208,12 +217,13 @@ export class UserManagementComponent implements OnInit {
   closeCustomerModal(): void {
     this.showCustomerModal = false;
     this.selectedCustomer = null;
-    this.data = null;
+    this.custData = null;
   }
 
   closeEmployeeModal(): void {
     this.showEmployeeModal = false;
     this.selectedEmployee = null;
+    this.empData = null;
   }
 
   closeAddEmployeeModal(): void {
@@ -228,13 +238,8 @@ export class UserManagementComponent implements OnInit {
 
     return {
       ...user,
-      totalPickups: 22,
-      totalRewards: 3,
-      weeklyFrequency: 42,
-      lastPickup: 'July 10',
-      engagement: 'High',
-      lastLogin: '3 days ago',
-      dateCreated: 'March 15, 2024',
+      totalPickups: this.custData?.totalPickupRequests,
+      totalRewards: this.custData?.totalRewards,
     } as CustomerDetails;
   }
 
@@ -248,9 +253,6 @@ export class UserManagementComponent implements OnInit {
       totalPickupsAssigned: 48,
       completedPickups: 6,
       pendingPickups: 6,
-      averageCompletionTime: '2 days ago',
-      dateCreated: 'March 15, 2024',
-      lastLogin: '2 days ago',
     } as EmployeeDetails;
   }
 
@@ -264,14 +266,14 @@ export class UserManagementComponent implements OnInit {
 
   // Add new employee
   employeeForm = new FormGroup({
-    firstName: new FormControl('',[Validators.required]),
-    lastName: new FormControl('',[Validators.required]),
-    emailAddress: new FormControl('',[Validators.required, Validators.email]),
-    phoneNumber: new FormControl('',[Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
-    address: new FormControl('',[Validators.required]),
-    password: new FormControl('',[Validators.required]),
-    confirmPassword: new FormControl('',[Validators.required]),
-    warehouseName: new FormControl('',[Validators.required])
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    emailAddress: new FormControl('', [Validators.required, Validators.email]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
+    address: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required]),
+    warehouseName: new FormControl('', [Validators.required])
   });
 
   get getFName() {
@@ -300,7 +302,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   SaveData() {
-    if(this.employeeForm.valid) {
+    if (this.employeeForm.valid) {
       const formValues = this.employeeForm.value;
 
       // Check if passwords match
@@ -323,8 +325,8 @@ export class UserManagementComponent implements OnInit {
       this.adminFeaturesService.AddEmployee(dataToSend).subscribe({
         next: () => {
           alert("Employee added successfully!");
-          this.employeeForm.reset(); 
-          this.closeAddEmployeeModal(); 
+          this.employeeForm.reset();
+          this.closeAddEmployeeModal();
         },
         error: (err) => {
           console.error("Error adding employee:", err);
@@ -336,16 +338,54 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  // Data for customer
-  data: customerData | null = null;
-  showData(userId:number) {
-    this.requestService.getTotalRequestsAndRewards(userId).subscribe({
+  warehouses: IWarehouseData[] = [];
+  isLoadingWarehouses = false;
+
+  trackByWarehouseId(_index: number, warehouse: IWarehouseData): number {
+    return warehouse.id;
+  }
+
+  GetWarehouseNames() {
+    this.isLoadingWarehouses = true;
+    this.warehouseService.GetWarehouses().subscribe({
       next: (response) => {
-        console.log(response.data);
-        this.data = response.data;
+        if (response.isSuccess && response.data) {
+          this.warehouses = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching warehouses:', error);
+        this.warehouses = [];
+      },
+      complete: () => {
+        this.isLoadingWarehouses = false;
       }
     });
   }
+
+  // Data for customer
+  custData: customerData | null = null;
+  showData(userId: number) {
+    this.requestService.getTotalRequestsAndRewards(userId).subscribe({
+      next: (response) => {
+        console.log(response.data);
+        this.custData = response.data;
+      }
+    });
+  }
+
+  // Data for employee
+  empData: employeeData | null = null;
+  showEmpData(userId: number) {
+    this.requestService.getTotalAssignedAndCollected(userId).subscribe({
+      next: (response) => {
+        console.log(response.data);
+        this.empData = response.data;
+      }
+    });
+  }
+
+
 
 }
 
