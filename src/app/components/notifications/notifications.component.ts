@@ -29,6 +29,11 @@ export class NotificationsComponent implements OnInit {
   ngOnInit() {
     this.loadNotifications();
   }
+showDropdown = false;
+
+toggleDropdown() {
+  this.showDropdown = !this.showDropdown;
+}
 
   // Simple method to load notifications from API
   loadNotifications() {
