@@ -55,11 +55,20 @@
       <div class="mb-3 mt-4">
         <label for="pickupAddress" class="form-label">Pickup Address</label>
         <div class="input-group">
-          <input type="text" class="form-control" id="pickupAddress" formControlName="pickupAddress"
+          <input [value]="addressFromProfile" type="text" class="form-control" id="pickupAddress" formControlName="pickupAddress"
             placeholder="Enter your complete pickup address">
 
         </div>
-      </div>
+
+<input
+  type="checkbox"
+  id="useDefaultLocation"
+  (change)="toggleDefaultAddress($event)">
+<label for="useDefaultLocation">Use Default Location</label>
+
+</div>
+
+      
 
       <div class="mb-4">
         <label for="location" class="form-label">Location</label>

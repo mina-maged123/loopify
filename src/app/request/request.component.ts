@@ -1,5 +1,6 @@
 import { ICraetePickupItem } from './../models/ICreatePickupItem.model';
 import { MaterialService } from './../services/material.service';
+import { UserProfileService } from "./../services/user-profile.service";
 import { ICreatePickupRequest } from './../models/ICreatePickupRequest.model';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,7 +12,6 @@ import { IMaterial } from '../models/IMaterial.model';
 import { Router } from '@angular/router';
 import { NavComponent } from "../nav/nav.component";
 import { FooterComponent } from "../footer/footer.component";
-
 @Component({
     selector: 'app-request',
     standalone: true,
@@ -31,8 +31,11 @@ export class RequestComponent implements OnInit, AfterViewInit {
     private map: any = null;
     private marker: any = null;
     onlineMaterials: IMaterial[] = [];
+addressFromProfile: string | null = null;
+useDefaultLocation: boolean = false;
 
-    constructor(private fb: FormBuilder, private http: HttpClient, private requestService: RequestService, private materialService: MaterialService, private router: Router) {
+    constructor(private userProfileService:UserProfileService,private fb: FormBuilder, private http: HttpClient, private requestService: RequestService, private materialService: MaterialService, private router: Router) {
+
         this.requestForm = this.fb.group({
             materials: this.fb.array([this.createMaterialFormGroup()]),
 
@@ -48,6 +51,7 @@ export class RequestComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+
         this.requestForm.get('pickupAddress')?.valueChanges.subscribe((address: string) => {
             if (address && address.length > 5) {
                 this.searchAddressAndUpdateMap(address);
@@ -288,6 +292,52 @@ export class RequestComponent implements OnInit, AfterViewInit {
     onCancel(): void {
         this.requestForm.reset();
     }
+
+
+toggleDefaultAddress(event: Event): void {
+  const isChecked = (event.target as HTMLInputElement).checked;
+
+  if (isChecked) {
+    // ✅ لو متعلم → جيب العنوان
+    const userId = Number(localStorage.getItem('id'));
+    if (userId) {
+      this.userProfileService.GetUser(userId).subscribe({
+        next: (user) => {
+          const address = user.data.address;
+          this.requestForm.patchValue({
+            pickupAddress: address
+          });
+        },
+        error: (err) => {
+          console.error('Error fetching user profile', err);
+        }
+      });
+    }
+  } else {
+    // ❌ لو اتشال التشييك → امسح العنوان
+    this.requestForm.patchValue({
+      pickupAddress: ''
+    });
+  }
+}
+
+loadUserAddress() {
+  const userId = Number(localStorage.getItem('id'));
+  if (userId) {
+    this.userProfileService.GetUser(userId).subscribe({
+      next: (user) => {
+        this.addressFromProfile = user.data.address;
+        // تحديث قيمة الحقل داخل الفورم
+        this.requestForm.patchValue({
+          pickupAddress: this.addressFromProfile
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching user profile', err);
+      }
+    });
+  }
+}
 }
 
 
