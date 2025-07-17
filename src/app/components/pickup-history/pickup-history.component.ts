@@ -69,8 +69,7 @@ toDate: string = '';
           .reduce((sum, r) => sum + (r.pointsEarned || 0), 0);
 
         this.applyFilters();
-        this.loadRequestsFromAPI();
-
+        // this.loadRequestsFromAPI();
       },
       error: (error) => {
         console.log(error);
