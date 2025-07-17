@@ -130,7 +130,8 @@ applyFilters() {
   }
 
  showModal(reqId: number): void {
-  this.cancelRequestId = reqId;
+ this.cancelRequestId = reqId;
+  this.showCancelModal = true;
 }
 
   openModal(rewardId: number) {
@@ -151,12 +152,15 @@ cancelRequestConfirmed(): void {
   if (this.cancelRequestId !== null) {
     this.cancelRequest(this.cancelRequestId);
     this.cancelRequestId = null;
+    this.showCancelModal = false;
   }
 }
 
 cancelRequestDeclined(): void {
   this.cancelRequestId = null;
+  this.showCancelModal = false;
 }
+
 
 // cancelRequest(reqId: string): void {
 //   const numericId = Number(reqId);
