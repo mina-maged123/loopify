@@ -1,0 +1,199 @@
+<div class="main-content">
+    <div class="content-wrapper">
+        <header class="page-header">
+            <h1 class="page-title">Materials Management</h1>
+            <p class="page-subtitle">Define how materials convert to points</p>
+        </header>
+
+        <section class="add-rule-section">
+            <h2 class="section-title">Add New Conversion Rule</h2>
+
+            <form class="add-rule-form" [formGroup]="addMaterial" (ngSubmit)="onSubmit()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="materialType" class="form-label">Material Type</label>
+                        <input type="text" id="materialType" class="form-input" formControlName="name"
+                            name="materialType" placeholder="Enter material type">
+                        @if (getName?.touched) {
+                        @if (getName?.hasError('required')) {
+                        <div id="passwordHelpBlock" class="form-text text-danger">
+                            Name Is Required.
+                        </div>
+                        }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pointsPerUnit" class="form-label">Points per unit</label>
+                        <input type="number" id="pointsPerUnit" class="form-input" formControlName="pointsPerUnit"
+                            name="pointsPerUnit" placeholder="Enter points per unit" min="1">
+                        @if (getPoints?.touched) {
+                        @if (getPoints?.hasError('required')) {
+                        <div id="passwordHelpBlock" class="form-text text-danger">
+                            Points Is Required.
+                        </div>
+                        }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="unitType" class="form-label">Unit Type</label>
+                        <select class="form-input" id="unitType" formControlName="unitType">
+                            <option value="" disabled selected>Select Unit Type</option>
+                            <option>unit</option>
+                            <option>kg</option>
+                        </select>
+                        @if (getUnit?.touched) {
+                        @if (getUnit?.hasError('required')) {
+                        <div id="passwordHelpBlock" class="form-text text-danger">
+                            Unit Is Required.
+                        </div>
+                        }}
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" id="description" class="form-input" formControlName="description"
+                            name="description" placeholder="Description">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn-add-rule">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                            </svg>
+                            Add Material
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="rules-section">
+            <h2 class="section-title">Current Conversion Rules</h2>
+
+            <div class="table-container">
+                <table class="rules-table">
+                    <thead>
+                        <tr>
+                            <th class="table-header">Material Type</th>
+                            <th class="table-header">Points per 1 unit</th>
+                            <th class="table-header">Unit</th>
+                            <th class="table-header">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let material of allMaterial" class="table-row">
+                            <td class="table-cell">
+                                <span class="material-badge">
+                                    {{ material.name }}
+                                </span>
+                            </td>
+                            <td class="table-cell">
+                                <span class="points-value">{{ material.pointsPerUnit }} pts</span>
+                            </td>
+                            <td class="table-cell">
+                                <span class="points-value">{{ material.unitType }}</span>
+                            </td>
+                            <td class="table-cell">
+                                <div class="action-buttons">
+                                    <button class="action-btn edit-btn" (click)="editRule(material)" title="Edit">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" (click)="deleteRule(material.id)"
+                                        title="Delete">
+                                        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+<!-- Edit Material Modal -->
+<div class="modal-overlay" *ngIf="isVisible && isEditMode" (click)="onOverlayClick($event)">
+  <div class="modal-container">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h2 class="modal-title">Edit Material</h2>
+      <button class="close-button" (click)="closeModal()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Content -->
+    <form [formGroup]="editMaterial" (ngSubmit)="onEditSubmit()" class="modal-content">
+      <div class="form-group">
+        <label for="editMaterialName" class="form-label">Material Name</label>
+        <input
+          type="text"
+          id="editMaterialName"
+          class="form-input"
+          formControlName="name"
+          placeholder="Enter material name">
+        <div *ngIf="getEditName?.touched && getEditName?.hasError('required')" class="form-text text-danger">
+          Name is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="editPointsPerUnit" class="form-label">Points per Unit</label>
+        <input
+          type="number"
+          id="editPointsPerUnit"
+          class="form-input"
+          formControlName="pointsPerUnit"
+          min="1"
+          placeholder="Enter points per unit">
+        <div *ngIf="getEditPoints?.touched && getEditPoints?.hasError('required')" class="form-text text-danger">
+          Points per unit is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="editUnitType" class="form-label">Unit Type</label>
+        <select class="form-input" id="editUnitType" formControlName="unitType">
+          <option value="" disabled>Select Unit Type</option>
+          <option value="unit">unit</option>
+          <option value="kg">kg</option>
+        </select>
+        <div *ngIf="getEditUnit?.touched && getEditUnit?.hasError('required')" class="form-text text-danger">
+          Unit type is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="editDescription" class="form-label">Description</label>
+        <input
+          type="text"
+          id="editDescription"
+          class="form-input"
+          formControlName="description"
+          placeholder="Enter description">
+      </div>
+    </form>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-cancel" (click)="closeModal()">
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-save"
+        (click)="onEditSubmit()"
+        [disabled]="!editMaterial.valid">
+        Update Material
+      </button>
+    </div>
+  </div>
+</div>
+

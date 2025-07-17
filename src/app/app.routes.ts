@@ -1,3 +1,4 @@
+import { MaterialsManagementComponent } from './components/Admin/materials-management/materials-management.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { GiftComponent } from './components/gift/gift.component';
 import { Routes } from '@angular/router';
@@ -94,7 +95,8 @@ export const routes: Routes = [
       {path: 'user-management', component: UserManagementComponent},
       {path: 'warehouse-inventory', component: WarehouseInventoryComponent},
       {path: 'pickup-req', component: PickupRequestsComponent},
-      {path: 'profile', component: ProfileComponent}
+      {path: 'profile', component: ProfileComponent},
+      {path: 'material', component: MaterialsManagementComponent}
     ],
   },
   {
