@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { ENDPOINTS } from '../shared/endpoints';
 import { Response } from '../models/response.model';
+import { AdminDashboard } from '../models/AdminDashboard';
 
 export interface EmployeeData {
   firstName: string;
@@ -41,5 +42,12 @@ export class AdminFeaturesService {
     });
     
     return this.http.post<Response<responseData>>(ENDPOINTS.POST_EMPLOYEE, data, { headers });
+  }
+
+  GetDashboard() : Observable<Response<AdminDashboard>>{
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<Response<AdminDashboard>>(ENDPOINTS.GET_ADMIN_DASHBOARD, {headers: headers});
   }
 }

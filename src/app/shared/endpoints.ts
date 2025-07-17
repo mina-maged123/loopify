@@ -33,5 +33,7 @@ export const ENDPOINTS = {
     POST_NEW_REWARD: `${baseUrl}Rewards`,
     UPDATE_REWARD: (rewardId:number) => `${baseUrl}Rewards/${rewardId}`,
     DELETE_REWARD: (rewardId:number) => `${baseUrl}Rewards/${rewardId}`,
+
+    GET_ADMIN_DASHBOARD: `${baseUrl}Admin/dashboard`,
     
 }

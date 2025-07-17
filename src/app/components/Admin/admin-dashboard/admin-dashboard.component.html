@@ -1,1 +1,85 @@
-<p>admin-dashboard works!</p>
+<div class="dashboard-container">
+  <!-- Welcome Header -->
+  <div class="welcome-section">
+    <h1 class="welcome-title">Welcome, Admin!</h1>
+    <p class="welcome-subtitle">Here's a quick summary of application activity</p>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <!-- Daily Pickups Chart -->
+    <div class="chart-card">
+      <h3 class="chart-title">Daily Pickups</h3>
+      <div class="chart-container">
+        <apx-chart #barChart [series]="barChartOptions.series" [chart]="barChartOptions.chart"
+          [xaxis]="barChartOptions.xaxis" [yaxis]="barChartOptions.yaxis" [plotOptions]="barChartOptions.plotOptions"
+          [dataLabels]="barChartOptions.dataLabels" [title]="barChartOptions.title">
+        </apx-chart>
+      </div>
+    </div>
+
+    <!-- Materials Breakdown Chart -->
+    <div class="chart-card">
+      <h3 class="chart-title">Materials Breakdown</h3>
+      <div class="chart-container">
+        <apx-chart #doughnutChart [series]="doughnutChartOptions.series" [labels]="doughnutChartOptions.labels"
+          [chart]="doughnutChartOptions.chart" [colors]="doughnutChartOptions.colors"
+          [dataLabels]="doughnutChartOptions.dataLabels" [title]="doughnutChartOptions.title">
+        </apx-chart>
+      </div>
+      <div class="materials-legend">
+        <div class="legend-item" *ngFor="let item of materialsBreakdown">
+          <div class="legend-color" [style.background-color]="item.color">
+          </div>
+          <span class="legend-label">{{ item.label }}</span>
+          <span class="legend-percentage">{{ item.percentage }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-section">
+    <div class="stat-card" *ngFor="let card of statCards">
+      <div class="stat-icon" [style.color]="card.color" [style.background-color]="card.bgColor">
+        <i [class]="card.icon"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ card.value }}</div>
+        <div class="stat-label">{{ card.label }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity Table -->
+  <div class="activity-section">
+    <h3 class="section-title">Recent Activity</h3>
+    <div class="table-container">
+      <table class="activity-table">
+        <thead>
+          <tr>
+            <th>Date & Time</th>
+            <th>Type</th>
+            <th>User</th>
+            <th>Material</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let activity of recentActivity">
+            <td class="date-time">{{ activity.dateTime }}</td>
+            <td>{{ activity.type }}</td>
+            <td>{{ activity.user }}</td>
+            <td>{{ activity.material }}</td>
+            <td>
+              <span class="status-badge" [class.completed]="activity.status === 'Completed'"
+                [class.processed]="activity.status === 'Processed'">
+                {{ activity.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
