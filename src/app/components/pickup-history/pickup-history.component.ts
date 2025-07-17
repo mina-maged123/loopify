@@ -18,6 +18,10 @@ export class PickupHistoryComponent implements OnInit {
   pickupRequests: PickupRequest[] = [];
   filteredRequests: PickupRequest[] = [];
 
+    showCancelModal: boolean = false;
+  selectedRewardIdToCancel: number | null = null;
+
+
   totalRedeemedPoints = 0;
   totalSuccessfulRequests = 0;
   totalRequests = 0;
@@ -125,8 +129,19 @@ applyFilters() {
     this.currentPage = page;
   }
 
+ showModal(reqId: number): void {
+  this.cancelRequestId = reqId;
+}
 
+  openModal(rewardId: number) {
+    this.selectedRewardIdToCancel = rewardId;
+    this.showCancelModal = true;
+  }
 
+  closeModal() {
+    this.showCancelModal = false;
+    this.selectedRewardIdToCancel = null;
+  }
 
 confirmCancel(reqId: number): void {
   this.cancelRequestId = reqId;
