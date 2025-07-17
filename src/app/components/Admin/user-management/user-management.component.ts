@@ -1,6 +1,12 @@
+import { employeeData, RequestService } from '@/app/services/request.service';
+import { AdminFeaturesService } from '@/app/services/admin-features.service';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { IWarehouseData } from '@/app/models/iwarehouse';
+import { WarehouseService } from '@/app/services/warehouse.service';
 
 export interface User {
   id: number,
@@ -51,9 +57,25 @@ export interface EmployeeDetails extends User {
   adminNotes: string;
 }
 
+export interface EmpData {
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  phoneNumber: string;
+  address: string | null;
+  password: string;
+  confirmPassword: string;
+  warehouseName: string;
+}
+
+export interface customerData {
+  totalPickupRequests: number;
+  totalRewards: number;
+}
+
 @Component({
   selector: 'app-users-management',
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
@@ -67,10 +89,17 @@ export class UserManagementComponent implements OnInit {
   // Modal state
   showCustomerModal: boolean = false;
   showEmployeeModal: boolean = false;
+  AddEmployeeModal: boolean = false;
   selectedCustomer: CustomerDetails | null = null;
   selectedEmployee: EmployeeDetails | null = null;
 
-  constructor(private userProfileService: UserProfileService) { }
+  constructor(
+    private userProfileService: UserProfileService,
+    private adminFeaturesService: AdminFeaturesService,
+    private router: Router,
+    private requestService: RequestService,
+    private warehouseService: WarehouseService
+  ) { }
 
   ngOnInit(): void {
     this.userProfileService.GetAllUsers().subscribe({
@@ -82,6 +111,7 @@ export class UserManagementComponent implements OnInit {
         console.error("Error fetching users:", err);
       }
     });
+    this.GetWarehouseNames();
   }
 
   // Get filtered users based on active tab
@@ -159,38 +189,46 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  // Add new user action
-  addNewUser(): void {
+  // Add new employee action
+  addNewEmployee(): void {
     // Implement add new user logic
     console.log('Add new user clicked');
-  }
-
-  // Edit user action
-  editUser(user: User): void {
-    // Implement edit user logic
-    console.log('Edit user:', user);
   }
 
   // View user action
   viewUser(user: User): void {
     if (user.role === 'Customer') {
       this.selectedCustomer = this.getCustomerDetails(user.id);
+      this.showData(user.id);
       this.showCustomerModal = true;
     } else {
       this.selectedEmployee = this.getEmployeeDetails(user.id);
+      this.showEmpData(user.id);
       this.showEmployeeModal = true;
     }
+  }
+
+  //open add employee modal
+  openAddEmployeeModal(): void {
+    this.AddEmployeeModal = true;
   }
 
   // Close modals
   closeCustomerModal(): void {
     this.showCustomerModal = false;
     this.selectedCustomer = null;
+    this.custData = null;
   }
 
   closeEmployeeModal(): void {
     this.showEmployeeModal = false;
     this.selectedEmployee = null;
+    this.empData = null;
+  }
+
+  closeAddEmployeeModal(): void {
+    this.AddEmployeeModal = false;
+    this.employeeForm.reset(); // Reset form when modal is closed
   }
 
   // Get customer details (replace with actual service call)
@@ -200,13 +238,8 @@ export class UserManagementComponent implements OnInit {
 
     return {
       ...user,
-      totalPickups: 22,
-      totalRewards: 3,
-      weeklyFrequency: 42,
-      lastPickup: 'July 10',
-      engagement: 'High',
-      lastLogin: '3 days ago',
-      dateCreated: 'March 15, 2024',
+      totalPickups: this.custData?.totalPickupRequests,
+      totalRewards: this.custData?.totalRewards,
     } as CustomerDetails;
   }
 
@@ -220,9 +253,6 @@ export class UserManagementComponent implements OnInit {
       totalPickupsAssigned: 48,
       completedPickups: 6,
       pendingPickups: 6,
-      averageCompletionTime: '2 days ago',
-      dateCreated: 'March 15, 2024',
-      lastLogin: '2 days ago',
     } as EmployeeDetails;
   }
 
@@ -233,5 +263,129 @@ export class UserManagementComponent implements OnInit {
     const total = this.filteredUsers.length;
     return `Showing ${start} to ${end} of ${total} results`;
   }
+
+  // Add new employee
+  employeeForm = new FormGroup({
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    emailAddress: new FormControl('', [Validators.required, Validators.email]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
+    address: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required]),
+    warehouseName: new FormControl('', [Validators.required])
+  });
+
+  get getFName() {
+    return this.employeeForm.get('firstName');
+  }
+  get getLName() {
+    return this.employeeForm.get('lastName');
+  }
+  get getEmail() {
+    return this.employeeForm.get('emailAddress')
+  }
+  get getPhoneNumber() {
+    return this.employeeForm.get('phoneNumber');
+  }
+  get getAddress() {
+    return this.employeeForm.get('address');
+  }
+  get getPassword() {
+    return this.employeeForm.get('password');
+  }
+  get getConPassword() {
+    return this.employeeForm.get('confirmPassword');
+  }
+  get getWarehouseName() {
+    return this.employeeForm.get('warehouseName');
+  }
+
+  SaveData() {
+    if (this.employeeForm.valid) {
+      const formValues = this.employeeForm.value;
+
+      // Check if passwords match
+      if (formValues.password !== formValues.confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const dataToSend: EmpData = {
+        firstName: formValues.firstName ?? '',
+        lastName: formValues.lastName ?? '',
+        emailAddress: formValues.emailAddress ?? '',
+        phoneNumber: formValues.phoneNumber ?? '',
+        address: formValues.address ? (formValues.address.trim() === '' ? null : formValues.address) : null,
+        password: formValues.password ?? '',
+        confirmPassword: formValues.confirmPassword ?? '',
+        warehouseName: formValues.warehouseName ?? ''
+      };
+
+      this.adminFeaturesService.AddEmployee(dataToSend).subscribe({
+        next: () => {
+          alert("Employee added successfully!");
+          this.employeeForm.reset();
+          this.closeAddEmployeeModal();
+        },
+        error: (err) => {
+          console.error("Error adding employee:", err);
+          alert("Error adding employee. Please try again.");
+        }
+      })
+    } else {
+      alert("Please fill in all required fields correctly.");
+    }
+  }
+
+  warehouses: IWarehouseData[] = [];
+  isLoadingWarehouses = false;
+
+  trackByWarehouseId(_index: number, warehouse: IWarehouseData): number {
+    return warehouse.id;
+  }
+
+  GetWarehouseNames() {
+    this.isLoadingWarehouses = true;
+    this.warehouseService.GetWarehouses().subscribe({
+      next: (response) => {
+        if (response.isSuccess && response.data) {
+          this.warehouses = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching warehouses:', error);
+        this.warehouses = [];
+      },
+      complete: () => {
+        this.isLoadingWarehouses = false;
+      }
+    });
+  }
+
+  // Data for customer
+  custData: customerData | null = null;
+  showData(userId: number) {
+    this.requestService.getTotalRequestsAndRewards(userId).subscribe({
+      next: (response) => {
+        console.log(response.data);
+        this.custData = response.data;
+      }
+    });
+  }
+
+  // Data for employee
+  empData: employeeData | null = null;
+  showEmpData(userId: number) {
+    this.requestService.getTotalAssignedAndCollected(userId).subscribe({
+      next: (response) => {
+        console.log(response.data);
+        this.empData = response.data;
+      }
+    });
+  }
+
+
+
 }
 

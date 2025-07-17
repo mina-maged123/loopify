@@ -6,18 +6,24 @@ export const ENDPOINTS = {
 
     GET_ALL_MATERIAL: `${baseUrl}Material/all`,
     GET_MATERIAL: (materialId:number) => `${baseUrl}Material/${materialId}`,
+    POST_MATERIAL: `${baseUrl}Material`,
+    DELETE_MATERIAL: (materialId:number) => `${baseUrl}Material/${materialId}`,
+    UPDATE_MATERIAL: `${baseUrl}Material`,
 
     GET_USER: (userId:number) => `${baseUrl}User/${userId}`,
     CHECK_EMAIL : `${baseUrl}User/CheckEmail`,
     CHANGE_PASSWORD: `${baseUrl}User/ChangePassword`,
     UPDATE_USER: `${baseUrl}User`,
     GET_ALL_USERS: `${baseUrl}User`,
+    
+    POST_EMPLOYEE: `${baseUrl}Admin/registerEmployee`,
 
     POST_PICKUP_REQUEST: `${baseUrl}PickupRequest`,
     GET_ALL_CUSTOMER_REQUESTS: `${baseUrl}PickupRequest`,
     GET_ALL_REQUESTS_FOR_ADMIN: `${baseUrl}PickupRequest/all`,
     POST_ASSIGN_EMPLOYEE_TO_REQUEST: (requestId:number) => `${baseUrl}PickupRequest/assign-employee/${requestId}`,
-
+    GET_TOTAL_REQUESTS_REWARDS: (userId:number) => `${baseUrl}PickupRequest/TotalRequests&Rewards/${userId}`,
+    GET_TOTAL_ASSIGNED_COLLECTED: (userId:number) => `${baseUrl}PickupRequest/TotalCollected&Scheduled/${userId}`,
 
     GET_NOTIFICATIONS: `${baseUrl}Notification`,
 
