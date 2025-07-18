@@ -52,7 +52,7 @@ export class RequestService {
   const token = localStorage.getItem('token');
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-  const url = `http://localhost:5259/api/EmployeeInfo/assign-employee/${requestId}`;
+  const url = `https://recyclingsystem.runasp.net/api/EmployeeInfo/assign-employee/${requestId}`;
   const data = {
     email: employeeEmail
   };
@@ -63,7 +63,7 @@ export class RequestService {
 getAvailableEmployees(requestId: number): Observable<any> {
   let token = localStorage.getItem('token');
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  return this.http.get<any>(`http://localhost:5259/api/EmployeeInfo/${requestId}`, { headers });
+  return this.http.get<any>(`https://recyclingsystem.runasp.net/api/EmployeeInfo/GetAvaliable-employee/${requestId}`, { headers });
 }
 
   getTotalRequestsAndRewards(userId:number) : Observable<Response<customerData>> {
