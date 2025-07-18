@@ -17,12 +17,17 @@
   <div id="map" class="map"></div>
 
   <div class="bottom-bar">
-    <!-- <div class="legend">
-    <div style="color: #7A8986;"><span class="marker completed"></span> Completed</div>
-    <div style="color: #7A8986;"><span class="marker pending"></span> Pending Pickup</div>
-  </div> -->
+    
+    <div class="legend">
+    <!-- <div style="color: #7A8986;"><span class="marker completed"></span> Completed</div>
+    <div style="color: #7A8986;"><span class="marker pending"></span> Pending Pickup</div> -->
+    <button (click)="resetToMyLocation()" class="reset-location-btn">
+        📌 My Location
+      </button>
+  </div>
     <footer class="summary">
       <p>{{ todayRequests.length }} pickups assigned today</p>
+      
     </footer>
   </div>
 </div>
