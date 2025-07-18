@@ -1,14 +1,5 @@
 <!-- layouts/employee-layout/employee-layout.component.html -->
 <div class="d-flex vh-100">
-    <!-- Mobile Menu Button -->
-    <!-- <div class="lg:hidden fixed top-4 left-4 z-50">
-      <button class="bg-green-800 text-white p-2 rounded-md" (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    </div> -->
-    <!-- Sidebar -->
     <aside class="sidebar text-white p-3 d-flex flex-column justify-content-between" style="width: 280px;">
         <div>
             <!-- Logo + Project Name -->
@@ -56,6 +47,12 @@
                     <a class="nav-link  d-flex" routerLink="/admin/material" routerLinkActive="active-link"
                         [routerLinkActiveOptions]="{ exact: true }">
                         <i class="fa-solid fa-record-vinyl me-2 nav-icon"></i> Materials Management
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link  d-flex" routerLink="/admin/reports" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        <i class="fa-solid fa-triangle-exclamation me-2 nav-icon"></i> Reports
                     </a>
                 </li>
             </ul>

@@ -63,6 +63,8 @@ export class PickupRequestsComponent implements OnInit {
   toDateFilter: string = '';
   requests: Request[] = [];
   filteredRequests: Request[] = [];
+  availableEmployees: { email: string; userName: string }[] = [];
+
   constructor(private requestService: RequestService) { }
 
   ngOnInit(): void {
@@ -116,21 +118,7 @@ export class PickupRequestsComponent implements OnInit {
       : 'bg-green-100 text-green-800';
   }
 
-  openAssignModal(requestId: number) {
-    this.assignForm = {
-      requestId,
-      employee: '',
-      date: '',
-      time: '',
-      notes: '',
-      email: ''
-    };
-    this.showAssignModal = true;
-  }
 
-  closeAssignModal() {
-    this.showAssignModal = false;
-  }
 
   confirmAssignment() {
     // Here you would handle the assignment logic (e.g., API call)
@@ -147,9 +135,28 @@ export class PickupRequestsComponent implements OnInit {
   }
 
   assignRequest(requestId: number) {
+      console.log("Assigning request ID:", requestId);
+      this.loadAvailableEmployees(requestId);
     this.openAssignModal(requestId);
+  
   }
+openAssignModal(requestId: number) {
+  this.assignForm = {
+    requestId,
+    employee: '',
+    date: '',
+    time: '',
+    notes: '',
+    email: ''
+  };
+  this.loadAvailableEmployees(requestId); // 👈 Get employees
+  this.showAssignModal = true;
+}
 
+
+  closeAssignModal() {
+    this.showAssignModal = false;
+  }
   updateStatus(requestId: number) {
     console.log('Updating status for request:', requestId);
   }
@@ -164,6 +171,20 @@ export class PickupRequestsComponent implements OnInit {
   get totalPages(): number {
     return Math.ceil(this.filteredRequests.length / this.itemsPerPage);
   }
+
+
+loadAvailableEmployees(requestId: number) {
+  this.requestService.getAvailableEmployees(requestId).subscribe({
+    next: (res) => {
+      console.log("Full response:", res); // 👈 هنا
+      this.availableEmployees = res.data.strictlyAvailableEmployees;
+    },
+    error: (err) => {
+      console.log('Error loading employees:', err);
+    }
+  });
+}
+
 
   // Get page numbers for pagination
   get pageNumbers(): number[] {

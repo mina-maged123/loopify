@@ -51,7 +51,7 @@ export class EmployeeDashboardComponent implements OnInit {
       next: (response) => {
         // console.log(response.data);
         this.allRequests = response.data;
-        console.log(this.allRequests);
+        // console.log(this.allRequests);
 
         this.No_completedRequests = this.allRequests.filter((r) => r.status == 2).length;
         this.No_inProgressRequests = this.allRequests.filter((r) => r.status == 1).length;

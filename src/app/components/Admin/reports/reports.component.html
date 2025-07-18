@@ -1,0 +1,281 @@
+<div class="users-management-container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-content">
+            <h1 class="page-title">Issue Reports</h1>
+            <p class="page-subtitle">View and responde to problems reported by employees</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex flex-col sm:flex-row gap-4 sm:items-end mb-6">
+        <!-- Status Filter -->
+        <div class="w-full sm:w-1/2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Issue Type</label>
+            <div class="relative">
+                <select
+                    class="w-full p-2.5 border border-gray-300 rounded-lg appearance-none pr-10 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                    [value]="typeFilter" (change)="onTypeFilterChange($event)">
+                    <option>All Type</option>
+                    <option>Pickup</option>
+                    <option>Warehouse</option>
+                    <option>System</option>
+                    <option>Other</option>
+                </select>
+                <svg class="w-4 h-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="w-full sm:w-1/2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+            <div class="relative">
+                <input type="text" class="search-input" placeholder="Search by customer or employee name"
+                    [value]="searchTerm" (input)="onSearch($event)">
+                <div class="search-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="w-full sm:w-1/2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <div class="relative">
+                <select
+                    class="w-full p-2.5 border border-gray-300 rounded-lg appearance-none pr-10 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                    [value]="statusFilter" (change)="onStatusFilterChange($event)">
+                    <option>All Status</option>
+                    <option>Pending</option>
+                    <option>Resolved</option>
+                    <option>Dismissed</option>
+                </select>
+                <svg class="w-4 h-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="bg-white rounded-lg overflow-hidden table-container">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                    <tr>
+                        <th
+                            class="px-3 md:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Customer Name
+                        </th>
+                        <th
+                            class="hidden md:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Address
+                        </th>
+                        <th
+                            class="px-3 md:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Issue Type
+                        </th>
+                        <th
+                            class="px-3 md:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th
+                            class="hidden lg:table-cell px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Employee Name
+                        </th>
+                        <th
+                            class="px-3 md:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr *ngFor="let report of paginatedReports; let i = index"
+                        class="hover:bg-gray-50 table-row transition-all duration-200">
+                        <td class="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            {{ report.customerName }}
+                        </td>
+                        <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {{ report.requestAddress }}
+                        </td>
+                        <td class="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            <span *ngIf="report.type == 0"
+                                class="px-2 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-medium">
+                                Pickup
+                            </span>
+                            <span *ngIf="report.type == 1"
+                                class="px-2 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-medium">
+                                Warehouse
+                            </span>
+                            <span *ngIf="report.type == 2"
+                                class="px-2 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-medium">
+                                System
+                            </span>
+                            <span *ngIf="report.type == 3"
+                                class="px-2 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-medium">
+                                Other
+                            </span>
+                        </td>
+                        <td class="px-3 md:px-6 py-4 whitespace-nowrap">
+                            <span *ngIf="report.status == 0"
+                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 shadow-sm">
+                                Pending
+                            </span>
+                            <span *ngIf="report.status === 1"
+                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 shadow-sm">
+                                Resolved
+                            </span>
+                            <span *ngIf="report.status === 2"
+                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 shadow-sm">
+                                Dismissed
+                            </span>
+                        </td>
+                        <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {{ report.employeeName }}
+                        </td>
+                        <td class="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <button (click)="resolvedResponse(report.id)"
+                                    class="action-icon p-1 rounded-full hover:bg-green-50 transition-all duration-200">
+                                    <svg class="w-4 h-4 md:w-5 md:h-5 text-green-500 hover:text-green-600" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </button>
+                                <button (click)="dismissedResponse(report.id)"
+                                    class="action-icon p-1 rounded-full hover:bg-red-50 transition-all duration-200">
+                                    <svg class="w-4 h-4 md:w-5 md:h-5 text-red-500 hover:text-red-600" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                                <button (click)="onClick(report.id)"
+                                    class="action-icon p-1 rounded-full hover:bg-gray-50 transition-all duration-200">
+                                    <svg class="w-4 h-4 md:w-5 md:h-5 text-gray-400 hover:text-gray-600" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination Section -->
+    <div class="pagination-section" *ngIf="totalPages > 1">
+        <div class="results-info">
+            <span>{{ showingResultsText }}</span>
+        </div>
+
+        <div class="pagination-controls">
+            <button class="pagination-button" [disabled]="currentPage === 1" (click)="previousPage()">
+                Previous
+            </button>
+
+            <div class="page-numbers">
+                <button *ngFor="let page of pageNumbers" class="page-number" [class.active]="page === currentPage"
+                    (click)="goToPage(page)">
+                    {{ page }}
+                </button>
+            </div>
+
+            <button class="pagination-button" [disabled]="currentPage === totalPages" (click)="nextPage()">
+                Next
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" *ngIf="showModal" (click)="onClose()">
+  <div class="issue-details-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2 class="modal-title">Issue Details</h2>
+      <button class="close-button" (click)="onClose()">×</button>
+    </div>
+
+    <div class="modal-content">
+      <!-- Issue Type Section -->
+      <div class="section">
+        <h3 class="section-title">Issue Type</h3>
+        <p class="issue-type">
+          <span *ngIf="report.type == 0">Pickup</span>
+          <span *ngIf="report.type == 1">Warehouse</span>
+          <span *ngIf="report.type == 2">System</span>
+          <span *ngIf="report.type == 3">Other</span>
+        </p>
+      </div>
+
+      <!-- Employee Information Section -->
+      <div class="section">
+        <h3 class="section-title">Employee Information</h3>
+        <div class="employee-info">
+          <div class="info-row">
+            <div class="info-item">
+              <label class="info-label">Full Name</label>
+              <p class="info-value">{{ report.employeeName }}</p>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Employee ID</label>
+              <p class="info-value">{{ report.employeeId }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Issue Description Section -->
+      <div class="section">
+        <h3 class="section-title">Issue Description</h3>
+        <p class="description-text">{{ report.description }}</p>
+      </div>
+
+      <!-- Date of Submission Section -->
+      <div class="section">
+        <h3 class="section-title">Date of Submission</h3>
+        <p class="submission-date">{{ report.createdAt | date:'mediumDate' }}</p>
+      </div>
+
+      <!-- Pickup Information Section -->
+      <div class="section">
+        <h3 class="section-title">Pickup Information</h3>
+        <div class="pickup-info">
+          <div class="info-row">
+            <div class="info-item">
+              <label class="info-label">Pickup ID</label>
+              <p class="info-value">{{ report.pickupRequestId }}</p>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Address</label>
+              <p class="info-value">{{ report.requestAddress }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button [routerLink]="['/admin/reports']" class="btn btn-secondary" (click)="onClose()">Close</button>
+      <button (click)="resolvedResponse(report.id)" class="btn btn-success" (click)="markAsResolved()">
+        <span class="checkmark">✓</span> Mark as Resolved
+      </button>
+    </div>
+  </div>
+</div>

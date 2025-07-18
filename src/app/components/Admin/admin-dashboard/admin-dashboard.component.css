@@ -1,8 +1,8 @@
 .dashboard-container {
-  margin-left: 256px;
   padding: 2rem;
   background-color: #f8fafc;
   min-height: 100vh;
+  margin: 0 auto;
 }
 
 /* Welcome Section */

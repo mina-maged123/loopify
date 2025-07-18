@@ -1,0 +1,31 @@
+<!-- Success Notification Overlay Component -->
+<div class="success-overlay" *ngIf="isVisible" (click)="closeNotification()">
+  <div class="success-notification" 
+       (click)="$event.stopPropagation()"
+       (mouseenter)="onMouseEnter()"
+       (mouseleave)="onMouseLeave()">
+    <div class="d-flex align-items-center">
+      <!-- Checkmark Icon -->
+      <div class="success-icon me-3">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
+                stroke="white" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round"/>
+        </svg>
+      </div>
+      
+      <!-- Content -->
+      <div class="success-content">
+        <h5 class="success-title mb-1">{{ title || 'Success' }}</h5>
+        <p class="success-message mb-0">{{ message || 'Operation completed successfully.' }}</p>
+      </div>
+      
+      <!-- Close Button (Optional) -->
+      <button type="button" class="btn-close ms-auto" aria-label="Close" (click)="closeNotification()" *ngIf="showCloseButton">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>

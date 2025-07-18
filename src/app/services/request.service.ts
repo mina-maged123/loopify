@@ -47,17 +47,24 @@ export class RequestService {
 
     return this.http.get<Response<PickupRequestDetails[]>>(ENDPOINTS.GET_ALL_REQUESTS_FOR_ADMIN, {headers: headers});
   }
+// //////////////////////////////////////////
+  assignEmployeeToRequest(requestId: number, employeeEmail: string): Observable<Response<any>> {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-  assignEmployeeToRequest(requestId:number ,employeeEmail:string) : Observable<Response<any>> {
-    let token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  const url = `http://localhost:5259/api/EmployeeInfo/assign-employee/${requestId}`;
+  const data = {
+    email: employeeEmail
+  };
 
-    let data = {
-      "email" : employeeEmail,
-    };
+  return this.http.post<Response<any>>(url, data, { headers });
+}
 
-    return this.http.post<Response<any>>(ENDPOINTS.POST_ASSIGN_EMPLOYEE_TO_REQUEST(requestId), data, {headers:headers});
-  }
+getAvailableEmployees(requestId: number): Observable<any> {
+  let token = localStorage.getItem('token');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.get<any>(`http://localhost:5259/api/EmployeeInfo/${requestId}`, { headers });
+}
 
   getTotalRequestsAndRewards(userId:number) : Observable<Response<customerData>> {
     let token = localStorage.getItem('token');
