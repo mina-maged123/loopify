@@ -61,21 +61,21 @@ export class ReportComponent implements OnInit {
 
     const reportData = {
       employeeId: Number(localStorage.getItem('id')),
-      type: formValue.issueType,
+      type: Number(formValue.issueType),
       pickupRequestId: formValue.pickupId || null,
       warehouseName: formValue.warehouseName || null,
       description: formValue.description
     };
 
-    console.log(`Report Data: ${reportData.employeeId}`);
-    console.log(`Report Data: ${reportData.type}`);
-    console.log(`Report Data: ${reportData.pickupRequestId}`);
-    console.log(`Report Data: ${reportData.warehouseName}`);
-    console.log(`Report Data: ${reportData.description}`);
+    // console.log(`Report Data: ${reportData.employeeId}`);
+    // console.log(`Report Data: ${reportData.type}`);
+    // console.log(`Report Data: ${reportData.pickupRequestId}`);
+    // console.log(`Report Data: ${reportData.warehouseName}`);
+    // console.log(`Report Data: ${reportData.description}`);
 
     this.reportService.AddReport(reportData).subscribe({
       next: (response) => {
-        console.log('Report submitted successfully:', response);
+        // console.log('Report submitted successfully:', response);
         alert('Report submitted successfully!');
         this.router.navigate(['/employee']);
         this.isSubmitting = false;
@@ -99,13 +99,13 @@ export class ReportComponent implements OnInit {
     this.isLoadingWarehouses = true;
     this.warehouseService.GetWarehouses().subscribe({
       next: (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.isSuccess && response.data) {
           this.warehouses = response.data;
         }
       },
       error: (error) => {
-        console.error('Error fetching warehouses:', error);
+        // console.error('Error fetching warehouses:', error);
         alert(`Error fetching warehouses: ${error}`);
         this.warehouses = [];
       },
