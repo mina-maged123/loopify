@@ -5,22 +5,22 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  
+
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const token = localStorage.getItem('token');
-    const id = localStorage.getItem('id');
-    const role = localStorage.getItem('role');
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      const id = localStorage.getItem('id');
+      const role = localStorage.getItem('role');
 
-    // Check if user is authenticated
-    if (token && id && role) {
-      // User is authenticated, allow access
-      return true;
-    } else {
-      // User is not authenticated, redirect to login
-      this.router.navigate(['/login']);
-      return false;
+      if (token && id && role) {
+        return true;
+      }
     }
+
+    // Redirect if not authenticated or not in browser
+    this.router.navigate(['/login']);
+    return false;
   }
 }
