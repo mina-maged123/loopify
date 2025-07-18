@@ -28,6 +28,9 @@ export const ENDPOINTS = {
     GET_NOTIFICATIONS: `${baseUrl}Notification`,
 
     POST_REPORT: `${baseUrl}Report`,
+    GET_ALL_REPORTS: `${baseUrl}Report`,
+    GET_REPORT: (reportId:number) => `${baseUrl}Report/${reportId}`,
+    UPDATE_REPORT: `${baseUrl}Report/respond`,
 
     POST_REDEEM_REWARD: `${baseUrl}RewardRedemptions`,
 

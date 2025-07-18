@@ -33,6 +33,7 @@ import { WarehouseInventoryComponent } from './components/Admin/warehouse-invent
 import { PickupRequestsComponent } from './components/Admin/pickup-requests/pickup-requests.component';
 import { PickupHistoryComponent } from './components/pickup-history/pickup-history.component';
 import { RedemptionComponent } from './components/Admin/redemption/redemption.component';
+import { ReportsComponent } from './components/Admin/reports/reports.component';
 
 export const routes: Routes = [
   {
@@ -96,7 +97,8 @@ export const routes: Routes = [
       {path: 'warehouse-inventory', component: WarehouseInventoryComponent},
       {path: 'pickup-req', component: PickupRequestsComponent},
       {path: 'profile', component: ProfileComponent},
-      {path: 'material', component: MaterialsManagementComponent}
+      {path: 'material', component: MaterialsManagementComponent},
+      {path: 'reports', component: ReportsComponent}
     ],
   },
   {
