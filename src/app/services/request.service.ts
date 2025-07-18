@@ -84,4 +84,10 @@ export class RequestService {
     return this.http.get<Response<employeeData>>(ENDPOINTS.GET_TOTAL_ASSIGNED_COLLECTED(userId), { headers });
   }
 
+  getPickupRequestDetails(requestId: number): Observable<Response<PickupRequestDetails>> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Response<PickupRequestDetails>>(`${baseUrl}PickupRequest/${requestId}`, { headers });
+  }
+
 }

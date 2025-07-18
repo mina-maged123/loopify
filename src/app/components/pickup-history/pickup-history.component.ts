@@ -21,6 +21,9 @@ export class PickupHistoryComponent implements OnInit {
     showCancelModal: boolean = false;
   selectedRewardIdToCancel: number | null = null;
 
+  showDetailsModal: boolean = false;
+  selectedRequestDetails: any = null;
+
 
   totalRedeemedPoints = 0;
   totalSuccessfulRequests = 0;
@@ -211,6 +214,23 @@ const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
     }
   });
 }
+
+  onStatusClick(reqId: number): void {
+    this.requestService.getPickupRequestDetails(reqId).subscribe({
+      next: (response) => {
+        this.selectedRequestDetails = response.data;
+        this.showDetailsModal = true;
+      },
+      error: (error) => {
+        console.error('Failed to fetch request details', error);
+      }
+    });
+  }
+
+  closeDetailsModal(): void {
+    this.showDetailsModal = false;
+    this.selectedRequestDetails = null;
+  }
 
 
  

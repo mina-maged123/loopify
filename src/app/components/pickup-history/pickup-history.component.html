@@ -82,7 +82,7 @@
               'collected': req.status === 'Collected',
               'pending': req.status === 'Pending',
               'rejected': req.status === 'Canceled'
-            }">{{ req.status }}</span>
+            }" (click)="onStatusClick(+req.id)" style="cursor:pointer">{{ req.status }}</span>
           </td>
           <td>{{ req.pointsEarned !== null ? req.pointsEarned : '-' }}</td>
       <td>
@@ -159,6 +159,54 @@
 </div>
 
 <!-- Cancel Confirmation Modal -->
+
+<!-- Pickup Request Details Modal -->
+<div *ngIf="showDetailsModal && selectedRequestDetails" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl relative">
+    <button class="absolute top-3 right-3 text-gray-400 hover:text-gray-600" (click)="closeDetailsModal()">×</button>
+    <div class="modal-header mb-4">
+      <h5 class="modal-title">Pickup Request Details</h5>
+      <span *ngIf="selectedRequestDetails.status === 0" class="ml-3 px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-xs">Pending</span>
+      <span *ngIf="selectedRequestDetails.status === 3" class="ml-3 px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs">Rejected</span>
+      <span *ngIf="selectedRequestDetails.status === 2" class="ml-3 px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs">Collected</span>
+    </div>
+    <div class="modal-body">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <div class="mb-2"><strong>Request ID:</strong> #REQ-{{ selectedRequestDetails.id }}</div>
+          <div class="mb-2"><strong>Pickup Date:</strong> {{ selectedRequestDetails.requestedDate | date: 'mediumDate' }}</div>
+          <div class="mb-2"><strong>Material Type:</strong> <span *ngFor="let item of selectedRequestDetails.pickupItems; let last = last">{{ item.materialName }}<span *ngIf="!last">, </span></span></div>
+          <div class="mb-2"><strong>Quantity:</strong> <span *ngFor="let item of selectedRequestDetails.pickupItems; let last = last">{{ item.plannedQuantity }}<span *ngIf="!last">, </span></span> kg</div>
+          <div *ngIf="selectedRequestDetails.status === 2" class="mb-2"><strong>Earned Points:</strong> {{ selectedRequestDetails.totalPointsGiven }} pts</div>
+        </div>
+        <div>
+          <div class="mb-2"><strong>Customer Name:</strong> {{ selectedRequestDetails.customer.fullName }}</div>
+          <div class="mb-2"><strong>Address:</strong> {{ selectedRequestDetails.address }}</div>
+          <div class="mb-2"><strong>Contact:</strong> {{ selectedRequestDetails.customer.phoneNumber }}</div>
+        </div>
+      </div>
+      <!-- Collected By Section -->
+      <div *ngIf="selectedRequestDetails.status === 2" class="mb-4">
+        <h6 class="font-semibold mb-2">Collected By</h6>
+        <div class="mb-1"><strong>Employee Name:</strong> {{ selectedRequestDetails.employee.fullName }}</div>
+        <div class="mb-1"><strong>Employee Email:</strong> {{ selectedRequestDetails.employee.email }}</div>
+        <div class="mb-1"><strong>Pickup Timestamp:</strong> {{ selectedRequestDetails.dateCollected | date: 'medium' }}</div>
+      </div>
+      <!-- Reason for Rejection -->
+      <div *ngIf="selectedRequestDetails.status === 3" class="mb-4">
+        <h6 class="font-semibold mb-2">Reason for Rejection</h6>
+        <div class="text-gray-700">{{ selectedRequestDetails.note }}</div>
+      </div>
+      <!-- Pending Info -->
+      <div *ngIf="selectedRequestDetails.status === 0" class="mb-4 text-gray-600">
+        This request is pending
+      </div>
+    </div>
+    <div class="modal-footer flex justify-end mt-4">
+      <button class="btn btn-outline-secondary" (click)="closeDetailsModal()">Close</button>
+    </div>
+  </div>
+</div>
 
   <!-- Pagination -->
   <div class="pagination mt-4">
