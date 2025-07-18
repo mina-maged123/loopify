@@ -155,7 +155,7 @@ export class ViewMapComponent implements OnInit {
           if (!isNaN(lat) && !isNaN(lng)) {
             L.marker([lat, lng], { icon: requestIcon })
               .addTo(this.map)
-              .bindPopup(`Request ID: ${req.id}`);
+              .bindPopup(`Request Address: ${req.address}`);
           }
         });
       },
@@ -231,4 +231,25 @@ export class ViewMapComponent implements OnInit {
       });
     }
   }
+
+
+  resetToMyLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        // Pan or fly to user's location
+        if (this.map) {
+          this.map.flyTo([lat, lng], 16); // or use .flyTo([lat, lng], 13) for animation
+        }
+      },
+      (error) => {
+        console.error('Error getting location:', error.message);
+      }
+    );
+  }
+}
+
 }

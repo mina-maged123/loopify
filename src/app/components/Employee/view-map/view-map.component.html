@@ -3,7 +3,7 @@
     <h1>Pickup Locations</h1>
     <p>See all your assigned pickups on the map</p>
 
-    
+
     <!-- <div class="filters">
       <select [(ngModel)]="statusFilter" (change)="filterPickups()">
         <option value="all">All Status</option>
@@ -13,17 +13,21 @@
       <input type="text" [(ngModel)]="searchQuery" (input)="filterPickups()" placeholder="Search by customer name or address"  class="search-box"/>
     </div> -->
   </header>
- 
+
   <div id="map" class="map"></div>
 
-   <div class="bottom-bar">
-  <!-- <div class="legend">
-    <div style="color: #7A8986;"><span class="marker completed"></span> Completed</div>
-    <div style="color: #7A8986;"><span class="marker pending"></span> Pending Pickup</div>
-  </div> -->
-  <footer class="summary">
-    <p>{{ todayRequests.length }} pickups assigned today</p>
-  </footer>
+  <div class="bottom-bar">
+    
+    <div class="legend">
+    <!-- <div style="color: #7A8986;"><span class="marker completed"></span> Completed</div>
+    <div style="color: #7A8986;"><span class="marker pending"></span> Pending Pickup</div> -->
+    <button (click)="resetToMyLocation()" class="reset-location-btn">
+        📌 My Location
+      </button>
+  </div>
+    <footer class="summary">
+      <p>{{ todayRequests.length }} pickups assigned today</p>
+      
+    </footer>
+  </div>
 </div>
-</div>
-
