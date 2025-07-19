@@ -44,7 +44,7 @@
                             {{ isLoadingWarehouses ? 'Loading warehouses...' : 'Select Warehouse' }}
                         </option>
                         <option *ngFor="let warehouse of warehouses; trackBy: trackByWarehouseId"
-                            [value]="warehouse.id">
+                            [value]="warehouse.name">
                             {{ warehouse.name }} - {{ warehouse.location }}
                         </option>
                     </select>

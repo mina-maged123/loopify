@@ -88,11 +88,10 @@ export class ReportComponent implements OnInit {
           autoDismiss: true,
           autoDismissDelay: 3000
         });
-        this.router.navigate(['/employee']);
         this.isSubmitting = false;
       },
       error: (err) => {
-        console.error('Failed to submit report', err.error.errors);
+        // console.error('Failed to submit report', err);
         this.errorNotifyService.showError({
           title: 'Error',
           message: "Failed to submit report. Please try again.",
