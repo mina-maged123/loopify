@@ -99,14 +99,11 @@ recentRequests: PickupRequest[] = [
     private errorNotifyService: ErrorNotificationService) { }
 
   ngOnInit(): void {
-    
-
     let userId = Number(localStorage.getItem('id'));
 
     this.userProfileService.GetUser(userId).subscribe({
       next: (response) => {
         this.myUser = response;
-        console.log(this.myUser);
       },
       error: (error) => {
         console.log(error);

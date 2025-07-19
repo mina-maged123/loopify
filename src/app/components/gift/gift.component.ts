@@ -1,3 +1,4 @@
+import { response } from 'express';
 import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { Irewards } from '@/app/models/irewards';
@@ -10,13 +11,15 @@ import { FormsModule, NgModel } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ErrorNotificationContainerComponent } from '@/app/error-notification/error-notification-container.component';
 import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './gift.component.html',
   styleUrls: ['./gift.component.css'],
-  imports: [CommonModule, RouterLink, NavComponent, FooterComponent, FormsModule, ErrorNotificationContainerComponent]
+  imports: [CommonModule, RouterLink, NavComponent, FooterComponent, FormsModule, ErrorNotificationContainerComponent, SuccessNotificationContainerComponent]
 })
 export class GiftComponent implements OnInit {
   rewards$!: Observable<Irewards[]>;
@@ -39,7 +42,8 @@ export class GiftComponent implements OnInit {
   constructor(
     private rewardsService: RewardsService,
     private userProfileService: UserProfileService,
-    private errorNotifyService: ErrorNotificationService
+    private errorNotifyService: ErrorNotificationService,
+    private successNotifyService: SuccessNotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -112,6 +116,12 @@ export class GiftComponent implements OnInit {
 
     this.rewardsService.postRedeemReward(rewardId, quantity).subscribe({
       next: () => {
+        this.successNotifyService.showSuccess({
+          title: 'Success',
+          message: "Collection confirmed successfully!",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         this.feedbackMessage = "Redemption successful!";
         this.feedbackType = 'success';
         this.closeModal();

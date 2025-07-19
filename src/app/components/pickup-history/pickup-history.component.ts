@@ -214,7 +214,6 @@ export class PickupHistoryComponent implements OnInit {
           this.applyFilters();
         }
         let message = result?.message || "Pickup request cancelled.";
-        alert(message);
         this.loadRequestsFromAPI();
         index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
         if (index !== -1) {
