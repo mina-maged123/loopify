@@ -90,10 +90,7 @@
           data-bs-toggle="modal" data-bs-target="#pickupConfirmationModal">
           <img src="assets/rv.svg" alt=""> Confirm
         </button>
-        <button [routerLink]="['/employee/pickup']"
-          class="d-flex justify-content-center align-items-center gap-2 text-danger px-4 py-2 w-50 btn-outline-danger border-1 rounded-2">
-          <img src="assets/xv.svg" alt=""> Cancel
-        </button>
+        
         <button [routerLink]="['/employee/report-issue', pickupRequest.id]"
           class="d-flex justify-content-center align-items-center gap-2 text-primary px-4 py-2 w-50 btn-outline-primary border-1 rounded-2">
           <i class="fa-solid fa-comment"></i> Report For Issue

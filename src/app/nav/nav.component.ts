@@ -26,7 +26,13 @@ export class NavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadUserData();
+    if (typeof window !== 'undefined' && window.localStorage) {
+      this.loadUserData();
+    }
+    else {
+    // Optional: handle the case when localStorage is not available
+    console.warn('localStorage is not available.');
+  }
   }
 
 
@@ -51,8 +57,11 @@ export class NavComponent implements OnInit {
 
 
   isLoggedIn(): boolean {
+  if (typeof window !== 'undefined' && window.localStorage) {
     return !!localStorage.getItem('token') && !!localStorage.getItem('id');
   }
+  return false;
+}
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;

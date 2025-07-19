@@ -81,7 +81,7 @@
             <span class="status" [ngClass]="{
               'collected': req.status === 'Collected',
               'pending': req.status === 'Pending',
-              'rejected': req.status === 'Canceled'
+              'rejected': req.status === 'Cancelled'
             }" (click)="onStatusClick(+req.id)" style="cursor:pointer">{{ req.status }}</span>
           </td>
           <td>{{ req.pointsEarned !== null ? req.pointsEarned : '-' }}</td>

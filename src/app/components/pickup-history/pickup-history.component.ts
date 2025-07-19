@@ -198,7 +198,7 @@ cancelRequest(reqId: number): void {
 
 const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
       if (index !== -1) {
-        this.pickupRequests[index].status = 'Canceled';
+        this.pickupRequests[index].status = 'Cancelled';
         this.pickupRequests[index].pointsEarned = 0;
         this.applyFilters();
       }
