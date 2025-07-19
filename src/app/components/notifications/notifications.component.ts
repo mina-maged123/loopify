@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { INotification } from '@/app/models/inotification';
 import { NotificationService } from '@/app/services/notification.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
 
 // Simple notification interface for component use
 interface SimpleNotification {
@@ -15,7 +17,7 @@ interface SimpleNotification {
 @Component({
   selector: 'app-notifications',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ErrorNotificationContainerComponent],
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css']
 })
@@ -24,7 +26,7 @@ export class NotificationsComponent implements OnInit {
   notifications: SimpleNotification[] = [];
   readNotifications: Set<number> = new Set(); // Track read notifications locally
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(private notificationService: NotificationService, private errorNotifyService: ErrorNotificationService) {}
 
   ngOnInit() {
     this.loadNotifications();
@@ -45,6 +47,12 @@ toggleDropdown() {
       },
       error: (error) => {
         console.error('Error loading notifications:', error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: `Error loading notifications: ${error}`,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }

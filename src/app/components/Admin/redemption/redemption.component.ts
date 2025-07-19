@@ -1,3 +1,4 @@
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -7,12 +8,15 @@ import { EditGiftComponent } from '../edit-gift/edit-gift.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { RewardsService } from '@/app/services/rewards.service';
 import { response } from 'express';
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
 
 interface Gift {
   id: number;
   image: string;
   name: string;
-  description:string,
+  description: string,
   pointsRequired: number;
   stock: number;
 }
@@ -38,36 +42,44 @@ interface EditGiftFormData {
 @Component({
   selector: 'app-redemption',
   standalone: true,
-  imports: [CommonModule, RouterModule, AddNewGiftComponent, EditGiftComponent, ConfirmationDialogComponent],
+  imports: [CommonModule, RouterModule, AddNewGiftComponent, EditGiftComponent, ConfirmationDialogComponent, ErrorNotificationContainerComponent, SuccessNotificationContainerComponent],
   templateUrl: './redemption.component.html',
   styleUrl: './redemption.component.css'
 })
-export class RedemptionComponent implements OnInit{
+export class RedemptionComponent implements OnInit {
 
-  constructor(private rewardsService: RewardsService){}
+  constructor(private rewardsService: RewardsService, private errorNotifyService: ErrorNotificationService,
+    private successNotifyService: SuccessNotificationService
+  ) { }
 
   gifts: Gift[] = [];
 
   ngOnInit(): void {
-      this.gifts = [];
-      this.rewardsService.getAllRewards().subscribe({
-        next: (response) => {
-          response.forEach((r) => {
-            let gift : Gift = {
-              id: r.id,
-              image: r.imageUrl,
-              name: r.title,
-              description: r.description,
-              pointsRequired: r.pointsRequired,
-              stock: r.stockQuantity,
-            }
-            this.gifts.push(gift);
-          });
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      });
+    this.gifts = [];
+    this.rewardsService.getAllRewards().subscribe({
+      next: (response) => {
+        response.forEach((r) => {
+          let gift: Gift = {
+            id: r.id,
+            image: r.imageUrl,
+            name: r.title,
+            description: r.description,
+            pointsRequired: r.pointsRequired,
+            stock: r.stockQuantity,
+          }
+          this.gifts.push(gift);
+        });
+      },
+      error: (error) => {
+        console.log(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
+      }
+    });
   }
 
   isAddGiftModalVisible = false;
@@ -121,7 +133,14 @@ export class RedemptionComponent implements OnInit{
 
     // Show success message (you can implement a toast notification here)
     console.log('Gift added successfully!');
+    this.successNotifyService.showSuccess({
+      title: 'Success',
+      message: "Gift added successfully!",
+      autoDismiss: true,
+      autoDismissDelay: 3000
+    });
   }
+
 
   isEditGiftModalVisible = false;
   giftBeingEdited: EditGiftFormData | null = null;
@@ -160,6 +179,12 @@ export class RedemptionComponent implements OnInit{
         },
         error: (error) => {
           console.log(error);
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         }
       });
     }
@@ -201,6 +226,12 @@ export class RedemptionComponent implements OnInit{
       this.gifts[giftIndex] = updatedGift;
 
       console.log('Gift updated successfully:', updatedGift);
+      this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: "Gift updated successfully!",
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
     }
 
     // Close the modal

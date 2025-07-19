@@ -8,13 +8,15 @@ import { FooterComponent } from "@/app/footer/footer.component";
 import { NavComponent } from '@/app/nav/nav.component';
 import { FormsModule, NgModel } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ErrorNotificationContainerComponent } from '@/app/error-notification/error-notification-container.component';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 @Component({
   selector: 'app-root',
-  standalone:true,
+  standalone: true,
   templateUrl: './gift.component.html',
   styleUrls: ['./gift.component.css'],
-  imports: [CommonModule, RouterLink, NavComponent, FooterComponent,FormsModule]
+  imports: [CommonModule, RouterLink, NavComponent, FooterComponent, FormsModule, ErrorNotificationContainerComponent]
 })
 export class GiftComponent implements OnInit {
   rewards$!: Observable<Irewards[]>;
@@ -24,20 +26,21 @@ export class GiftComponent implements OnInit {
   totalPoints: number = 0;
   userName: string = '';
 
-  
+
   selectedReward: Irewards | null = null;
   selectedQuantity: number = 1;
 
-feedbackMessage: string = '';
-feedbackType: 'success' | 'error' | '' = '';
+  feedbackMessage: string = '';
+  feedbackType: 'success' | 'error' | '' = '';
 
   showCancelModal: boolean = false;
   selectedRewardIdToCancel: number | null = null;
 
   constructor(
     private rewardsService: RewardsService,
-    private userProfileService:UserProfileService
-  ) {}
+    private userProfileService: UserProfileService,
+    private errorNotifyService: ErrorNotificationService
+  ) { }
 
   ngOnInit(): void {
     this.rewards$ = this.rewardsService.getAllRewards();
@@ -101,29 +104,35 @@ feedbackType: 'success' | 'error' | '' = '';
     this.selectedReward = null;
   }
 
- confirmRedemption() {
-  if (!this.selectedReward) return;
+  confirmRedemption() {
+    if (!this.selectedReward) return;
 
-  const rewardId = this.selectedReward.id;
-  const quantity = this.selectedQuantity;
+    const rewardId = this.selectedReward.id;
+    const quantity = this.selectedQuantity;
 
-  this.rewardsService.postRedeemReward(rewardId, quantity).subscribe({
-    next: () => {
-      this.feedbackMessage = "Redemption successful!";
-      this.feedbackType = 'success';
-      this.closeModal();
-      // ممكن تعملي auto-hide للرسالة بعد ثواني:
-      setTimeout(() => {
-        this.feedbackMessage = '';
-        this.feedbackType = '';
-      }, 3000);
-    },
-    error: (err) => {
-      this.feedbackMessage = err.error.message || "You are not allowed to redeem this reward.";
-      this.feedbackType = 'error';
-    }
-  });
-}
+    this.rewardsService.postRedeemReward(rewardId, quantity).subscribe({
+      next: () => {
+        this.feedbackMessage = "Redemption successful!";
+        this.feedbackType = 'success';
+        this.closeModal();
+        // ممكن تعملي auto-hide للرسالة بعد ثواني:
+        setTimeout(() => {
+          this.feedbackMessage = '';
+          this.feedbackType = '';
+        }, 3000);
+      },
+      error: (err) => {
+        this.feedbackMessage = err.error.message || "You are not allowed to redeem this reward.";
+        this.feedbackType = 'error';
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: this.feedbackMessage,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
+      }
+    });
+  }
 
   openCancelModal(rewardId: number) {
     this.selectedRewardIdToCancel = rewardId;

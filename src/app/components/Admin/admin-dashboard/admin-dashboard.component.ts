@@ -4,6 +4,8 @@ import { ChartComponent } from 'ng-apexcharts';
 import { AdminFeaturesService } from '@/app/services/admin-features.service';
 import { AdminDashboard } from '@/app/models/AdminDashboard';
 import { ViewChild } from '@angular/core';
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 interface ActivityItem {
   dateTime: string;
@@ -24,7 +26,7 @@ interface StatCard {
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, ChartComponent],
+  imports: [CommonModule, ChartComponent, ErrorNotificationContainerComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
@@ -33,7 +35,7 @@ export class AdminDashboardComponent implements OnInit {
   @ViewChild('barChart') barChart!: ChartComponent;
   @ViewChild('doughnutChart') doughnutChart!: ChartComponent;
 
-  constructor(private adminFeature: AdminFeaturesService) { }
+  constructor(private adminFeature: AdminFeaturesService, private errorNotifyService: ErrorNotificationService) { }
 
   dashboard: AdminDashboard = {} as AdminDashboard;
 
@@ -89,6 +91,12 @@ export class AdminDashboardComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }

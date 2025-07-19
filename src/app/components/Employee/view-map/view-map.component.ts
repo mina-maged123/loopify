@@ -1,3 +1,5 @@
+import { ErrorNotificationService } from './../../../error-notification/error-notification.service';
+import { ErrorNotificationContainerComponent } from './../../../error-notification/error-notification-container.component';
 
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,14 +17,14 @@ interface Pickup {
 @Component({
   selector: 'app-map-view',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ErrorNotificationContainerComponent],
   templateUrl: './view-map.component.html',
   styleUrls: ['./view-map.component.css'],
 })
 
 export class ViewMapComponent implements OnInit {
 
-  constructor(private employeeRequestsService: EmployeePickupRequestsService) { }
+  constructor(private employeeRequestsService: EmployeePickupRequestsService, private errorNotifyService: ErrorNotificationService) { }
 
 
   pickups: Pickup[] = [
@@ -69,6 +71,12 @@ export class ViewMapComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }
@@ -234,22 +242,27 @@ export class ViewMapComponent implements OnInit {
 
 
   resetToMyLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
 
-        // Pan or fly to user's location
-        if (this.map) {
-          this.map.flyTo([lat, lng], 16); // or use .flyTo([lat, lng], 13) for animation
+          // Pan or fly to user's location
+          if (this.map) {
+            this.map.flyTo([lat, lng], 16); // or use .flyTo([lat, lng], 13) for animation
+          }
+        },
+        (error) => {
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: `Error getting location: ${error.message}`,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         }
-      },
-      (error) => {
-        console.error('Error getting location:', error.message);
-      }
-    );
+      );
+    }
   }
-}
 
 }

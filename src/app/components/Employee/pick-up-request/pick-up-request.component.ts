@@ -1,3 +1,4 @@
+import { ErrorNotificationContainerComponent } from './../../../error-notification/error-notification-container.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -5,11 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeePickupRequestsService } from '@/app/services/employee-pickup-requests.service';
 import { RouterLink } from '@angular/router';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 @Component({
   selector: 'app-pick-up-request',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule,RouterLink],
+  imports: [CommonModule, FormsModule, HttpClientModule,RouterLink,ErrorNotificationContainerComponent],
   templateUrl: './pick-up-request.component.html',
   styleUrls: ['./pick-up-request.component.css']
 })
@@ -23,7 +25,7 @@ export class PickUpRequestComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 4;
 
-  constructor(private pickupService: EmployeePickupRequestsService) {}
+  constructor(private pickupService: EmployeePickupRequestsService, private errorNotifyService: ErrorNotificationService) {}
 
   ngOnInit(): void {
     this.getRequests();
@@ -46,6 +48,12 @@ export class PickUpRequestComponent implements OnInit {
       error: (err) => {
         
         console.error('Failed to load pickup requests:', err);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: `Failed to load pickup requests: ${err}`,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }

@@ -1,22 +1,29 @@
+import { SuccessNotificationService } from './../../../success-notification/success-notification.service';
 import { NavComponent } from '@/app/nav/nav.component';
 import { FooterComponent } from './../../../footer/footer.component';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 
 @Component({
   selector: 'app-profile',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, ErrorNotificationContainerComponent, SuccessNotificationContainerComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit {
-  id : any;
-  user : any = {};
+  id: any;
+  user: any = {};
 
-  constructor(private userProfileService: UserProfileService, private router: Router) { }
+  constructor(private userProfileService: UserProfileService, private router: Router,
+    private successNotifyService: SuccessNotificationService,
+    private errorNotifyService: ErrorNotificationService
+  ) { }
 
   ngOnInit(): void {
     this.id = localStorage.getItem("id");
@@ -24,28 +31,28 @@ export class ProfileComponent implements OnInit {
       next: (response) => {
         this.user = response.data;
         this.empData.patchValue({
-          fullName : this.user.fullName,
-          email : this.user.email,
-          phoneNumber : this.user.phoneNumber,
-          employeeId : this.user.id,
-          profilePictureUrl : this.user.profilePictureUrl,
+          fullName: this.user.fullName,
+          email: this.user.email,
+          phoneNumber: this.user.phoneNumber,
+          employeeId: this.user.id,
+          profilePictureUrl: this.user.profilePictureUrl,
         })
       }
     });
   }
-  
+
   empData = new FormGroup({
-    fullName: new FormControl('',[Validators.required]),
-    email: new FormControl('',[Validators.required]),
-    phoneNumber: new FormControl('',[Validators.required]),
-    employeeId: new FormControl('',[Validators.required]),
+    fullName: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required]),
+    phoneNumber: new FormControl('', [Validators.required]),
+    employeeId: new FormControl('', [Validators.required]),
     profilePictureUrl: new FormControl(''),
   });
 
   updatePass = new FormGroup({
-    currentPassword: new FormControl('',[Validators.required]),
-    newPassword: new FormControl('',[Validators.required]),
-    confirmPassword: new FormControl('',[Validators.required]),
+    currentPassword: new FormControl('', [Validators.required]),
+    newPassword: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required]),
   });
 
   get getCurrentPassword() {
@@ -59,7 +66,7 @@ export class ProfileComponent implements OnInit {
   get getConfirmPassword() {
     return this.updatePass.get('confirmPassword');
   }
-  
+
   saveChanges() {
     if (this.empData.status == "VALID") {
       // Prepare data wrapped in UserInfoDto as expected by API
@@ -78,12 +85,23 @@ export class ProfileComponent implements OnInit {
       this.userProfileService.updateUser(updateData).subscribe({
         next: () => {
           this.user = { ...this.user, ...updateData.UserInfoDto };
-          alert('Profile updated successfully!');
+          this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: "Profile updated successfully!",
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
         },
         error: (error) => {
           console.error('Full error object:', error);
           console.error('Error details:', error.error);
           console.error('Validation errors:', error.error?.errors);
+          this.errorNotifyService.showError({
+            title: 'Error',
+            message: error,
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
 
           // Show specific validation errors if available
           if (error.error && error.error.errors) {
@@ -101,53 +119,99 @@ export class ProfileComponent implements OnInit {
               }
             }
 
-            alert(errorMessage);
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: errorMessage,
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           } else {
-            alert(`Failed to update profile.\nError: ${error.error?.title || error.message}`);
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: `Failed to update profile.\nError: ${error.error?.title || error.message}`,
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           }
         }
       });
     }
     else {
-      alert("Please fix the form errors before saving.");
+      this.errorNotifyService.showError({
+        title: 'Error',
+        message: "Please fix the form errors before saving.",
+        autoDismiss: true,
+        autoDismissDelay: 3000
+      });
       console.log('Form errors:', this.empData.errors);
     }
   }
-  
+
   updatePassword() {
     if (!this.updatePass.valid) {
-        alert('Please fill all required fields correctly');
-        return;
+      this.errorNotifyService.showError({
+        title: 'Error',
+        message: "Please fill all required fields correctly",
+        autoDismiss: true,
+        autoDismissDelay: 3000
+      });
+      return;
     }
-    
+
     if (this.updatePass.value.newPassword !== this.updatePass.value.confirmPassword) {
-        alert('New password and confirmation must match');
-        return;
+      this.errorNotifyService.showError({
+        title: 'Error',
+        message: "New password and confirmation must match",
+        autoDismiss: true,
+        autoDismissDelay: 3000
+      });
+      return;
     }
 
     const passwords = {
-        oldPassword: this.updatePass.value.currentPassword || '',
-        newPassword: this.updatePass.value.newPassword || '',
-        confirmPassword: this.updatePass.value.confirmPassword || ''
+      oldPassword: this.updatePass.value.currentPassword || '',
+      newPassword: this.updatePass.value.newPassword || '',
+      confirmPassword: this.updatePass.value.confirmPassword || ''
     };
 
     this.userProfileService.changePassword(passwords).subscribe({
-        next: (response) => {
-            if (response.message === "Old password is incorrect.") {
-                alert('Old password is incorrect!');
-                this.router.navigate(['/employee/profile']);
-            } 
-            else if (response.message === "Password changed successfully.") {
-                console.log('Password changed successfully!');
-                this.router.navigate(['/reset-success']);
-            } else {
-                alert('Unexpected response: ' + response.message);
-            }
-        },
-        error: (err) => {
-            const errorMessage = err.error?.message || 'Failed to change password';
-            alert(errorMessage);
+      next: (response) => {
+        if (response.message === "Old password is incorrect.") {
+          this.errorNotifyService.showError({
+            title: 'Error',
+            message: "Old password is incorrect!",
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
+          this.router.navigate(['/employee/profile']);
         }
+        else if (response.message === "Password changed successfully.") {
+          console.log('Password changed successfully!');
+          this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: "Password changed successfully!",
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
+          this.router.navigate(['/reset-success']);
+        } else {
+          this.errorNotifyService.showError({
+            title: 'Error',
+            message: 'Unexpected response: ' + response.message,
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
+        }
+      },
+      error: (err) => {
+        const errorMessage = err.error?.message || 'Failed to change password';
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: errorMessage,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
+      }
     });
   }
 

@@ -1,19 +1,21 @@
+import { ErrorNotificationContainerComponent } from './../../../error-notification/error-notification-container.component';
 import { EmployeePickupRequestsService } from '@/app/services/employee-pickup-requests.service';
 import { NgChartsModule } from 'ng2-charts';
 import { Component, OnInit } from '@angular/core';
 import { ChartData } from 'chart.js';
 import { response } from 'express';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [NgChartsModule],
+  imports: [NgChartsModule, ErrorNotificationContainerComponent],
   templateUrl: './employee-dashboard.component.html',
   styleUrls: ['./employee-dashboard.component.css']
 })
 export class EmployeeDashboardComponent implements OnInit {
 
-  constructor(private employeeRequestsService: EmployeePickupRequestsService) { }
+  constructor(private employeeRequestsService: EmployeePickupRequestsService, private errorNotifyService: ErrorNotificationService) { }
 
   allRequests: any[] = [];
   No_completedRequests = 0;
@@ -105,6 +107,12 @@ export class EmployeeDashboardComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
 

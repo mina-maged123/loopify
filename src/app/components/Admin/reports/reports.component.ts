@@ -3,10 +3,14 @@ import { ReportService } from '@/app/services/report.service';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 @Component({
   selector: 'app-reports',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ErrorNotificationContainerComponent, SuccessNotificationContainerComponent],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.css'
 })
@@ -21,7 +25,9 @@ export class ReportsComponent implements OnInit {
   report: any;
   showModal: boolean = false;
 
-  constructor(private reportService: ReportService) { }
+  constructor(private reportService: ReportService, private successNotifyService: SuccessNotificationService,
+    private errorNotifyService: ErrorNotificationService
+  ) { }
 
   ngOnInit(): void {
     this.reportService.getAllReports().subscribe({
@@ -32,7 +38,12 @@ export class ReportsComponent implements OnInit {
         this.filteredData = response.data;
       },
       error: (error) => {
-        alert(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }
@@ -47,11 +58,22 @@ export class ReportsComponent implements OnInit {
           this.showModal = true;
         } else {
           console.error('No data in response');
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: "No data in response",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         }
       },
       error: (error) => {
         console.error('API Error:', error);
-        alert('Error fetching report details: ' + error.message);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: `Error fetching report details: ${error.message}`,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }
@@ -79,21 +101,36 @@ export class ReportsComponent implements OnInit {
     this.reportService.updateReport(resolveData).subscribe({
       next: (response) => {
         console.log('Update successful:', response);
-        alert('Status updated successfully');
+        this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: "Status updated successfully",
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
         this.refreshReports();
       },
       error: (error) => {
         console.error('Full error:', error);
         if (error.status === 405) {
-          alert('Server rejected the request method. Please contact support.');
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Server rejected the request method. Please contact support.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         } else {
-          alert('Error updating status: ' + (error.error?.message || error.message));
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: 'Error updating status: ' + (error.error?.message || error.message),
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         }
       }
     });
   }
 
-  dismissedResponse(reportId:number) {
+  dismissedResponse(reportId: number) {
     const dismissData = {
       reportId: reportId,
       status: 2,
@@ -103,15 +140,30 @@ export class ReportsComponent implements OnInit {
     this.reportService.updateReport(dismissData).subscribe({
       next: (response) => {
         console.log('Update successful:', response);
-        alert('Status updated successfully');
+        this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: "Status updated successfully",
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
         this.refreshReports();
       },
       error: (error) => {
         console.error('Full error:', error);
         if (error.status === 405) {
-          alert('Server rejected the request method. Please contact support.');
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Server rejected the request method. Please contact support.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         } else {
-          alert('Error updating status: ' + (error.error?.message || error.message));
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: 'Error updating status: ' + (error.error?.message || error.message),
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         }
       }
     });
@@ -121,10 +173,16 @@ export class ReportsComponent implements OnInit {
     this.reportService.getAllReports().subscribe({
       next: (response) => {
         this.reportData = response.data;
-        this.filteredData = [...this.reportData]; 
+        this.filteredData = [...this.reportData];
       },
       error: (error) => {
         console.error('Error refreshing reports:', error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: `Error refreshing reports: ${error}`,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }
