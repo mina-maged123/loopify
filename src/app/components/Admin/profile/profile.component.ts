@@ -187,12 +187,6 @@ export class ProfileComponent implements OnInit {
         }
         else if (response.message === "Password changed successfully.") {
           console.log('Password changed successfully!');
-          this.successNotifyService.showSuccess({
-            title: 'Success',
-            message: "Password changed successfully!",
-            autoDismiss: true,
-            autoDismissDelay: 3000
-          });
           this.router.navigate(['/reset-success']);
         } else {
           this.errorNotifyService.showError({
