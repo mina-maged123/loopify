@@ -1,3 +1,5 @@
+import { ErrorNotificationContainerComponent } from './../../../error-notification/error-notification-container.component';
+import { SuccessNotificationContainerComponent } from './../../../success-notification/success-notification-container.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -5,12 +7,14 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { WarehouseService } from '@/app/services/warehouse.service';
 import { ReportService } from '@/app/services/report.service';
 import { IWarehouseData } from '@/app/models/iwarehouse';
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, SuccessNotificationContainerComponent, ErrorNotificationContainerComponent],
   templateUrl: './report-issue.component.html',
   styleUrl: './report-issue.component.css'
 })
@@ -24,7 +28,9 @@ export class ReportComponent implements OnInit {
     private warehouseService: WarehouseService,
     private route: ActivatedRoute,
     private router: Router,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private successNotifyService: SuccessNotificationService,
+    private errorNotifyService: ErrorNotificationService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +58,7 @@ export class ReportComponent implements OnInit {
 
   onSubmit(): void {
 
-    
+
 
     if (this.reportForm.invalid) return;
 
@@ -76,13 +82,23 @@ export class ReportComponent implements OnInit {
     this.reportService.AddReport(reportData).subscribe({
       next: (response) => {
         // console.log('Report submitted successfully:', response);
-        alert('Report submitted successfully!');
+        this.successNotifyService.showSuccess({
+          title: 'Success',
+          message: "Report submitted successfully!",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         this.router.navigate(['/employee']);
         this.isSubmitting = false;
       },
       error: (err) => {
         console.error('Failed to submit report', err.error.errors);
-        alert('Failed to submit report. Please try again.');
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Failed to submit report. Please try again.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         this.isSubmitting = false;
       },
       complete: () => {
@@ -106,7 +122,12 @@ export class ReportComponent implements OnInit {
       },
       error: (error) => {
         // console.error('Error fetching warehouses:', error);
-        alert(`Error fetching warehouses: ${error}`);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: `Error fetching warehouses: ${error}`,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         this.warehouses = [];
       },
       complete: () => {

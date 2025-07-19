@@ -8,6 +8,10 @@ import { UserProfileService } from '@/app/services/user-profile.service';
 import { RequestService } from '@/app/services/request.service';
 import { NavComponent } from '@/app/nav/nav.component';
 import { FooterComponent } from '@/app/footer/footer.component';
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
+import { SuccessNotificationContainerComponent } from '@/app/success-notification/success-notification-container.component';
+import { ErrorNotificationContainerComponent } from '@/app/error-notification/error-notification-container.component';
 
 
 interface UserProfile {
@@ -39,7 +43,7 @@ interface PickupRequest {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,[NgFor, NgClass, DatePipe], RouterLink,NavComponent,FooterComponent],
+  imports: [CommonModule,[NgFor, NgClass, DatePipe], RouterLink,NavComponent,FooterComponent, SuccessNotificationContainerComponent, ErrorNotificationContainerComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -90,7 +94,9 @@ recentRequests: PickupRequest[] = [
   myUser : IUserInfo = {} as IUserInfo;
   myUserRequests : ICustomerRequest[] = [];
 
-  constructor(private userProfileService: UserProfileService, private router:Router, private requestService: RequestService) { }
+  constructor(private userProfileService: UserProfileService, private router:Router, 
+    private requestService: RequestService, private successNotifyService:SuccessNotificationService,
+    private errorNotifyService: ErrorNotificationService) { }
 
   ngOnInit(): void {
     
@@ -104,6 +110,12 @@ recentRequests: PickupRequest[] = [
       },
       error: (error) => {
         console.log(error);
+        this.errorNotifyService.showError({
+                    title: 'Error',
+                    message: error,
+                    autoDismiss: true,
+                    autoDismissDelay: 3000
+                });
       }
     });
 
@@ -145,6 +157,12 @@ recentRequests: PickupRequest[] = [
       },
       error: (error: any) => {
         console.log(error);
+        this.errorNotifyService.showError({
+                    title: 'Error',
+                    message: error,
+                    autoDismiss: true,
+                    autoDismissDelay: 3000
+                });
       }
     });
 

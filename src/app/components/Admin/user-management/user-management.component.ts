@@ -7,6 +7,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { IWarehouseData } from '@/app/models/iwarehouse';
 import { WarehouseService } from '@/app/services/warehouse.service';
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 export interface User {
   id: number,
@@ -75,7 +79,7 @@ export interface customerData {
 
 @Component({
   selector: 'app-users-management',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SuccessNotificationContainerComponent, ErrorNotificationContainerComponent],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
@@ -98,7 +102,9 @@ export class UserManagementComponent implements OnInit {
     private adminFeaturesService: AdminFeaturesService,
     private router: Router,
     private requestService: RequestService,
-    private warehouseService: WarehouseService
+    private warehouseService: WarehouseService,
+    private successNotifyService: SuccessNotificationService,
+    private errorNotifyService: ErrorNotificationService
   ) { }
 
   ngOnInit(): void {
@@ -109,6 +115,12 @@ export class UserManagementComponent implements OnInit {
       },
       error: (err) => {
         console.error("Error fetching users:", err);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: err,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
     this.GetWarehouseNames();
@@ -308,7 +320,12 @@ get paginatedUsers(): User[] {
 
       // Check if passwords match
       if (formValues.password !== formValues.confirmPassword) {
-        alert("Passwords do not match!");
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Passwords do not match!",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         return;
       }
 
@@ -325,17 +342,32 @@ get paginatedUsers(): User[] {
 
       this.adminFeaturesService.AddEmployee(dataToSend).subscribe({
         next: () => {
-          alert("Employee added successfully!");
+          this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: "Employee added successfully!",
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
           this.employeeForm.reset();
           this.closeAddEmployeeModal();
         },
         error: (err) => {
           console.error("Error adding employee:", err);
-          alert("Error adding employee. Please try again.");
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Error adding employee. Please try again.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         }
       })
     } else {
-      alert("Please fill in all required fields correctly.");
+      this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Please fill in all required fields correctly.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
     }
   }
 

@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { RewardsService } from '@/app/services/rewards.service';
 import { IUpdateGift } from '@/app/models/IUpdateGift';
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 interface Gift {
   id: number;
@@ -30,14 +32,14 @@ interface EditGiftFormData {
 @Component({
   selector: 'app-edit-gift',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmationDialogComponent],
+  imports: [CommonModule, FormsModule, ConfirmationDialogComponent, ErrorNotificationContainerComponent],
   templateUrl: './edit-gift.component.html',
   styleUrls: ['./edit-gift.component.css']
 })
 export class EditGiftComponent implements OnChanges{
 
 
-  constructor(private rewardsService:RewardsService){}
+  constructor(private rewardsService:RewardsService, private errorNotifyService: ErrorNotificationService){}
 
 
  @Input() isVisible = false;
@@ -116,6 +118,12 @@ showCancelConfirmation = false;
         },
         error: (error) => {
           console.log(error);
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         },
       });
       this.resetForm();

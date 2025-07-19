@@ -41,11 +41,13 @@ import { Router, RouterModule } from '@angular/router';
 import { AccountService } from '@/app/services/account.service';
 import { AuthService } from '@/app/services/auth.service';
 import { ILoginUser } from '@/app/models/i-login-user.model';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
+import { ErrorNotificationContainerComponent } from '@/app/error-notification/error-notification-container.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, ErrorNotificationContainerComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -57,8 +59,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private errorNotifyService: ErrorNotificationService
+  ) { }
 
   ngOnInit(): void {
     // Check if user is already logged in
@@ -69,10 +72,10 @@ export class LoginComponent implements OnInit {
   }
 
   loginForm = new FormGroup({
-      emailAddress: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      rememberMe: new FormControl(false)
-    });
+    emailAddress: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    rememberMe: new FormControl(false)
+  });
 
   get getEmail() {
     return this.loginForm.get('emailAddress');
@@ -95,7 +98,7 @@ export class LoginComponent implements OnInit {
       this.errorMessage = '';
       this.loginSuccess = false;
 
-      const formData : ILoginUser = this.loginForm.value as ILoginUser;
+      const formData: ILoginUser = this.loginForm.value as ILoginUser;
 
       this.accountService.login(formData).subscribe({
         next: (response) => {
@@ -118,18 +121,38 @@ export class LoginComponent implements OnInit {
 
           if (error.error && error.error[""] && Array.isArray(error.error[""])) {
             this.errorMessage = error.error[""][0];
-            alert(this.errorMessage);
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: this.errorMessage,
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           } else if (typeof error.error === 'string') {
             this.errorMessage = error.error;
-            alert(this.errorMessage);
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: this.errorMessage,
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           } else if (error.status === 401) {
             this.errorMessage = 'Invalid account. Please check your password.';
-            alert(this.errorMessage);
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: this.errorMessage,
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           } else {
             this.errorMessage = 'Login failed. Please try again.';
-            alert(this.errorMessage);
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: this.errorMessage,
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           }
-          
+
           this.loginSuccess = false;
         }
       });

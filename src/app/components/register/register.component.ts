@@ -1,19 +1,21 @@
+import { ErrorNotificationContainerComponent } from './../../error-notification/error-notification-container.component';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AccountService } from '../../services/account.service';
 import { IRegisterUser } from '../../models/iregister-user';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, ErrorNotificationContainerComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
 
-  constructor(private accountService: AccountService, private router: Router) { }
+  constructor(private accountService: AccountService, private router: Router, private errorNotifyService: ErrorNotificationService) { }
 
   userData = new FormGroup({
     FirstName: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -76,7 +78,12 @@ export class RegisterComponent {
         error: (error) => {
           const errorMessage = error.error?.message || error.message ||
             'An unknown error occurred during registration';
-          alert(errorMessage);
+          this.errorNotifyService.showError({
+            title: 'Error',
+            message: errorMessage,
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
         }
       })
     }

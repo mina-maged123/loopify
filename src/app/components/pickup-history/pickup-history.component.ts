@@ -1,3 +1,4 @@
+import { SuccessNotificationService } from './../../success-notification/success-notification.service';
 
 import { Component, OnInit } from '@angular/core';
 import { FooterComponent } from "@/app/footer/footer.component";
@@ -6,10 +7,13 @@ import { RouterLink } from '@angular/router';
 import { PickupRequest } from '@/app/models/PickupRequest';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '@/app/services/request.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
 
 @Component({
   selector: 'app-pickup-history',
-  imports: [FooterComponent, NavComponent, RouterLink, CommonModule],
+  imports: [FooterComponent, NavComponent, RouterLink, CommonModule, ErrorNotificationContainerComponent, SuccessNotificationContainerComponent],
   templateUrl: './pickup-history.component.html',
   styleUrl: './pickup-history.component.css',
   standalone: true
@@ -18,7 +22,7 @@ export class PickupHistoryComponent implements OnInit {
   pickupRequests: PickupRequest[] = [];
   filteredRequests: PickupRequest[] = [];
 
-    showCancelModal: boolean = false;
+  showCancelModal: boolean = false;
   selectedRewardIdToCancel: number | null = null;
 
   showDetailsModal: boolean = false;
@@ -28,10 +32,10 @@ export class PickupHistoryComponent implements OnInit {
   totalRedeemedPoints = 0;
   totalSuccessfulRequests = 0;
   totalRequests = 0;
-index:number=1;
-selectedStatus: string = '';
-fromDate: string = '';
-toDate: string = '';
+  index: number = 1;
+  selectedStatus: string = '';
+  fromDate: string = '';
+  toDate: string = '';
   cancelRequestId: number | null = null;
 
 
@@ -39,7 +43,8 @@ toDate: string = '';
   pageSize = 5;
   totalPages = 0;
 
-  constructor(private requestService: RequestService) { }
+  constructor(private requestService: RequestService, private errorNotifyService: ErrorNotificationService,
+    private successNotifyService: SuccessNotificationService) { }
 
   ngOnInit() {
     this.loadRequestsFromAPI();
@@ -75,6 +80,12 @@ toDate: string = '';
       },
       error: (error) => {
         console.log(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }
@@ -86,32 +97,32 @@ toDate: string = '';
   }
 
   onFromDateChange(event: Event) {
-  this.fromDate = (event.target as HTMLInputElement).value;
-  this.applyFilters();
-}
+    this.fromDate = (event.target as HTMLInputElement).value;
+    this.applyFilters();
+  }
 
-onToDateChange(event: Event) {
-  this.toDate = (event.target as HTMLInputElement).value;
-  this.applyFilters();
-}
+  onToDateChange(event: Event) {
+    this.toDate = (event.target as HTMLInputElement).value;
+    this.applyFilters();
+  }
 
-applyFilters() {
-  this.filteredRequests = this.pickupRequests.filter(req => {
-    const matchStatus = this.selectedStatus ? req.status === this.selectedStatus : true;
+  applyFilters() {
+    this.filteredRequests = this.pickupRequests.filter(req => {
+      const matchStatus = this.selectedStatus ? req.status === this.selectedStatus : true;
 
-    const requestDate = new Date(req.date);
-    const from = this.fromDate ? new Date(this.fromDate) : null;
-    const to = this.toDate ? new Date(this.toDate) : null;
+      const requestDate = new Date(req.date);
+      const from = this.fromDate ? new Date(this.fromDate) : null;
+      const to = this.toDate ? new Date(this.toDate) : null;
 
-    const matchFrom = from ? requestDate >= from : true;
-    const matchTo = to ? requestDate <= to : true;
+      const matchFrom = from ? requestDate >= from : true;
+      const matchTo = to ? requestDate <= to : true;
 
-    return matchStatus && matchFrom && matchTo;
-  });
+      return matchStatus && matchFrom && matchTo;
+    });
 
-  this.totalPages = Math.ceil(this.filteredRequests.length / this.pageSize);
-  this.currentPage = 1;
-}
+    this.totalPages = Math.ceil(this.filteredRequests.length / this.pageSize);
+    this.currentPage = 1;
+  }
 
   get paginatedRequests() {
     const start = (this.currentPage - 1) * this.pageSize;
@@ -130,10 +141,10 @@ applyFilters() {
     this.currentPage = page;
   }
 
- showModal(reqId: number): void {
- this.cancelRequestId = reqId;
-  this.showCancelModal = true;
-}
+  showModal(reqId: number): void {
+    this.cancelRequestId = reqId;
+    this.showCancelModal = true;
+  }
 
   openModal(rewardId: number) {
     this.selectedRewardIdToCancel = rewardId;
@@ -145,56 +156,56 @@ applyFilters() {
     this.selectedRewardIdToCancel = null;
   }
 
-confirmCancel(reqId: number): void {
-  this.cancelRequestId = reqId;
-}
+  confirmCancel(reqId: number): void {
+    this.cancelRequestId = reqId;
+  }
 
-cancelRequestConfirmed(): void {
-  if (this.cancelRequestId !== null) {
-    this.cancelRequest(this.cancelRequestId);
+  cancelRequestConfirmed(): void {
+    if (this.cancelRequestId !== null) {
+      this.cancelRequest(this.cancelRequestId);
+      this.cancelRequestId = null;
+      this.showCancelModal = false;
+    }
+  }
+
+  cancelRequestDeclined(): void {
     this.cancelRequestId = null;
     this.showCancelModal = false;
   }
-}
-
-cancelRequestDeclined(): void {
-  this.cancelRequestId = null;
-  this.showCancelModal = false;
-}
 
 
-// cancelRequest(reqId: string): void {
-//   const numericId = Number(reqId);
-//   if (isNaN(numericId)) {
-//     console.error('Invalid request ID:', reqId);
-//     return;
-//   }
-//   this.requestService.CancelRequestFromCustomer(numericId).subscribe({
-//     next: () => {
-//       const index = this.pickupRequests.findIndex(r => r.id === reqId);
-//       if (index !== -1) {
-//         this.pickupRequests[index].status = 'Canceled';
-//         this.pickupRequests[index].pointsEarned = 0;
-//        this.calculateStats();
-//         this.applyFilters();
-//       }
-//     },
-//     error: (err) => {
-//       console.error('Error cancelling request', err);
-//     }
-//   });
-// }
-cancelRequest(reqId: number): void {
-   const numericId = Number(reqId);
-  if (isNaN(numericId)) {
-    console.error('Invalid request ID:', reqId);
-    return;
-  }
-  console.log("Request status:", this.pickupRequests.find(r => Number(r.id) === reqId)?.status);
+  // cancelRequest(reqId: string): void {
+  //   const numericId = Number(reqId);
+  //   if (isNaN(numericId)) {
+  //     console.error('Invalid request ID:', reqId);
+  //     return;
+  //   }
+  //   this.requestService.CancelRequestFromCustomer(numericId).subscribe({
+  //     next: () => {
+  //       const index = this.pickupRequests.findIndex(r => r.id === reqId);
+  //       if (index !== -1) {
+  //         this.pickupRequests[index].status = 'Canceled';
+  //         this.pickupRequests[index].pointsEarned = 0;
+  //        this.calculateStats();
+  //         this.applyFilters();
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Error cancelling request', err);
+  //     }
+  //   });
+  // }
+  cancelRequest(reqId: number): void {
+    const numericId = Number(reqId);
+    if (isNaN(numericId)) {
+      console.error('Invalid request ID:', reqId);
+      return;
+    }
+    console.log("Request status:", this.pickupRequests.find(r => Number(r.id) === reqId)?.status);
 
-  this.requestService.CancelRequestFromCustomer(numericId).subscribe({
-    next: (result) => {
-          console.log("Cancel result:", result);
+    this.requestService.CancelRequestFromCustomer(numericId).subscribe({
+      next: (result) => {
+        console.log("Cancel result:", result);
 
 const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
       if (index !== -1) {
@@ -205,14 +216,33 @@ const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
       const message = result?.message || "Pickup request cancelled.";
       alert(message);
     this.loadRequestsFromAPI();
+        const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
+        if (index !== -1) {
+          this.pickupRequests[index].status = 'Canceled';
+          this.pickupRequests[index].pointsEarned = 0;
+          this.applyFilters();
+        }
+        const message = result?.message || "Pickup request cancelled.";
+        this.successNotifyService.showSuccess({
+          title: 'Success',
+          message: message,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
+        this.loadRequestsFromAPI();
 
-    },
-     error: (err) => {
-      alert(err?.error?.message || "An error occurred during cancellation.");
-      console.error('Error cancelling request', err);
-    }
-  });
-}
+      },
+      error: (err) => {
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: err?.error?.message || "An error occurred during cancellation.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
+        console.error('Error cancelling request', err);
+      }
+    });
+  }
 
   onStatusClick(reqId: number): void {
     this.requestService.getPickupRequestDetails(reqId).subscribe({
@@ -222,6 +252,12 @@ const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
       },
       error: (error) => {
         console.error('Failed to fetch request details', error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: `Failed to fetch request details: ${error}`,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }
@@ -232,6 +268,6 @@ const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
   }
 
 
- 
+
 }
 

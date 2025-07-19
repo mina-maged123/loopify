@@ -6,6 +6,10 @@ import { Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, Bell, Calendar, Lock, LogOut } from 'lucide-angular';
 import { FooterComponent } from "@/app/footer/footer.component";
 import { NavComponent } from '@/app/nav/nav.component';
+import { ErrorNotificationContainerComponent } from '@/app/error-notification/error-notification-container.component';
+import { SuccessNotificationContainerComponent } from '@/app/success-notification/success-notification-container.component';
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 @Component({
   selector: 'app-setting',
@@ -16,20 +20,25 @@ import { NavComponent } from '@/app/nav/nav.component';
     ReactiveFormsModule,
     DatePipe,
     FooterComponent,
-    NavComponent
-],
+    NavComponent,
+    ErrorNotificationContainerComponent,
+    SuccessNotificationContainerComponent
+  ],
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.css']
 })
-export class SettingComponent implements OnInit{
+export class SettingComponent implements OnInit {
   readonly Bell = Bell;
   readonly Calendar = Calendar;
   readonly Lock = Lock;
   readonly LogOut = LogOut;
-  id : any;
-  user : any = {};
+  id: any;
+  user: any = {};
 
-  constructor(private router: Router, private userProfileService: UserProfileService) {}
+  constructor(private router: Router, private userProfileService: UserProfileService,
+    private successNotifyService: SuccessNotificationService,
+    private errorNotifyService: ErrorNotificationService
+  ) { }
 
   ngOnInit(): void {
     this.id = localStorage.getItem("id");
@@ -37,12 +46,12 @@ export class SettingComponent implements OnInit{
       next: (response) => {
         this.user = response.data;
         this.userData.patchValue({
-          fullName : this.user.fullName,
-          email : this.user.email,
-          phoneNumber : this.user.phoneNumber,
-          profilePictureUrl : this.user.profilePictureUrl,
-          address : this.user.address,
-          createdAt : this.user.createdAt
+          fullName: this.user.fullName,
+          email: this.user.email,
+          phoneNumber: this.user.phoneNumber,
+          profilePictureUrl: this.user.profilePictureUrl,
+          address: this.user.address,
+          createdAt: this.user.createdAt
         })
       }
     });
@@ -80,7 +89,12 @@ export class SettingComponent implements OnInit{
       this.userProfileService.updateUser(updateData).subscribe({
         next: () => {
           this.user = { ...this.user, ...updateData.UserInfoDto };
-          alert('Profile updated successfully!');
+          this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: 'Profile updated successfully!',
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
         },
         error: (error) => {
           console.error('Full error object:', error);
@@ -103,15 +117,30 @@ export class SettingComponent implements OnInit{
               }
             }
 
-            alert(errorMessage);
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: errorMessage,
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           } else {
-            alert(`Failed to update profile.\nError: ${error.error?.title || error.message}`);
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: `Failed to update profile.\nError: ${error.error?.title || error.message}`,
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           }
         }
       });
     }
     else {
-      alert("Please fix the form errors before saving.");
+      this.errorNotifyService.showError({
+        title: 'Error',
+        message: "Please fix the form errors before saving.",
+        autoDismiss: true,
+        autoDismissDelay: 3000
+      });
       console.log('Form errors:', this.userData.errors);
     }
   }

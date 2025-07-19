@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { response } from 'express';
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
+import { ErrorNotificationContainerComponent } from '@/app/error-notification/error-notification-container.component';
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 
 interface Request {
@@ -25,7 +29,7 @@ interface MenuItem {
 
 @Component({
   selector: 'app-pickup-requests',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SuccessNotificationContainerComponent, ErrorNotificationContainerComponent],
   templateUrl: './pickup-requests.component.html',
   styleUrl: './pickup-requests.component.css'
 })
@@ -65,7 +69,9 @@ export class PickupRequestsComponent implements OnInit {
   filteredRequests: Request[] = [];
   availableEmployees: { email: string; userName: string }[] = [];
 
-  constructor(private requestService: RequestService) { }
+  constructor(private requestService: RequestService, private successNotifyService: SuccessNotificationService,
+    private errorNotifyService: ErrorNotificationService
+  ) { }
 
   ngOnInit(): void {
     this.requestService.getAllRequestsForAdmin().subscribe({
@@ -94,6 +100,12 @@ export class PickupRequestsComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }
@@ -125,10 +137,21 @@ export class PickupRequestsComponent implements OnInit {
     this.requestService.assignEmployeeToRequest(this.assignForm.requestId, this.assignForm.email).subscribe({
       next: (response) => {
         console.log(response);
-        alert(response.message);
+        this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: response.message,
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
       },
       error: (error) => {
         console.log(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
     this.showAssignModal = false;
@@ -181,6 +204,12 @@ loadAvailableEmployees(requestId: number) {
     },
     error: (err) => {
       console.log('Error loading employees:', err);
+      this.errorNotifyService.showError({
+          title: 'Error',
+          message: err,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
     }
   });
 }

@@ -2,10 +2,14 @@ import { MaterialService } from './../../../services/material.service';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ErrorNotificationContainerComponent } from "@/app/error-notification/error-notification-container.component";
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
 
 @Component({
   selector: 'app-materials-management',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ErrorNotificationContainerComponent, SuccessNotificationContainerComponent],
   templateUrl: './materials-management.component.html',
   styleUrl: './materials-management.component.css'
 })
@@ -14,7 +18,9 @@ export class MaterialsManagementComponent implements OnInit {
   isEditMode = false;
   currentEditingMaterial: any = null;
 
-  constructor(private materialService: MaterialService) { }
+  constructor(private materialService: MaterialService, private successNotifyService: SuccessNotificationService,
+    private errorNotifyService: ErrorNotificationService
+  ) { }
 
   ngOnInit(): void {
     this.materialService.getAllMaterial().subscribe({
@@ -75,11 +81,21 @@ export class MaterialsManagementComponent implements OnInit {
 
       this.materialService.addMaterial(dataToSend).subscribe({
         next: (response) => {
-          alert(response.message);
+          this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: response.message,
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
         },
         error: (error) => {
           console.error('Error adding material:', error);
-          alert('Error adding material. Please try again.');
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Error adding material. Please try again.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         }
       });
     }
@@ -115,13 +131,23 @@ export class MaterialsManagementComponent implements OnInit {
 
       this.materialService.editMaterial(dataToSend).subscribe({
         next: (response) => {
-          alert(response.message);
+          this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: response.message,
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
           this.closeModal();
           this.ngOnInit(); // Refresh the materials list
         },
         error: (error) => {
           console.error('Error updating material:', error);
-          alert('Error updating material. Please try again.');
+          this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Error updating material. Please try again.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
         }
       });
     }
@@ -131,11 +157,21 @@ export class MaterialsManagementComponent implements OnInit {
   deleteRule(id: number) {
     this.materialService.deleteMaterial(id).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.successNotifyService.showSuccess({
+            title: 'Success',
+            message: response.message,
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
       },
       error: (error) => {
         console.error('Error deleting material:', error);
-        alert('Error deleting material. Please try again.');
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: "Error deleting material. Please try again.",
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }

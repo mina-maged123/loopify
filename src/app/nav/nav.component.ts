@@ -1,14 +1,17 @@
+import { ErrorNotificationService } from './../error-notification/error-notification.service';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserProfileService } from '../services/user-profile.service';
 import { AuthService } from '../services/auth.service';
 import { NotificationsComponent } from '../components/notifications/notifications.component';
+import { ErrorNotificationComponent } from '../error-notification/error-notification.component';
+import { ErrorNotificationContainerComponent } from "../error-notification/error-notification-container.component";
 
 @Component({
     selector: 'app-nav',
     standalone: true,
-    imports: [NgIf, RouterModule, NotificationsComponent],
+    imports: [NgIf, RouterModule, NotificationsComponent, ErrorNotificationContainerComponent],
     templateUrl: './nav.component.html',
     styleUrl: './nav.component.css'
 })
@@ -22,7 +25,8 @@ export class NavComponent implements OnInit {
   constructor(
     private router: Router,
     private userProfileService: UserProfileService,
-    private authService: AuthService
+    private authService: AuthService,
+    private errNotifyService: ErrorNotificationService
   ) {}
 
   ngOnInit() {
@@ -46,7 +50,12 @@ export class NavComponent implements OnInit {
         },
         error: (error) => {
           console.log('Error loading user data:', error);
-          // Handle unauthorized error - maybe force logout
+          this.errNotifyService.showError({
+            title: 'Error',
+            message: error,
+            autoDismiss: true,
+            autoDismissDelay: 3000
+          });
           if (error.status === 401) {
             this.logout();
           }

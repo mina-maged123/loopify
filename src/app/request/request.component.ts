@@ -12,16 +12,22 @@ import { IMaterial } from '../models/IMaterial.model';
 import { Router } from '@angular/router';
 import { NavComponent } from "../nav/nav.component";
 import { FooterComponent } from "../footer/footer.component";
+import { SuccessNotificationService } from '../success-notification/success-notification.service';
+import { ErrorNotificationService } from '../error-notification/error-notification.service';
+import { SuccessNotificationContainerComponent } from "../success-notification/success-notification-container.component";
+import { ErrorNotificationContainerComponent } from '../error-notification/error-notification-container.component';
 @Component({
     selector: 'app-request',
     standalone: true,
     imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NavComponent,
-    FooterComponent
-],
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NavComponent,
+        FooterComponent,
+        SuccessNotificationContainerComponent,
+        ErrorNotificationContainerComponent
+    ],
     templateUrl: './request.component.html',
     styleUrl: './request.component.css'
 })
@@ -31,10 +37,13 @@ export class RequestComponent implements OnInit, AfterViewInit {
     private map: any = null;
     private marker: any = null;
     onlineMaterials: IMaterial[] = [];
-addressFromProfile: string | null = null;
-useDefaultLocation: boolean = false;
+    addressFromProfile: string | null = null;
+    useDefaultLocation: boolean = false;
 
-    constructor(private userProfileService:UserProfileService,private fb: FormBuilder, private http: HttpClient, private requestService: RequestService, private materialService: MaterialService, private router: Router) {
+    constructor(private userProfileService: UserProfileService, private fb: FormBuilder,
+        private http: HttpClient, private requestService: RequestService,
+        private materialService: MaterialService, private router: Router,
+        private successNotifyService: SuccessNotificationService, private errNotifyService: ErrorNotificationService) {
 
         this.requestForm = this.fb.group({
             materials: this.fb.array([this.createMaterialFormGroup()]),
@@ -67,6 +76,12 @@ useDefaultLocation: boolean = false;
             },
             error: (error) => {
                 console.log(error);
+                this.errNotifyService.showError({
+                    title: 'Error',
+                    message: error,
+                    autoDismiss: true,
+                    autoDismissDelay: 3000
+                });
             }
         });
     }
@@ -161,6 +176,12 @@ useDefaultLocation: boolean = false;
             },
             (error) => {
                 console.error('Error fetching location:', error);
+                 this.errNotifyService.showError({
+                            title: 'Error',
+                            message: `Error fetching location: ${error}`,
+                            autoDismiss: true,
+                            autoDismissDelay: 3000
+                        });
             }
         );
     }
@@ -185,6 +206,12 @@ useDefaultLocation: boolean = false;
                 },
                 (error) => {
                     console.error('Error fetching address:', error);
+                     this.errNotifyService.showError({
+                            title: 'Error',
+                            message: `Error fetching address: ${error}`,
+                            autoDismiss: true,
+                            autoDismissDelay: 3000
+                        });
                 }
             );
         }
@@ -204,11 +231,21 @@ useDefaultLocation: boolean = false;
                         }
                     },
                     () => {
-                        alert('Error: The Geolocation service failed.');
+                        this.errNotifyService.showError({
+                            title: 'Error',
+                            message: 'Error: The Geolocation service failed.',
+                            autoDismiss: true,
+                            autoDismissDelay: 3000
+                        });
                     }
                 );
             } else {
-                alert('Error: Your browser doesn\'t support geolocation.');
+                this.errNotifyService.showError({
+                    title: 'Error',
+                    message: 'Error: Your browser doesn\'t support geolocation.',
+                    autoDismiss: true,
+                    autoDismissDelay: 3000
+                });
             }
         }
     }
@@ -265,7 +302,7 @@ useDefaultLocation: boolean = false;
             console.log('Form submitted:', this.requestForm.value);
             // Submit logic here
 
-            let data : ICreatePickupRequest = {
+            let data: ICreatePickupRequest = {
                 address: this.requestForm.get('pickupAddress')?.value,
                 latitude: latitude,
                 longitude: longitude,
@@ -281,11 +318,23 @@ useDefaultLocation: boolean = false;
                 },
                 error: (error) => {
                     console.log(error);
+                    this.errNotifyService.showError({
+                        title: 'Error',
+                        message: error,
+                        autoDismiss: true,
+                        autoDismissDelay: 3000
+                    });
                 }
             });
         }
-        else{
+        else {
             console.log("Someting error in the form");
+            this.errNotifyService.showError({
+                    title: 'Error',
+                    message: "Someting error in the form",
+                    autoDismiss: true,
+                    autoDismissDelay: 3000
+                });
         }
     }
 
@@ -294,50 +343,62 @@ useDefaultLocation: boolean = false;
     }
 
 
-toggleDefaultAddress(event: Event): void {
-  const isChecked = (event.target as HTMLInputElement).checked;
+    toggleDefaultAddress(event: Event): void {
+        const isChecked = (event.target as HTMLInputElement).checked;
 
-  if (isChecked) {
-    // ✅ لو متعلم → جيب العنوان
-    const userId = Number(localStorage.getItem('id'));
-    if (userId) {
-      this.userProfileService.GetUser(userId).subscribe({
-        next: (user) => {
-          const address = user.data.address;
-          this.requestForm.patchValue({
-            pickupAddress: address
-          });
-        },
-        error: (err) => {
-          console.error('Error fetching user profile', err);
+        if (isChecked) {
+            // ✅ لو متعلم → جيب العنوان
+            const userId = Number(localStorage.getItem('id'));
+            if (userId) {
+                this.userProfileService.GetUser(userId).subscribe({
+                    next: (user) => {
+                        const address = user.data.address;
+                        this.requestForm.patchValue({
+                            pickupAddress: address
+                        });
+                    },
+                    error: (err) => {
+                        console.error('Error fetching user profile', err);
+                        this.errNotifyService.showError({
+                            title: 'Error',
+                            message: `Error fetching user profile: ${err}`,
+                            autoDismiss: true,
+                            autoDismissDelay: 3000
+                        });
+                    }
+                });
+            }
+        } else {
+            // ❌ لو اتشال التشييك → امسح العنوان
+            this.requestForm.patchValue({
+                pickupAddress: ''
+            });
         }
-      });
     }
-  } else {
-    // ❌ لو اتشال التشييك → امسح العنوان
-    this.requestForm.patchValue({
-      pickupAddress: ''
-    });
-  }
-}
 
-loadUserAddress() {
-  const userId = Number(localStorage.getItem('id'));
-  if (userId) {
-    this.userProfileService.GetUser(userId).subscribe({
-      next: (user) => {
-        this.addressFromProfile = user.data.address;
-        // تحديث قيمة الحقل داخل الفورم
-        this.requestForm.patchValue({
-          pickupAddress: this.addressFromProfile
-        });
-      },
-      error: (err) => {
-        console.error('Error fetching user profile', err);
-      }
-    });
-  }
-}
+    loadUserAddress() {
+        const userId = Number(localStorage.getItem('id'));
+        if (userId) {
+            this.userProfileService.GetUser(userId).subscribe({
+                next: (user) => {
+                    this.addressFromProfile = user.data.address;
+                    // تحديث قيمة الحقل داخل الفورم
+                    this.requestForm.patchValue({
+                        pickupAddress: this.addressFromProfile
+                    });
+                },
+                error: (err) => {
+                    console.error('Error fetching user profile', err);
+                    this.errNotifyService.showError({
+                    title: 'Error',
+                    message: `Error fetching user profile: ${err}`,
+                    autoDismiss: true,
+                    autoDismissDelay: 3000
+                });
+                }
+            });
+        }
+    }
 }
 
 

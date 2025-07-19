@@ -1,3 +1,4 @@
+import { ErrorNotificationContainerComponent } from './../../../error-notification/error-notification-container.component';
 import { MaterialService } from './../../../services/material.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -5,12 +6,15 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IMaterial } from '@/app/models/IMaterial.model';
+import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
+import { SuccessNotificationContainerComponent } from "@/app/success-notification/success-notification-container.component";
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-pickup-details',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule, ErrorNotificationContainerComponent, SuccessNotificationContainerComponent],
   templateUrl: './pickup-details.component.html',
   styleUrl: './pickup-details.component.css'
 })
@@ -22,7 +26,10 @@ export class PickupDetailsComponent implements OnInit {
   pickupForm!: FormGroup;
   actualQuantity: number = 0;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private materialService: MaterialService) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute,
+    private fb: FormBuilder, private materialService: MaterialService,
+    private errorNotifyService: ErrorNotificationService, private successNotifyService: SuccessNotificationService
+  ) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -54,6 +61,12 @@ export class PickupDetailsComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.errorNotifyService.showError({
+          title: 'Error',
+          message: error,
+          autoDismiss: true,
+          autoDismissDelay: 3000
+        });
       }
     });
   }
@@ -81,7 +94,7 @@ export class PickupDetailsComponent implements OnInit {
     // console.log(this.pickupForm.value.materials);
     let newDataToSend = this.dataNormalize(this.materials.value);
     console.log(newDataToSend);
-    
+
     try {
       // const dataToSend = formValues.map((mat: any) => {
       //   const matchedItem = this.pickupItems.find(
@@ -118,16 +131,31 @@ export class PickupDetailsComponent implements OnInit {
             }
 
             // ✅ عرض رسالة نجاح
-            alert('✅ Collection confirmed successfully!');
+            this.successNotifyService.showSuccess({
+              title: 'Success',
+              message: "Collection confirmed successfully!",
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           },
           error: err => {
             console.error('❌ Error submitting:', err);
-            alert('❌ Failed to confirm collection. Please try again.');
+            this.errorNotifyService.showError({
+              title: 'Error',
+              message: "Failed to confirm collection. Please try again.",
+              autoDismiss: true,
+              autoDismissDelay: 3000
+            });
           }
         });
 
     } catch (error) {
-      console.error('❌ Matching error:', error);
+      this.errorNotifyService.showError({
+        title: 'Error',
+        message: `Matching error: ${error}`,
+        autoDismiss: true,
+        autoDismissDelay: 3000
+      });
     }
   }
 
