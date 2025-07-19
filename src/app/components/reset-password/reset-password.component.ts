@@ -6,10 +6,12 @@ import { RouterModule, Router } from '@angular/router';
 import { UserProfileService } from '@/app/services/user-profile.service';
 import { ErrorNotificationContainerComponent } from '@/app/error-notification/error-notification-container.component';
 import { ErrorNotificationService } from '@/app/error-notification/error-notification.service';
+import { SuccessNotificationContainerComponent } from '@/app/success-notification/success-notification-container.component';
+import { SuccessNotificationService } from '@/app/success-notification/success-notification.service';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ErrorNotificationContainerComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ErrorNotificationContainerComponent, SuccessNotificationContainerComponent],
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
@@ -19,7 +21,8 @@ export class ResetPasswordComponent {
   showConfirmPassword = false;
 
   constructor(private router: Router, private userProfileService: UserProfileService,
-    private errorNotifyService: ErrorNotificationService
+    private errorNotifyService: ErrorNotificationService,
+    private successNotifyService: SuccessNotificationService
   ) { }
 
   toggleOldPasswordVisibility() {
@@ -90,17 +93,15 @@ export class ResetPasswordComponent {
             autoDismissDelay: 3000
           });
           this.router.navigate(['/reset-password']);
-        } else if (response.message === "Password changed successfully") {
-          console.log('Password changed successfully!');
-          this.router.navigate(['/reset-success']);
         } else {
-          this.errorNotifyService.showError({
-            title: "Error",
-            message: 'Unexpected response: ' + response.message,
+          console.log('Password changed successfully!');
+          this.successNotifyService.showSuccess({
+            title: "Success",
+            message: "Password changed successfully!",
             autoDismiss: true,
             autoDismissDelay: 3000
           });
-        }
+        } 
       },
       error: (err) => {
         const errorMessage = err.error?.message || 'Failed to change password';
