@@ -207,22 +207,22 @@ export class PickupHistoryComponent implements OnInit {
       next: (result) => {
         console.log("Cancel result:", result);
 
-const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
-      if (index !== -1) {
-        this.pickupRequests[index].status = 'Cancelled';
-        this.pickupRequests[index].pointsEarned = 0;
-        this.applyFilters();
-      }
-      const message = result?.message || "Pickup request cancelled.";
-      alert(message);
-    this.loadRequestsFromAPI();
-        const index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
+        let index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
         if (index !== -1) {
-          this.pickupRequests[index].status = 'Canceled';
+          this.pickupRequests[index].status = 'Cancelled';
           this.pickupRequests[index].pointsEarned = 0;
           this.applyFilters();
         }
-        const message = result?.message || "Pickup request cancelled.";
+        let message = result?.message || "Pickup request cancelled.";
+        alert(message);
+        this.loadRequestsFromAPI();
+        index = this.pickupRequests.findIndex(r => Number(r.id) === reqId);
+        if (index !== -1) {
+          this.pickupRequests[index].status = 'Cancelled';
+          this.pickupRequests[index].pointsEarned = 0;
+          this.applyFilters();
+        }
+        message = result?.message || "Pickup request cancelled.";
         this.successNotifyService.showSuccess({
           title: 'Success',
           message: message,
