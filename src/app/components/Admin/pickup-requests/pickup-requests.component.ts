@@ -143,6 +143,14 @@ export class PickupRequestsComponent implements OnInit {
             autoDismiss: true,
             autoDismissDelay: 3000
           });
+
+            const updatedRequest = this.requests.find(r => r.id === this.assignForm.requestId);
+      if (updatedRequest) {
+        updatedRequest.assignedTo = this.availableEmployees.find(e => e.email === this.assignForm.email)?.userName ?? this.assignForm.email;
+        updatedRequest.status = 'Schedualed'; // أو حسب الحالة الحقيقية من الباكيند
+      }
+
+      this.closeAssignModal();
       },
       error: (error) => {
         console.log(error);
